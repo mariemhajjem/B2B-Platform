@@ -134,11 +134,7 @@ function Home() {
             <Menu mode="horizontal" className="menu-nav-social">
               <Menu.Item>
                  
-              </Menu.Item> 
-              <Menu.Item> 
-              </Menu.Item> 
-              <Menu.Item> 
-              </Menu.Item>
+              </Menu.Item>  
             </Menu>
             <p className="copyright">
               {" "}
