@@ -10,8 +10,8 @@ const { Header: AntHeader, Content, Sider } = Layout;
 function Main() {
   const [visible, setVisible] = useState(false);
   const [placement, setPlacement] = useState("right");
-  const [sidenavColor, setSidenavColor] = useState("#1890ff");
-  const [sidenavType, setSidenavType] = useState("transparent");
+  const [sidenavColor, setSidenavColor] = useState("#000");
+  const [sidenavType, setSidenavType] = useState("#fff");
   const [fixed, setFixed] = useState(false);
 
   const openDrawer = () => setVisible(!visible);

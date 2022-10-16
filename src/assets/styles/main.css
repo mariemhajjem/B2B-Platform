@@ -231,7 +231,7 @@ body {
   .active
   svg
   path {
-  fill: #fff;
+  fill: rgb(0, 0, 0);
 }
 .layout-dashboard .ant-layout-sider.sider-primary .ant-menu-item svg path,
 .layout-dashboard .ant-layout-sider.sider-primary .ant-menu-submenu svg path {
