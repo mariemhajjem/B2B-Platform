@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Layout, Drawer, Affix } from "antd";
 import Sidenav from "./Sidenav";
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "./Header"; 
 
 const { Header: AntHeader, Content, Sider } = Layout;
 
@@ -108,8 +107,7 @@ function Main() {
             />
           </AntHeader>
         )}
-        <Content className="content-ant"><Outlet /></Content>
-        <Footer />
+        <Content className="content-ant"><Outlet /></Content> 
       </Layout>
     </Layout>
   );

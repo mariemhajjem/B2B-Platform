@@ -7,9 +7,7 @@ import {
     Button,
     Avatar,
     Typography,
-    Divider,
   } from "antd";
-import { useState } from "react";
   
   // Images
   import face2 from "../../assets/images/face-2.jpg";
@@ -19,7 +17,7 @@ import { useState } from "react";
   // table code start
   const columns = [
     {
-      title: "CLIENT",
+      title: "AUTHOR",
       dataIndex: "name",
       key: "name",
       width: "32%",
@@ -36,9 +34,9 @@ import { useState } from "react";
       dataIndex: "status",
     },
     {
-      title: "Modifier",
-      key: "update",
-      dataIndex: "update",
+      title: "EMPLOYED",
+      key: "employed",
+      dataIndex: "employed",
     },
   ];
   
@@ -69,69 +67,37 @@ import { useState } from "react";
           </div>
         </>
       ),
-     status: (
+  
+      status: (
         <>
           <Button type="primary" className="tag-primary">
             ONLINE
           </Button>
         </>
-      ), 
-      update: (
+      ),
+      employed: (
         <>
-          <Button type="primary" className="tag-primary">
-            modifier
-          </Button>
+          <div className="ant-employed">
+            <span>23/04/18</span>
+            <a href="#pablo">Edit</a>
+          </div>
         </>
       ),
     }
   ];
   
   function Clients() {
-    const [isAddVisible, setIsAddVisible] = useState(false);
-    const [isUpdateVisible, setIsUpdateVisible] = useState(false);
-    const [err, setError] = useState("");
-    const [code, setCode] = useState("");
-    /* const error = useSelector((state) => state.errorReducer);
-    useEffect(() => {
-      if (error.message) {
-        setError(error.message);
-        setCode(error.code);
-      }
-    }, [error]);
-    const popUp = (type) => {
-      notification[type]({
-        message: code,
-        description: err,
-        onClose: clearError,
-      });
-    }; */
-    const handleClick = event => {
-      // 👇️ toggle visibility
-      setIsAddVisible(current => !current);
-    };
     const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   
     return (
       <>
-        <div className="tabled"> 
+        <div className="tabled">
           <Row gutter={[24, 0]}>
-          <Col xs="24" xl={24}>
-        <Button
-              type="primary"
-              onClick={() => setIsAddVisible(true)}
-            >
-              Ajouter client
-            </Button>
-            {/* {err && popUp("error")}
-            {isAddVisible && <AddClient />}
-            {isUpdateVisible && <UpdateClient />} */}
-            </Col>
-          <Divider orientation="left"></Divider>
             <Col xs="24" xl={24}>
               <Card
                 bordered={false}
                 className="criclebox tablespace mb-24"
-                title="Clients Table"
+                title="Authors Table"
                 extra={
                   <>
                     <Radio.Group onChange={onChange} defaultValue="a">

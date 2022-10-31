@@ -1,104 +1,197 @@
-import React from "react";
+import { useState, useEffect, useCallback } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
 import {
-  Layout, 
-  Button,
-  Typography,
-  Card,
-  Form,
-  Input, 
+	Layout,
+	Button,
+	Typography,
+	Card,
+	Form,
+	Input,
 } from "antd";
-import logo1 from "../../assets/images/logos-facebook.svg"; 
-import logo3 from "../../assets/images/Google__G__Logo.svg.png";
-
-import { Link } from "react-router-dom"; 
+import { login } from "../../redux/actions/auth";
+import { useDispatch } from 'react-redux';
+import jwt_decode from 'jwt-decode';
+import PersonalInfo from './PersonalInfo';
+import CompanyInfo from './CompanyInfo';
+import SignUpSteps from './SignUpSteps';
 
 const { Title } = Typography;
 const { Content } = Layout;
-export default function SignUp () {
+const CLIENT_ID = "1013516985437-sae0vamkj8cgmj92mhvd69mop1fosiha.apps.googleusercontent.com";
+
+export default function SignUp() {
+	const [errMsg, setErrMsg] = useState('')
+	const navigate = useNavigate()
+	const dispatch = useDispatch()
+
+	function handleCallbackResponse(response) {
+		console.log(response.credential);
+		let userObject = jwt_decode(response.credential);
+		console.log(userObject);
+	}
+	function onSuccess(googleUser) {
+		console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+	}
+	function onFailure(error) {
+		console.log(error);
+	}
+	useEffect(() => {
+		console.log(window.google)
+		/* global google */
+		const google = window.google;
+		google.accounts.id.initialize({
+			client_id: CLIENT_ID,
+			callback: handleCallbackResponse
+		});
+		google.accounts.id.renderButton(
+			document.getElementById("signIn"),
+			{
+				theme: "outline", size: "large",
+				'onsuccess': onSuccess,
+				'onfailure': onFailure
+			});
+
+		google.accounts.id.prompt();
+	}, []);
+	// If we have no user: sign in button
+	// if we have a user: show the log out button
+
+
+
+
+	const onFinish = async (values) => {
+		const user = {
+			cin: values.cin,
+			firstname: values.firstname,
+			lastname: values.lastname,
+			email: values.email,
+			birthday: values.birthday,
+		};
+		try {
+			dispatch(login(user))
+			navigate('/')
+		} catch (err) {
+			if (!err?.originalStatus) {
+				// isLoading: true until timeout occurs
+				setErrMsg('No Server Response');
+			} else if (err.originalStatus === 400) {
+				setErrMsg('Missing Username or Password');
+			} else if (err.originalStatus === 401) {
+				setErrMsg('Unauthorized');
+			} else {
+				setErrMsg('Login Failed');
+			}
+			// errRef.current.focus();
+		}
+	}
+
+	const onFinishFailed = (errorInfo) => {
+		console.log("Failed:", errorInfo);
+	};
+ 
+		const [data, setData] = useState({});
+		const [step, setStep] = useState(1);
   
-    const onFinish = (values) => {
-      console.log("Success:", values);
-    };
+		const handleNextStep = useCallback(
+			(data) => {
+				setData(data);
+				setStep(step + 1);
+			},
+			[step]
+		);
+  
+		const handlePrevStep = useCallback(
+			(data) => {
+				setData(data);
+				setStep(step - 1);
+			},
+			[step]
+		);
+  
+		const handleSubmit = useCallback((data) => {
+			setData(data);
+			console.log("Data", data);
+		}, []);  
 
-    const onFinishFailed = (errorInfo) => {
-      console.log("Failed:", errorInfo);
-    };
-    return (
-      <>
-        <div className="layout-default ant-layout layout-sign-up">
+	return (
+		<>
 
-          <Content className="p-0">
-            <div className="sign-up-header">
-              <div className="content">
-                <Title>Sign Up</Title> 
-              </div>
-            </div>
+			<div className="layout-default ant-layout layout-sign-up">
 
-            <Card
-              className="card-signup header-solid h-full ant-card pt-0"
-              title={<h5>Register With</h5>}
-              bordered="false"
+				<Content className="p-0">
+					<div className="sign-up-header">
+						<div className="content">
+							<Title>Sign Up</Title>
+						</div>
+					</div>
+
+					<Card
+						className="card-signup header-solid h-full ant-card pt-0"
+						title={<h5>Register With</h5>}
+						bordered="false"
+					>
+
+						<div className="sign-up-gateways">
+							<div id='signIn'></div>
+							{/* <Button type="false">
+                <img src={logo3} alt="logo 3" />
+              </Button> */}
+						</div>
+						<p className="text-center my-25 font-semibold text-muted">Or</p>
+
+						{/* <Form
+              name="basic"
+              initialValues={{ remember: true }}
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+              className="row-col"
             >
-              <div className="sign-up-gateways">
-                <Button type="false">
-                  <img src={logo1} alt="logo 1" />
-                </Button> 
-                <Button type="false">
-                  <img src={logo3} alt="logo 3" />
-                </Button>
-              </div>
-              <p className="text-center my-25 font-semibold text-muted">Or</p>
-              <Form
-                name="basic"
-                initialValues={{ remember: true }}
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                className="row-col"
+              <Form.Item
+                name="name"
+                rules={[
+                  { required: true, message: "Please input your username!" },
+                ]}
               >
-                <Form.Item
-                  name="Name"
-                  rules={[
-                    { required: true, message: "Please input your username!" },
-                  ]}
-                >
-                  <Input placeholder="Name" />
-                </Form.Item>
-                <Form.Item
-                  name="email"
-                  rules={[
-                    { required: true, message: "Please input your email!" },
-                  ]}
-                >
-                  <Input placeholder="email" />
-                </Form.Item>
-                <Form.Item
-                  name="password"
-                  rules={[
-                    { required: true, message: "Please input your password!" },
-                  ]}
-                >
-                  <Input placeholder="Passwoed" />
-                </Form.Item>
+                <Input placeholder="Name" />
+              </Form.Item>
+              <Form.Item
+                name="email"
+                rules={[
+                  { required: true, message: "Please input your email!" },
+                ]}
+              >
+                <Input placeholder="email" />
+              </Form.Item>
+              <Form.Item
+                name="password"
+                rules={[
+                  { required: true, message: "Please input your password!" },
+                ]}
+              >
+                <Input placeholder="Passwoed" />
+              </Form.Item>
 
-                <Form.Item>
-                  <Button
-                    style={{ width: "100%" }}
-                    type="primary"
-                    htmlType="submit"
-                  >
-                    S'inscrire
-                  </Button>
-                </Form.Item>
-              </Form>
-              <p className="font-semibold text-muted text-center">
-                Already have an account?{" "}
-                <Link to="/sign-in" className="font-bold text-dark">
-                  Sign In
-                </Link>
-              </p>
-            </Card>
-          </Content>
-        </div>
-      </>
-    );
+              <Form.Item>
+                <Button
+                  style={{ width: "100%" }}
+                  type="primary"
+                  htmlType="submit"
+                >
+                  S'inscrire
+                </Button>
+              </Form.Item>
+            </Form> */}
+						<SignUpSteps />
+ 
+						<p className="font-semibold text-muted text-center">
+							Already have an account?{" "}
+							<Link to="/sign-in" className="font-bold text-dark">
+								Sign In
+							</Link>
+						</p>
+					</Card>
+				</Content>
+			</div>
+		</>
+	);
 }

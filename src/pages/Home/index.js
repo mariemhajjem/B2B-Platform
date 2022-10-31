@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import i18n from "../../locales/i18n";
+import Produit from "./Produit";
 
 
 
@@ -17,7 +18,7 @@ function Home() {
   const logout = (e) => {
     // history.push("/home");
   };
-
+  const products = ["first","sec","third","forth","forth"]
   return (
     <div className="App">
       <header id="home" class="welcome-hero">
@@ -51,10 +52,10 @@ function Home() {
                             </div>
                             <button class="btn-cart welcome-add-cart" onclick="window.location.href='#'">
                               <span class="lnr lnr-plus-circle"></span>
-                              add <span>to</span> cart
+                               <span>Commander</span>
                             </button>
                             <button class="btn-cart welcome-add-cart welcome-more-info" onclick="window.location.href='#'">
-                              more info
+                              plus d'info
                             </button>
                           </div>
                         </div>
@@ -92,7 +93,7 @@ function Home() {
                             </div>
                             <button class="btn-cart welcome-add-cart" onclick="window.location.href='#'">
                               <span class="lnr lnr-plus-circle"></span>
-                              add <span>to</span> cart
+                               <span>Commander</span> 
                             </button>
                             <button class="btn-cart welcome-add-cart welcome-more-info" onclick="window.location.href='#'">
                               more info
@@ -133,7 +134,7 @@ function Home() {
                             </div>
                             <button class="btn-cart welcome-add-cart" onclick="window.location.href='#'">
                               <span class="lnr lnr-plus-circle"></span>
-                              add <span>to</span> cart
+                              <span>Commander</span>
                             </button>
                             <button class="btn-cart welcome-add-cart welcome-more-info" onclick="window.location.href='#'">
                               more info
@@ -258,69 +259,7 @@ function Home() {
           <div class="clearfix"></div>
         </div>
 
-        <section id="populer-products" class="populer-products">
-          <div class="container">
-            <div class="populer-products-content">
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="single-populer-products">
-                    <div class="single-populer-product-img mt40">
-                      <img src="assets/images/p1.png" alt="populer-products images" />
-                    </div>
-                    <h2><a href="#">arm chair</a></h2>
-                    <div class="single-populer-products-para">
-                      <p>Nemo enim ipsam voluptatem quia volu ptas sit asperna aut odit aut fugit.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="single-populer-products">
-                    <div class="single-inner-populer-products">
-                      <div class="row">
-                        <div class="col-md-4 col-sm-12">
-                          <div class="single-inner-populer-product-img">
-                            <img src="assets/images/p2.png" alt="populer-products images" />
-                          </div>
-                        </div>
-                        <div class="col-md-8 col-sm-12">
-                          <div class="single-inner-populer-product-txt">
-                            <h2>
-                              <a href="#">
-                                latest designed stool <span>and</span> chair
-                              </a>
-                            </h2>
-                            <p>
-                              Edi ut perspiciatis unde omnis iste natusina error sit voluptatem accusantium doloret mque laudantium, totam rem aperiam.
-                            </p>
-                            <div class="populer-products-price">
-                              <h4>Sales Start from <span>$99.00</span></h4>
-                            </div>
-                            <button class="btn-cart welcome-add-cart populer-products-btn" onclick="window.location.href='#'">
-                              discover more
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="single-populer-products">
-                    <div class="single-populer-products">
-                      <div class="single-populer-product-img">
-                        <img src="assets/images/p3.png" alt="populer-products images" />
-                      </div>
-                      <h2><a href="#">hanging lamp</a></h2>
-                      <div class="single-populer-products-para">
-                        <p>Nemo enim ipsam voluptatem quia volu ptas sit asperna aut odit aut fugit.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        
         <section id="new-arrivals" class="new-arrivals">
           <div class="container">
             <div class="section-header">
@@ -328,30 +267,8 @@ function Home() {
             </div>
             <div class="new-arrivals-content">
               <div class="row">
-                <div class="col-md-3 col-sm-4">
-                  <div class="single-new-arrival">
-                    <div class="single-new-arrival-bg">
-                      <img src="assets/images/arrivals1.png" alt="new-arrivals images" />
-                      <div class="single-new-arrival-bg-overlay"></div>
-                      <div class="sale bg-1">
-                        <p>sale</p>
-                      </div>
-                      <div class="new-arrival-cart">
-                        <p>
-                          <span class="lnr lnr-cart"></span>
-                          <a href="#">add <span>to </span> cart</a>
-                        </p>
-                        <p class="arrival-review pull-right">
-                          <span class="lnr lnr-heart"></span>
-                          <span class="lnr lnr-frame-expand"></span>
-                        </p>
-                      </div>
-                    </div>
-                    <h4><a href="#">wooden chair</a></h4>
-                    <p class="arrival-product-price">$65.00</p>
-                  </div>
-                </div>
-                <div class="col-md-3 col-sm-4">
+              { products.map((index,value) =><Produit />)}
+                {/* <div class="col-md-3 col-sm-4">
                   <div class="single-new-arrival">
                     <div class="single-new-arrival-bg">
                       <img src="assets/images/arrivals2.png" alt="new-arrivals images" />
@@ -502,11 +419,77 @@ function Home() {
                     <h4><a href="#">wooden bed</a></h4>
                     <p class="arrival-product-price">$140.00</p>
                   </div>
+                </div>*/}
+              </div>
+            </div>
+          </div> 
+        </section>
+
+        <section id="populer-products" class="populer-products">
+          <div class="container">
+            <div class="populer-products-content">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="single-populer-products">
+                    <div class="single-populer-product-img mt40">
+                      <img src="assets/images/p1.png" alt="populer-products images" />
+                    </div>
+                    <h2><a href="#">arm chair</a></h2>
+                    <div class="single-populer-products-para">
+                      <p>Nemo enim ipsam voluptatem quia volu ptas sit asperna aut odit aut fugit.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="single-populer-products">
+                    <div class="single-inner-populer-products">
+                      <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                          <div class="single-inner-populer-product-img">
+                            <img src="assets/images/p2.png" alt="populer-products images" />
+                          </div>
+                        </div>
+                        <div class="col-md-8 col-sm-12">
+                          <div class="single-inner-populer-product-txt">
+                            <h2>
+                              <a href="#">
+                                latest designed stool <span>and</span> chair
+                              </a>
+                            </h2>
+                            <p>
+                              Edi ut perspiciatis unde omnis iste natusina error sit voluptatem accusantium doloret mque laudantium, totam rem aperiam.
+                            </p>
+                            <div class="populer-products-price">
+                              <h4>Sales Start from <span>$99.00</span></h4>
+                            </div>
+                            <button class="btn-cart welcome-add-cart populer-products-btn" onclick="window.location.href='#'">
+                              discover more
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="single-populer-products">
+                    <div class="single-populer-products">
+                      <div class="single-populer-product-img">
+                        <img src="assets/images/p3.png" alt="populer-products images" />
+                      </div>
+                      <h2><a href="#">hanging lamp</a></h2>
+                      <div class="single-populer-products-para">
+                        <p>Nemo enim ipsam voluptatem quia volu ptas sit asperna aut odit aut fugit.</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
+
+
         <section id="sofa-collection">
           <div class="owl-carousel owl-theme" id="collection-carousel">
             <div class="sofa-collection collectionbg1">

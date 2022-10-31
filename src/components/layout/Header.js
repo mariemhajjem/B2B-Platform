@@ -261,14 +261,11 @@ function Header({
       
       <Row gutter={[24, 0]}>
         <Col span={24} md={6}>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <NavLink to="/">Pages</NavLink>
-            </Breadcrumb.Item>
+          <Breadcrumb> 
             <Breadcrumb.Item style={{ textTransform: "capitalize" }}>
               {name.replace("/", "")}
             </Breadcrumb.Item>
-          </Breadcrumb>
+          </Breadcrumb>{/* 
           <div className="ant-page-header-heading">
             <span
               className="ant-page-header-heading-title"
@@ -276,7 +273,7 @@ function Header({
             >
               {subName.replace("/", "")}
             </span>
-          </div>
+          </div> */}
         </Col>
         <Col span={24} md={18} className="header-control">
           <Badge size="small" count={4}>

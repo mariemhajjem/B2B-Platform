@@ -722,7 +722,7 @@ ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light.left-nav
   li.ant-menu-item-selected
   span.anticon {
   background: #1890ff;
-  color: #fff;
+  color: #000;
 }
 
 /* ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light.left-nav li:hover {
