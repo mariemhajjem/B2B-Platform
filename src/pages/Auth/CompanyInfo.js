@@ -1,136 +1,264 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Formik, Form, Field } from 'formik';
-import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
-import { Button, Input, FormControl, FormHelperText } from '@material-ui/core';
-import * as yup from 'yup';
-
-const useStyles = makeStyles(theme => ({
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
+import React, { useEffect, useState } from 'react';
+import {
+  AutoComplete,
+  Button,
+  Cascader,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  InputNumber,
+  Row,
+  Select,
+} from 'antd';
+import { useDispatch } from "react-redux";
+import {register} from "../../redux/actions/auth"
+import "./Signup.css";
+import residences from '../../constants/residences';
+const formItemLayout = {
+  labelCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 8,
+    },
   },
-  button: {
-    margin: theme.spacing(1)
-  }
-}));
-
-const validationSchema = yup.object({
-  matricule_fiscale: yup.string().required('matricule is required'),
-  company_name: yup.string().required('company name is required'),
-  company_email: yup.string().email('Invalid email').required('Email is required'),
-  company_phoneNumber: yup.string().required('phone Number is required'),
-  company_address: yup.string().required('company address is required'),
-
-});
+  wrapperCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 16,
+    },
+  },
+};
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
 
 export const CompanyInfo = ({
   formData,
   setFormData,
-  nextStep,
-  prevStep
+  prev
 }) => {
-  const classes = useStyles();
+  const [form] = Form.useForm();
+  const dispatch = useDispatch()
+  const [user, setUser] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    residence: ['ariana', 'soukra'],
+    address: '', 
+    role: 'CLIENT',
+    gender: '',
+    password: '',
+    confirmPassword: '',
+    matricule_fiscale: '',
+    company_name: '',
+    company_phoneNumber: '',
+    company_email: '', 
+    logo: '',
+    company_residence: ['ariana', 'soukra'], 
+    company_address: '',
+  });
+  const onSubmit = ({matricule_fiscale,
+  company_name,
+  company_phoneNumber,
+  company_email,  
+  company_residence, 
+  company_address}) => { 
+    setFormData({...formData,matricule_fiscale,
+      company_name,
+      company_phoneNumber,
+      company_email,  
+      company_residence, 
+      company_address}); 
+    console.log(formData);  
+    dispatch(register(formData));
+  }
+  useEffect(() =>{
+    console.log(formData)
+    setUser(formData)
+  },[])
+  const [autoCompleteResult, setAutoCompleteResult] = useState([]);
+  const onWebsiteChange = (value) => {
+    if (!value) {
+      setAutoCompleteResult([]);
+    } else {
+      setAutoCompleteResult(['.com', '.org', '.net'].map((domain) => `${value}${domain}`));
+    }
+  };
+  const websiteOptions = autoCompleteResult.map((website) => ({
+    label: website,
+    value: website,
+  }));
+  return (<>
+    <Form
+      {...formItemLayout}
+      form={form}
+      name="register"
+      onFinish={onSubmit}
+      initialValues={formData}
+      scrollToFirstError
+    >
 
-  return (
-    <>
-
-      <Formik
-        initialValues={formData}
-        onSubmit={values => {
-          setFormData(values);
-          nextStep()
-
-        }}
-        validationSchema={validationSchema}
+      <Form.Item
+        name="company_name"
+        label="company name*" 
+        rules={[
+          {
+            required: true,
+            message: 'Please input your company name!',
+            whitespace: true,
+          },
+        ]}
       >
-        {({ errors, touched ,setFieldValue }) => (
-          <Form className={classes.form}>
+        <Input />
+      </Form.Item>
 
-            <Field
-              name='matricule_fiscale'
-              label='matricule_fiscale *'
-              margin='normal' fullWidth variant="outlined"
-              as={TextField}
-              error={!!touched.matricule_fiscale && !!errors.matricule_fiscale}
-              helperText={touched.matricule_fiscale && errors.matricule_fiscale}
-            />
-            <Field
-              name='company_name'
-              label='company_name *'
-              margin='normal' fullWidth variant="outlined"
-              as={TextField}
-              error={!!touched.company_name && !!errors.company_name}
-              helperText={touched.company_name && errors.company_name}
-            />
-            <Field
-              type='email'
-              name='company_email'
-              label='company_email *'
-              margin='normal' fullWidth variant="outlined"
-              as={TextField}
-              error={!!touched.company_email && !!errors.company_email}
-              helperText={touched.company_email && errors.company_email}
-            />
-            <Field
-              name='company_phoneNumber'
-              label='company_phoneNumber *'
-              margin='normal' fullWidth variant="outlined"
-              as={TextField}
-              error={!!touched.company_phoneNumber && !!errors.company_phoneNumber}
-              helperText={touched.company_phoneNumber && errors.company_phoneNumber}
-            /> 
-            <Field
-              name='company_address'
-              label='company_address*'
-              margin='normal' fullWidth variant="outlined"
-              as={TextField}
-              error={!!touched.company_address && !!errors.company_address}
-              helperText={touched.company_address && errors.company_address}
+      <Form.Item
+        name="matricule_fiscale"
+        label="matricule fiscale*"
+        tooltip="What do you want others to call you?"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your matricule_fiscale!',
+            whitespace: true,
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        name="company_email"
+        label="company email"
+        rules={[
+          {
+            type: 'email',
+            message: 'The input is not valid E-mail!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
 
-            />
-            <FormControl>
+      <Form.Item
+        name="company_residence"
+        label="Habitual Residence*"
+        rules={[
+          {
+            type: 'array',
+            required: true,
+            message: 'Please select your habitual residence!',
+          },
+        ]}
+      >
+        <Cascader options={residences} />
+      </Form.Item>
 
-              <Input
-                name="logo"
-                aria-describedby="my-helper-text"
-                type="file"
-                onChange={(event) => {
-                  setFieldValue("logo", event.currentTarget.files[0]);
-                }}
-                required
-                accept="image/*"
-              />
-              <FormHelperText id="my-helper-text">Upload logo</FormHelperText>
-              
-            </FormControl>
+      <Form.Item
+        name="company_address"
+        label="Adresse détaillée"
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        name="company_phoneNumber"
+        label="Phone Number*"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your phone number!',
+          },
+        ]}
+      >
+        <Input
+          style={{
+            width: '100%',
+          }}
+        />
+      </Form.Item>
+      <Form.Item
+        name="website"
+        label="Website"
+      >
+        <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder="website">
+          <Input />
+        </AutoComplete>
+      </Form.Item>
 
 
-            <div>
-              <Button
-                color="primary"
-                onClick={prevStep}
-                className={classes.button+' '+"BtnColorBlue"}
-              >
-                Back
-              </Button>
-              <Button variant="contained" className={classes.button+' '+"BtnColorGreen"}  type="submit">
-                Next
-              </Button>
-            </div>
-          </Form>
-        )}
-      </Formik>
-    </>
+      {/* <Form.Item 
+        label="Captcha" 
+        extra="We must make sure that your are a human.">
+        <Row gutter={8}>
+          <Col span={12}>
+            <Form.Item
+              name="captcha"
+              noStyle
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input the captcha you got!',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Button>Get captcha</Button>
+          </Col>
+        </Row>
+      </Form.Item>
+
+      <Form.Item
+        name="agreement"
+        valuePropName="checked"
+        rules={[
+          {
+            validator: (_, value) =>
+              value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+          },
+        ]}
+        {...tailFormItemLayout}
+      >
+        <Checkbox>
+          I have read the <a href="">agreement</a>
+        </Checkbox>
+      </Form.Item> */}
+
+      <div className="steps-action">
+        <Form.Item {...tailFormItemLayout}>
+
+          <Button
+            style={{
+              margin: '0 24px',
+            }}
+            onClick={() => prev()}
+          >
+            Previous
+          </Button>
+          <Button type="primary" htmlType="submit">
+            Register
+          </Button>
+        </Form.Item>
+
+      </div>
+    </Form>
+  </>
   );
-};
-
-CompanyInfo.propTypes = {
-  formData: PropTypes.object.isRequired,
-  setFormData: PropTypes.func.isRequired,
-  nextStep: PropTypes.func.isRequired,
-  prevStep: PropTypes.func.isRequired
 };

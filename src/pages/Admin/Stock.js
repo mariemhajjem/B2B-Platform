@@ -7,12 +7,13 @@ import {
   Button,
   Avatar,
   Typography,
-  Divider,
-} from "antd";
+  Divider, 
+} from "antd"; 
 import { useState } from "react";
 
 // Images
 import face2 from "../../assets/images/face-2.jpg";
+import AddProduct from "./AddProduct";
 
 const { Title } = Typography;
 
@@ -42,6 +43,23 @@ const columns = [
   },
 ];
 
+
+function Stock() {
+  const [isAddVisible, setIsAddVisible] = useState(false);
+  const [isUpdateVisible, setIsUpdateVisible] = useState(false);
+  const [err, setError] = useState("");
+  const [code, setCode] = useState("");
+  const [product, setProduct] = useState({
+    product_label: '',
+    product_description: '',
+    product_price: '',
+    product_picture: '',
+    product_date: '',
+  });
+   const handleUpdate = event => {
+    // 👇️ toggle visibility 
+    setIsUpdateVisible(current => !current);
+  };
 const data = [
   {
     key: "1",
@@ -79,19 +97,13 @@ const data = [
     ),
     update: (
       <>
-        <Button type="primary" className="tag-primary">
+        <Button type="primary" className="tag-primary" onClick={handleUpdate}>
           modifier
         </Button>
       </>
     ),
   }
 ];
-
-function Stock() {
-  const [isAddVisible, setIsAddVisible] = useState(false);
-  const [isUpdateVisible, setIsUpdateVisible] = useState(false);
-  const [err, setError] = useState("");
-  const [code, setCode] = useState("");
   /* const error = useSelector((state) => state.errorReducer);
   useEffect(() => {
     if (error.message) {
@@ -107,9 +119,10 @@ function Stock() {
     });
   }; */
   const handleClick = event => {
-    // 👇️ toggle visibility
+    // 👇️ toggle visibility 
     setIsAddVisible(current => !current);
   };
+ 
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
 
   return (
@@ -119,16 +132,16 @@ function Stock() {
           <Col xs="24" xl={24}>
             <Button
               type="primary"
-              onClick={() => setIsAddVisible(true)}
+              onClick={handleClick}
             >
-              Ajouter client
+              Ajouter produit
             </Button>
-            {/* {err && popUp("error")}
-          {isAddVisible && <AddClient />}
-          {isUpdateVisible && <UpdateClient />} */}
-          </Col>
-          {/* <Divider orientation="left"></Divider> */}
-          <Col xs="24" xl={24}>
+            {isAddVisible && <AddProduct title="Ajouter produit" visible={isAddVisible} setIsAddVisible={handleClick} formData={product} />}
+            {/* {err && popUp("error")*/}
+          
+          {isUpdateVisible && <AddProduct title="Modifier produit" setIsAddVisible={handleUpdate} formData={product} />}  
+           
+           <Divider orientation="left"></Divider> 
             <Card
               bordered={false}
               className="criclebox tablespace mb-24"
@@ -157,5 +170,6 @@ function Stock() {
     </>
   );
 }
+
 
 export default Stock;

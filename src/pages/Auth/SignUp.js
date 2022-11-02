@@ -138,57 +138,8 @@ export default function SignUp() {
               </Button> */}
 						</div>
 						<p className="text-center my-25 font-semibold text-muted">Or</p>
-
-						{/* <Form
-              name="basic"
-              initialValues={{ remember: true }}
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              className="row-col"
-            >
-              <Form.Item
-                name="name"
-                rules={[
-                  { required: true, message: "Please input your username!" },
-                ]}
-              >
-                <Input placeholder="Name" />
-              </Form.Item>
-              <Form.Item
-                name="email"
-                rules={[
-                  { required: true, message: "Please input your email!" },
-                ]}
-              >
-                <Input placeholder="email" />
-              </Form.Item>
-              <Form.Item
-                name="password"
-                rules={[
-                  { required: true, message: "Please input your password!" },
-                ]}
-              >
-                <Input placeholder="Passwoed" />
-              </Form.Item>
-
-              <Form.Item>
-                <Button
-                  style={{ width: "100%" }}
-                  type="primary"
-                  htmlType="submit"
-                >
-                  S'inscrire
-                </Button>
-              </Form.Item>
-            </Form> */}
 						<SignUpSteps />
  
-						<p className="font-semibold text-muted text-center">
-							Already have an account?{" "}
-							<Link to="/sign-in" className="font-bold text-dark">
-								Sign In
-							</Link>
-						</p>
 					</Card>
 				</Content>
 			</div>

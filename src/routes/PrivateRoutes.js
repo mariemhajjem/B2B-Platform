@@ -1,4 +1,5 @@
 import React, { lazy, Suspense } from "react";
+import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 const Main = lazy(() => import("../components/layout/Main"));
@@ -16,8 +17,9 @@ const Loading = ({ node }) => {
 }
 
 export const PrivateRoutes = () => {
+    const { role,firstName}  = useSelector((state) => state.auth.loggedUser.result)
     let route;
-    let role = 'admin';
+    let roled = 'admin';
     return (
         <Routes>
             {/* {

@@ -17,6 +17,22 @@ export const login = (user) => async (dispatch) => {
   }
 };
 
+export const register = (user) => async (dispatch) => {
+
+  try {
+    const loggedUser = await api.register(user);
+    dispatch(loginSuccess({
+       loggedUser
+    }));
+  } catch (e) {
+    console.log(e);
+    dispatch(loginFail({
+        loggedIn: false,
+        message: e.response.data.message
+      }));
+  }
+};
+
 export const logout = () => async (dispatch) => { 
 
   localStorage.removeItem("token");

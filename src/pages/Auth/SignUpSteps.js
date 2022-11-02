@@ -1,111 +1,74 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-
+import { Button, message, Steps } from 'antd';
+import { Link } from 'react-router-dom';
 import { PersonalInfo } from './PersonalInfo';
 import { CompanyInfo } from './CompanyInfo';
+import "./Signup.css";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
+const { Step } = Steps;
+const steps = [
+  {
+    title: 'Personal Info',
+    content: 'First-content',
   },
-  backButton: {
-    marginRight: theme.spacing(1),
+  {
+    title: 'Company Info',
+    content: 'Second-content',
   },
-  instructions: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
-}));
-
-function getSteps() {
-  return ['Personal Info', 'Company Info'];
-}
+];
 
 export default function SignUpSteps() {
 
-  const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     phoneNumber: '',
-    address: '',
-    position: '',
-    userName: '',
+    residence: ['ariana', 'soukra'],
+    address: '', 
+    role: 'CLIENT',
+    gender: '',
     password: '',
     confirmPassword: '',
     matricule_fiscale: '',
     company_name: '',
-    company_address: '',
     company_phoneNumber: '',
-    company_email: '',
-    company_fax: '',
-    logo: ''
+    company_email: '', 
+    logo: '',
+    company_residence: ['ariana', 'soukra'], 
+    company_address: '',
   });
 
-
-  const nextStep = () => {
-    setStep(prev => prev + 1);
-
-  }
-  const prevStep = () => {
-    setStep(prev => prev - 1);
-
-  }
-
-  const classes = useStyles();
-
-  const steps = getSteps();
-
-  const handleReset = () => {
-    setStep(0);
+  const [current, setCurrent] = useState(0);
+  const next = () => {
+    setCurrent(current + 1);
   };
-
-  function getStepContent(stepIndex) {
-    switch (stepIndex) {
-      case 0:
-        return <PersonalInfo
-          formData={formData}
-          setFormData={setFormData}
-          nextStep={nextStep}
-        />
-      case 1:
-        return <CompanyInfo
-          formData={formData}
-          setFormData={setFormData}
-          nextStep={nextStep}
-          prevStep={prevStep}
-        /> 
-      default:
-        return 'Unknown stepIndex';
-    }
-  }
-
+  const prev = () => {
+    setCurrent(current - 1);
+  };
+  const onChange = (values) => {
+    setFormData(values)
+  };
   return (
-    <div className={classes.root}>
-      <Stepper activeStep={step} alternativeLabel>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
+    <>
+      <Steps current={current}>
+        {steps.map((item) => (
+          <Step key={item.title} title={item.title} />
         ))}
-      </Stepper>
-      <div>
-        {step === steps.length ? (
-          <div>
-            <h3>Thank You For Your Submission</h3>
-
-            <p>You will receive an email when your submission is accepted </p>
-          </div>
-        ) : (
-          <div>
-            {getStepContent(step)}
-          </div>
-        )}
+      </Steps>
+      <div className="steps-content">
+        {steps[current].content === 'First-content' ?
+          <PersonalInfo
+            formData={formData}
+            setFormData={onChange}
+            next={next}
+          /> : <CompanyInfo
+            formData={formData}
+            setFormData={onChange}
+            prev={prev}
+          />}
       </div>
-    </div>
+      
+    </>
   );
 }
