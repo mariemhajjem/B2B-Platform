@@ -1,4 +1,5 @@
 import { loginSuccess, loginFail, logoutSuccess } from "../reducers/auth";
+import { SET_ERRORS } from "../reducers/error";
 import * as api from "../../services/auth.service.js";
 
 export const login = (user) => async (dispatch) => {
@@ -8,11 +9,15 @@ export const login = (user) => async (dispatch) => {
     dispatch(loginSuccess({
        loggedUser
     }));
-  } catch (e) {
-    console.log(e);
+  } catch (err) {
+    console.log(err);
+    dispatch(SET_ERRORS({
+      message: err.response?.data?.message,
+      code: err.response?.data?.code
+    }))
     dispatch(loginFail({
         loggedIn: false,
-        message: e.response.data.message
+        message: err.response?.data?.message
       }));
   }
 };
@@ -24,11 +29,14 @@ export const register = (user) => async (dispatch) => {
     dispatch(loginSuccess({
        loggedUser
     }));
-  } catch (e) {
-    console.log(e);
+  } catch (err) {
+    dispatch(SET_ERRORS({
+      message: err.response?.data?.message,
+      code: err.response?.data?.code
+    }))
+    console.log(err);
     dispatch(loginFail({
-        loggedIn: false,
-        message: e.response.data.message
+        loggedIn: false, 
       }));
   }
 };
@@ -36,8 +44,5 @@ export const register = (user) => async (dispatch) => {
 export const logout = () => async (dispatch) => { 
 
   localStorage.removeItem("token");
-  dispatch(logoutSuccess({
-      token: null,
-      user: null
-  }));
+  dispatch(logoutSuccess());
 };

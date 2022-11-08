@@ -2,19 +2,17 @@ import React, { useEffect, useState } from 'react';
 import {
   AutoComplete,
   Button,
-  Cascader,
-  Checkbox,
-  Col,
+  Cascader, 
   Form,
-  Input,
-  InputNumber,
-  Row,
-  Select,
+  Input, 
+  notification 
 } from 'antd';
-import { useDispatch } from "react-redux";
-import {register} from "../../redux/actions/auth"
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { register } from "../../redux/actions/auth"
 import "./Signup.css";
 import residences from '../../constants/residences';
+import { CLEAR_ERRORS } from '../../redux/reducers/error';
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -52,45 +50,43 @@ export const CompanyInfo = ({
   prev
 }) => {
   const [form] = Form.useForm();
-  const dispatch = useDispatch()
-  const [user, setUser] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: '',
-    residence: ['ariana', 'soukra'],
-    address: '', 
-    role: 'CLIENT',
-    gender: '',
-    password: '',
-    confirmPassword: '',
-    matricule_fiscale: '',
-    company_name: '',
-    company_phoneNumber: '',
-    company_email: '', 
-    logo: '',
-    company_residence: ['ariana', 'soukra'], 
-    company_address: '',
-  });
-  const onSubmit = ({matricule_fiscale,
-  company_name,
-  company_phoneNumber,
-  company_email,  
-  company_residence, 
-  company_address}) => { 
-    setFormData({...formData,matricule_fiscale,
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const error = useSelector((state) => state.error);
+  const [err, setError] = useState("");
+  const [code, setCode] = useState("");
+  useEffect(() => {
+    if (error.message) {
+      setError(error.message);
+      setCode(error.code);
+    }
+  }, [error]);
+  const onSubmit = ({ matricule_fiscale,
+    company_name,
+    company_phoneNumber,
+    company_email,
+    company_residence,
+    company_address }) => {
+    setFormData({
+      ...formData, matricule_fiscale,
       company_name,
       company_phoneNumber,
-      company_email,  
-      company_residence, 
-      company_address}); 
-    console.log(formData);  
-    dispatch(register(formData));
+      company_email,
+      company_residence,
+      company_address
+    });
+    console.log(formData);
+    try {
+      dispatch(register(formData));
+      navigate('/')
+
+    } catch (error) {
+      console.log(error)
+    }
+    
+
   }
-  useEffect(() =>{
-    console.log(formData)
-    setUser(formData)
-  },[])
+
   const [autoCompleteResult, setAutoCompleteResult] = useState([]);
   const onWebsiteChange = (value) => {
     if (!value) {
@@ -103,6 +99,18 @@ export const CompanyInfo = ({
     label: website,
     value: website,
   }));
+  const clearError = () => {
+    dispatch(CLEAR_ERRORS());
+    setError("");
+    setCode("");
+  };
+  const popUp = (type) => {
+    notification[type]({
+      message: code,
+      description: err,
+      onClose: clearError,
+    });
+  };
   return (<>
     <Form
       {...formItemLayout}
@@ -112,10 +120,12 @@ export const CompanyInfo = ({
       initialValues={formData}
       scrollToFirstError
     >
-
+      <p className="parag"> 
+          {err && popUp("error")}
+        </p>
       <Form.Item
         name="company_name"
-        label="company name*" 
+        label="company name*"
         rules={[
           {
             required: true,
@@ -124,7 +134,7 @@ export const CompanyInfo = ({
           },
         ]}
       >
-        <Input />
+        <Input onChange={(e) => setFormData({ ...formData, company_name: e.target.value })} />
       </Form.Item>
 
       <Form.Item
@@ -139,7 +149,7 @@ export const CompanyInfo = ({
           },
         ]}
       >
-        <Input />
+        <Input onChange={(e) => setFormData({ ...formData, matricule_fiscale: e.target.value })} />
       </Form.Item>
       <Form.Item
         name="company_email"
@@ -151,7 +161,7 @@ export const CompanyInfo = ({
           },
         ]}
       >
-        <Input />
+        <Input onChange={(e) => setFormData({ ...formData, company_email: e.target.value })} />
       </Form.Item>
 
       <Form.Item
@@ -172,20 +182,22 @@ export const CompanyInfo = ({
         name="company_address"
         label="Adresse détaillée"
       >
-        <Input />
+        <Input onChange={(e) => setFormData({ ...formData, company_residence: e.target.value })} />
       </Form.Item>
 
       <Form.Item
         name="company_phoneNumber"
         label="Phone Number*"
         rules={[
-          {
+          { 
             required: true,
             message: 'Please input your phone number!',
-          },
+          }, 
+          { min: 8, message: "Numéro est composée de 8 chiffres." },
+          { max: 8, message: "Numéro est composée de 8 chiffres." },
         ]}
       >
-        <Input
+        <Input onChange={(e) => setFormData({ ...formData, company_phoneNumber: e.target.value })}
           style={{
             width: '100%',
           }}
@@ -196,7 +208,7 @@ export const CompanyInfo = ({
         label="Website"
       >
         <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder="website">
-          <Input />
+          <Input onChange={(e) => setFormData({ ...formData, website: e.target.value })} />
         </AutoComplete>
       </Form.Item>
 

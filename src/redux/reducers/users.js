@@ -7,7 +7,7 @@ const initialState = {
     displayUpdate: false,
     errors: false,
     list: [],
-  };
+};
   
 // Slice
 const slice = createSlice({

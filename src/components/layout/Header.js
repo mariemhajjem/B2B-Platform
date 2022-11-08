@@ -25,6 +25,8 @@ import {
 import { NavLink, Link } from "react-router-dom";
 import styled from "styled-components";
 import avtar from "../../assets/images/team-2.jpg";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/actions/auth";
 
 const ButtonContainer = styled.div`
   .ant-btn-primary {
@@ -171,6 +173,23 @@ const menu = (
   />
 );
 
+const profileMenu = (
+  <List
+    min-width="100%"
+    className="header-notifications-dropdown "
+    itemLayout="horizontal"
+    dataSource={data}
+    renderItem={(item) => (
+      <List.Item>
+        <List.Item.Meta
+          avatar={<Avatar shape="square" src={item.avatar} />}
+          title={item.title}
+          description={item.description}
+        />
+      </List.Item>
+    )}
+  />
+);
 const logsetting = [
   <svg
     width="20"
@@ -250,18 +269,20 @@ function Header({
 
   const [visible, setVisible] = useState(false);
   const [sidenavType, setSidenavType] = useState("transparent");
-
+  const dispatch = useDispatch()
   useEffect(() => window.scrollTo(0, 0));
-
+  const signOut = () => {
+    dispatch(logout())
+  }
   const showDrawer = () => setVisible(true);
   const hideDrawer = () => setVisible(false);
 
   return (
     <>
-      
+
       <Row gutter={[24, 0]}>
         <Col span={24} md={6}>
-          <Breadcrumb> 
+          <Breadcrumb>
             <Breadcrumb.Item style={{ textTransform: "capitalize" }}>
               {name.replace("/", "")}
             </Breadcrumb.Item>
@@ -286,7 +307,16 @@ function Header({
                 {bell}
               </a>
             </Dropdown>
-          </Badge> 
+          </Badge>
+          <Dropdown overlay={menu} trigger={["click"]}>
+            <a
+              href="#pablo"
+              className="ant-dropdown-link"
+              onClick={(e) => e.preventDefault()}
+            >
+              {profile}
+            </a>
+          </Dropdown>
           <Button
             type="link"
             className="sidebar-toggler"
@@ -294,9 +324,13 @@ function Header({
           >
             {toggler}
           </Button>
-          <Link to="/sign-in" className="btn-sign-in">
-            {profile}
-            <span>Sign in</span>
+          <Link to="/" className="btn-sign-in">
+
+            <Button
+              type="link"
+              onClick={signOut}
+            >{profile}Se déconnecter
+            </Button>
           </Link>
           <Input
             className="header-search"

@@ -23,12 +23,9 @@ export default function SignIn() {
 
 
   const onFinish = async (values) => {
-    const user = {
-      cin: values.cin,
-      firstname: values.firstname,
-      lastname: values.lastname,
+    const user = { 
       email: values.email,
-      birthday: values.birthday,
+      password: values.password,
     };
     try {
       dispatch(login(user))

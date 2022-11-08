@@ -1,4 +1,6 @@
 import { Menu } from "antd";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 
@@ -107,65 +109,46 @@ function Sidenav({ color }) {
 				fill={color}
 			></path>
 		</svg>,
-	];
-	const admin = [
-		{
-			link: "",
-			label: "",
-			role: ["ADMIN", "IMPORTATEUR", "CLIENT"]
-		},
-		{
-			link: "",
-			label: "",
-			role: ["ADMIN", "IMPORTATEUR", "CLIENT"]
-		},
-		{
-			link: "",
-			label: "",
-			role: ["ADMIN", "IMPORTATEUR", "CLIENT"]
-		},
-		{
-			link: "",
-			label: "",
-			role: ["ADMIN", "IMPORTATEUR", "CLIENT"]
-		},
-		{
-			link: "",
-			label: "",
-		}
-	];
+	]; 
 	const users = [
 		{
 			link: "/dashboard",
 			label: "Dashboard",
-			role: ["ADMIN", "IMPORTATEUR", "CLIENT"]
+			role: ["ADMIN", "FOURNISSEUR", "CLIENT"]
 		},
 		{
 			link: "/dashboard/clients",
 			label: "Clients",
-			role: ["ADMIN", "IMPORTATEUR", "CLIENT"]
+			role: ["ADMIN", "FOURNISSEUR"]
 		},
 		{
 			link: "/dashboard/demandes",
 			label: "Demandes",
-			role: ["ADMIN", "IMPORTATEUR", "CLIENT"]
+			role: ["ADMIN", "FOURNISSEUR", "CLIENT"]
 		},
 		{
 			link: "/dashboard/commandes",
 			label: "Commandes",
-			role: ["ADMIN", "IMPORTATEUR", "CLIENT"]
+			role: ["ADMIN", "CLIENT"]
 		},
 		{
 			link: "/dashboard/reclamations",
 			label: "Réclamations",
-			role: ["ADMIN", "IMPORTATEUR", "CLIENT"]
+			role: ["ADMIN", "FOURNISSEUR", "CLIENT"]
 		},
 		{
 			link: "/dashboard/stock",
 			label: "Stock",
-			role: ["ADMIN", "IMPORTATEUR", "CLIENT"]
+			role: ["ADMIN", "FOURNISSEUR"]
 		},
 	];
+	const authState = useSelector((state) => state.auth.loggedUser)
+	useEffect(() => {
+		console.log(authState)
+	},[])
+	const findRole = (value) => {
+		return value === authState.role;
+	}
 	return (
 		<>
 			<div className="brand">
@@ -175,20 +158,21 @@ function Sidenav({ color }) {
 			<hr />
 			<Menu theme="light" mode="inline">
 				{users.map((value, index) => {
-					return (
-						<Menu.Item key={index}>
-							<Link to={value.link}>
-								<span
-									className="icon"
-									style={{
-										background: page === value.link ? color : "",
-									}}
-								>
-									{dashboard}
-								</span>
-								<span className="label">{value.label}</span>
-							</Link>
-						</Menu.Item>)
+					if (value.role.find(findRole))
+						return (
+							<Menu.Item key={index}>
+								<Link to={value.link}>
+									<span
+										className="icon"
+										style={{
+											background: page === value.link ? color : "",
+										}}
+									>
+										{dashboard}
+									</span>
+									<span className="label">{value.label}</span>
+								</Link>
+							</Menu.Item>)
 				})
 				}
 				<>

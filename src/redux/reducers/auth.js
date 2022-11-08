@@ -4,12 +4,14 @@ import jwt_decode from "jwt-decode";
 const loggedUser = localStorage.getItem("token")
     ? jwt_decode(localStorage.getItem("token"))
     : null;
-
+const user = loggedUser?.user
+const initialState = {
+    loggedUser: user || null,
+}
 // Slice
 const slice = createSlice({
     name: 'auth',
-    initialState: loggedUser ? { loggedUser }
-        : { loggedUser: null },
+    initialState,
     reducers: {
         register: (state, action) => {
             state.loggedUser = action.payload;

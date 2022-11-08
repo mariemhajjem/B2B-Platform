@@ -31,11 +31,12 @@ import convesionImg5 from "../../assets/images/face-2.jpg";
 import project1 from "../../assets/images/home-decor-1.jpeg";
 import project2 from "../../assets/images/home-decor-2.jpeg";
 import project3 from "../../assets/images/home-decor-3.jpeg";
+import { useSelector } from "react-redux";
 
 function Profile() {
   const [imageURL, setImageURL] = useState(false);
   const [, setLoading] = useState(false);
-
+  const token = useSelector((state) => state.auth.loggedUser)
   const getBase64 = (img, callback) => {
     const reader = new FileReader();
     reader.addEventListener("load", () => callback(reader.result));
@@ -163,8 +164,8 @@ function Profile() {
                 <Avatar size={74} shape="square" src={profilavatar} />
 
                 <div className="avatar-info">
-                  <h4 className="font-semibold m-0">Sarah Jacob</h4>
-                  <p>CEO / Co-Founder</p>
+                  <h4 className="font-semibold m-0">{`${token.user?.firstName} ${token.user?.lastName}`} </h4>
+                  <p>{`${token.user?.employee_grade.toLowerCase()} / ${token.user?.employee_grade}`} CEO / Co-founder</p>
                 </div>
               </Avatar.Group>
             </Col>

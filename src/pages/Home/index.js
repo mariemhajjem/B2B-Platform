@@ -3,66 +3,62 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import i18n from "../../locales/i18n";
 import Produit from "./Produit";
-
-
+import { useSelector } from "react-redux";
 
 function Home() {
-
+  const token = useSelector((state) => state.auth.loggedUser)
   const { t } = useTranslation();
-  //const history = useHistory();
+
   const changeLanguage = (ln) => {
     return () => {
       i18n.changeLanguage(ln);
     };
   };
-  const logout = (e) => {
-    // history.push("/home");
-  };
-  const products = ["first","sec","third","forth","forth"]
+  const products = ["first", "sec", "third", "forth", "forth"]
   return (
     <div className="App">
-      <header id="home" class="welcome-hero">
-        <div id="header-carousel" class="carousel slide carousel-fade" data-ride="carousel">
+      <header id="home" className="welcome-hero">
+        <div id="header-carousel" className="carousel slide carousel-fade" data-ride="carousel">
 
-          <ol class="carousel-indicators">
-            <li data-target="#header-carousel" data-slide-to="0" class="active"><span class="small-circle"></span></li>
-            <li data-target="#header-carousel" data-slide-to="1"><span class="small-circle"></span></li>
-            <li data-target="#header-carousel" data-slide-to="2"><span class="small-circle"></span></li>
+          <ol className="carousel-indicators">
+            <li data-target="#header-carousel" data-slide-to="0" className="active"><span className="small-circle"></span></li>
+            <li data-target="#header-carousel" data-slide-to="1"><span className="small-circle"></span></li>
+            <li data-target="#header-carousel" data-slide-to="2"><span className="small-circle"></span></li>
           </ol>
-          <div class="carousel-inner" role="listbox">
+          <div className="carousel-inner" role="listbox">
 
-            <div class="item active">
-              <div class="single-slide-item slide1">
-                <div class="container">
-                  <div class="welcome-hero-content">
-                    <div class="row">
-                      <div class="col-sm-7">
-                        <div class="single-welcome-hero">
-                          <div class="welcome-hero-txt">
+            <div className="item active">
+              <div className="single-slide-item slide1">
+                <div className="container">
+                  <div className="welcome-hero-content">
+                    <div className="row">
+                      <div className="col-sm-7">
+                        <div className="single-welcome-hero">
+                          <div className="welcome-hero-txt">
                             <h4>great design collection</h4>
                             <h2>cloth covered accent chair</h2>
                             <p>
                               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiuiana smod tempor  ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.
                             </p>
-                            <div class="packages-price">
+                            <div className="packages-price">
                               <p>
                                 $ 399.00
                                 <del>$ 499.00</del>
                               </p>
                             </div>
-                            <button class="btn-cart welcome-add-cart" onclick="window.location.href='#'">
-                              <span class="lnr lnr-plus-circle"></span>
-                               <span>Commander</span>
+                            <button className="btn-cart welcome-add-cart" onClick="window.location.href='#'">
+                              <span className="lnr lnr-plus-circle"></span>
+                              <span>Commander</span>
                             </button>
-                            <button class="btn-cart welcome-add-cart welcome-more-info" onclick="window.location.href='#'">
+                            <button className="btn-cart welcome-add-cart welcome-more-info" onClick="window.location.href='#'">
                               plus d'info
                             </button>
                           </div>
                         </div>
                       </div>
-                      <div class="col-sm-5">
-                        <div class="single-welcome-hero">
-                          <div class="welcome-hero-img">
+                      <div className="col-sm-5">
+                        <div className="single-welcome-hero">
+                          <div className="welcome-hero-img">
                             <img src="assets/images/slider1.png" alt="slider image" />
                           </div>
                         </div>
@@ -72,38 +68,38 @@ function Home() {
                 </div>
               </div>
             </div>
-            <div class="item">
-              <div class="single-slide-item slide2">
-                <div class="container">
-                  <div class="welcome-hero-content">
-                    <div class="row">
-                      <div class="col-sm-7">
-                        <div class="single-welcome-hero">
-                          <div class="welcome-hero-txt">
+            <div className="item">
+              <div className="single-slide-item slide2">
+                <div className="container">
+                  <div className="welcome-hero-content">
+                    <div className="row">
+                      <div className="col-sm-7">
+                        <div className="single-welcome-hero">
+                          <div className="welcome-hero-txt">
                             <h4>great design collection</h4>
                             <h2>mapple wood accent chair</h2>
                             <p>
                               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiuiana smod tempor  ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.
                             </p>
-                            <div class="packages-price">
+                            <div className="packages-price">
                               <p>
                                 $ 199.00
                                 <del>$ 299.00</del>
                               </p>
                             </div>
-                            <button class="btn-cart welcome-add-cart" onclick="window.location.href='#'">
-                              <span class="lnr lnr-plus-circle"></span>
-                               <span>Commander</span> 
+                            <button className="btn-cart welcome-add-cart" onClick="window.location.href='#'">
+                              <span className="lnr lnr-plus-circle"></span>
+                              <span>Commander</span>
                             </button>
-                            <button class="btn-cart welcome-add-cart welcome-more-info" onclick="window.location.href='#'">
+                            <button className="btn-cart welcome-add-cart welcome-more-info" onClick="window.location.href='#'">
                               more info
                             </button>
                           </div>
                         </div>
                       </div>
-                      <div class="col-sm-5">
-                        <div class="single-welcome-hero">
-                          <div class="welcome-hero-img">
+                      <div className="col-sm-5">
+                        <div className="single-welcome-hero">
+                          <div className="welcome-hero-img">
                             <img src="assets/images/slider2.png" alt="slider image" />
                           </div>
                         </div>
@@ -113,38 +109,38 @@ function Home() {
                 </div>
               </div>
             </div>
-            <div class="item">
-              <div class="single-slide-item slide3">
-                <div class="container">
-                  <div class="welcome-hero-content">
-                    <div class="row">
-                      <div class="col-sm-7">
-                        <div class="single-welcome-hero">
-                          <div class="welcome-hero-txt">
+            <div className="item">
+              <div className="single-slide-item slide3">
+                <div className="container">
+                  <div className="welcome-hero-content">
+                    <div className="row">
+                      <div className="col-sm-7">
+                        <div className="single-welcome-hero">
+                          <div className="welcome-hero-txt">
                             <h4>great design collection</h4>
                             <h2>valvet accent arm chair</h2>
                             <p>
                               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiuiana smod tempor  ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.
                             </p>
-                            <div class="packages-price">
+                            <div className="packages-price">
                               <p>
                                 $ 299.00
                                 <del>$ 399.00</del>
                               </p>
                             </div>
-                            <button class="btn-cart welcome-add-cart" onclick="window.location.href='#'">
-                              <span class="lnr lnr-plus-circle"></span>
+                            <button className="btn-cart welcome-add-cart" onClick="window.location.href='#'">
+                              <span className="lnr lnr-plus-circle"></span>
                               <span>Commander</span>
                             </button>
-                            <button class="btn-cart welcome-add-cart welcome-more-info" onclick="window.location.href='#'">
+                            <button className="btn-cart welcome-add-cart welcome-more-info" onClick="window.location.href='#'">
                               more info
                             </button>
                           </div>
                         </div>
                       </div>
-                      <div class="col-sm-5">
-                        <div class="single-welcome-hero">
-                          <div class="welcome-hero-img">
+                      <div className="col-sm-5">
+                        <div className="single-welcome-hero">
+                          <div className="welcome-hero-img">
                             <img src="assets/images/slider3.png" alt="slider image" />
                           </div>
                         </div>
@@ -158,95 +154,99 @@ function Home() {
           </div>
         </div>
 
-        <div class="top-area">
-          <div class="header-area">
+        <div className="top-area">
+          <div className="header-area">
 
-            <nav class="navbar navbar-default bootsnav  navbar-sticky navbar-scrollspy" data-minus-value-desktop="70" data-minus-value-mobile="55" data-speed="1000">
+            <nav className="navbar navbar-default bootsnav  navbar-sticky navbar-scrollspy" data-minus-value-desktop="70" data-minus-value-mobile="55" data-speed="1000">
 
-              <div class="top-search">
-                <div class="container">
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                    <input type="text" class="form-control" placeholder="Search" />
-                    <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+              <div className="top-search">
+                <div className="container">
+                  <div className="input-group">
+                    <span className="input-group-addon"><i className="fa fa-search"></i></span>
+                    <input type="text" className="form-control" placeholder="Search" />
+                    <span className="input-group-addon close-search"><i className="fa fa-times"></i></span>
                   </div>
                 </div>
               </div>
 
-              <div class="container">
+              <div className="container">
 
-                <div class="attr-nav">
+                <div className="attr-nav">
                   <ul>
-                    <li class="search">
-                      <a href="#"><span class="lnr lnr-magnifier"></span></a>
+                    <li className="search">
+                      <a href="#"><span className="lnr lnr-magnifier"></span></a>
                     </li>
-                    <li class="nav-setting">
-                      <a href="#"><span class="lnr lnr-cog"></span></a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
-                        <span class="lnr lnr-cart"></span>
-                        <span class="badge badge-bg-1">2</span>
+                    {token && <li className="nav-setting">
+                      <Link to="/dashboard">
+                        <span className="lnr lnr-cog"></span>
+                      </Link>
+                    </li>}
+                   
+                    <li className="dropdown">
+                      <a href="#" className="dropdown-toggle" data-toggle="dropdown" >
+                        <span className="lnr lnr-cart"></span>
+                        <span className="badge badge-bg-1">2</span>
                       </a>
-                      <ul class="dropdown-menu cart-list s-cate">
-                        <li class="single-cart-list">
-                          <a href="#" class="photo"><img src="assets/images/arrivals1.png" class="cart-thumb" alt="image" /></a>
-                          <div class="cart-list-txt">
+                      <ul className="dropdown-menu cart-list s-cate">
+                        <li className="single-cart-list">
+                          <a href="#" className="photo"><img src="assets/images/arrivals1.png" className="cart-thumb" alt="image" /></a>
+                          <div className="cart-list-txt">
                             <h6><a href="#">arm <br /> chair</a></h6>
-                            <p>1 x - <span class="price">$180.00</span></p>
+                            <p>1 x - <span className="price">$180.00</span></p>
                           </div>
-                          <div class="cart-close">
-                            <span class="lnr lnr-cross"></span>
+                          <div className="cart-close">
+                            <span className="lnr lnr-cross"></span>
                           </div>
                         </li>
-                        <li class="single-cart-list">
-                          <a href="#" class="photo"><img src="assets/images/arrivals2.png" class="cart-thumb" alt="image" /></a>
-                          <div class="cart-list-txt">
+                        <li className="single-cart-list">
+                          <a href="#" className="photo"><img src="assets/images/arrivals2.png" className="cart-thumb" alt="image" /></a>
+                          <div className="cart-list-txt">
                             <h6><a href="#">single <br /> armchair</a></h6>
-                            <p>1 x - <span class="price">$180.00</span></p>
+                            <p>1 x - <span className="price">$180.00</span></p>
                           </div>
-                          <div class="cart-close">
-                            <span class="lnr lnr-cross"></span>
+                          <div className="cart-close">
+                            <span className="lnr lnr-cross"></span>
                           </div>
                         </li>
-                        <li class="single-cart-list">
-                          <a href="#" class="photo"><img src="assets/images/arrivals3.png" class="cart-thumb" alt="image" /></a>
-                          <div class="cart-list-txt">
+                        <li className="single-cart-list">
+                          <a href="#" className="photo"><img src="assets/images/arrivals3.png" className="cart-thumb" alt="image" /></a>
+                          <div className="cart-list-txt">
                             <h6><a href="#">wooden arn <br /> chair</a></h6>
-                            <p>1 x - <span class="price">$180.00</span></p>
+                            <p>1 x - <span className="price">$180.00</span></p>
                           </div>
-                          <div class="cart-close">
-                            <span class="lnr lnr-cross"></span>
+                          <div className="cart-close">
+                            <span className="lnr lnr-cross"></span>
                           </div>
                         </li>
-                        <li class="total">
+                        <li className="total">
                           <span>Total: $0.00</span>
-                          <button class="btn-cart pull-right" onclick="window.location.href='#'">view cart</button>
+                          <button className="btn-cart pull-right" onClick="window.location.href='#'">view cart</button>
                         </li>
                       </ul>
                     </li>
                   </ul>
                 </div>
-                <div class="navbar-header">
-                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
-                    <i class="fa fa-bars"></i>
+                <div className="navbar-header">
+                  <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i className="fa fa-bars"></i>
                   </button>
-                  <a class="navbar-brand" href="#">Jassa.</a>
+                  <a className="navbar-brand" href="#">Jassa.</a>
                 </div>
-                <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
-                  <ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
-                    <li class=" scroll active"><a href="#home">home</a></li>
-                    <li class="scroll"><a href="#new-arrivals">new arrival</a></li>
-                    <li class="scroll"><a href="#feature">features</a></li>
+                <div className="collapse navbar-collapse menu-ui-design" id="navbar-menu">
+                  <ul className="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
+                    <li className=" scroll active"><a href="#home">home</a></li>
+                    <li className="scroll"><a href="#new-arrivals">new arrival</a></li>
+                    <li className="scroll"><a href="#feature">features</a></li>
 
-                    <li class="scroll"><a href="#newsletter">contact</a></li>
-                    <li class="">
-                      {<Link to="/sign-up">
-                        <span>{t("S'inscrire")}</span>
-                      </Link>}
+                    <li className="scroll"><a href="#newsletter">contact</a></li>
+                    <li className="">
+                      {!token &&
+                        <Link to="/sign-up">
+                          <span>{t("S'inscrire")}</span>
+                        </Link>}
                     </li>
-                    <li class="">
-                      {<Link to="/sign-in">
+                    <li className="">
+                      {!token && <Link to="/sign-in">
                         <span>{t("Se connecter")}</span>
                       </Link>}
                     </li>
@@ -256,201 +256,201 @@ function Home() {
             </nav>
 
           </div>
-          <div class="clearfix"></div>
+          <div className="clearfix"></div>
         </div>
 
-        
-        <section id="new-arrivals" class="new-arrivals">
-          <div class="container">
-            <div class="section-header">
+
+        <section id="new-arrivals" className="new-arrivals">
+          <div className="container">
+            <div className="section-header">
               <h2>new arrivals</h2>
             </div>
-            <div class="new-arrivals-content">
-              <div class="row">
-              { products.map((index,value) =><Produit />)}
-                {/* <div class="col-md-3 col-sm-4">
-                  <div class="single-new-arrival">
-                    <div class="single-new-arrival-bg">
+            <div className="new-arrivals-content">
+              <div className="row">
+                {products.map((index, value) => <Produit key={index} />)}
+                {/* <div className="col-md-3 col-sm-4">
+                  <div className="single-new-arrival">
+                    <div className="single-new-arrival-bg">
                       <img src="assets/images/arrivals2.png" alt="new-arrivals images" />
-                      <div class="single-new-arrival-bg-overlay"></div>
-                      <div class="sale bg-2">
+                      <div className="single-new-arrival-bg-overlay"></div>
+                      <div className="sale bg-2">
                         <p>sale</p>
                       </div>
-                      <div class="new-arrival-cart">
+                      <div className="new-arrival-cart">
                         <p>
-                          <span class="lnr lnr-cart"></span>
+                          <span className="lnr lnr-cart"></span>
                           <a href="#">add <span>to </span> cart</a>
                         </p>
-                        <p class="arrival-review pull-right">
-                          <span class="lnr lnr-heart"></span>
-                          <span class="lnr lnr-frame-expand"></span>
+                        <p className="arrival-review pull-right">
+                          <span className="lnr lnr-heart"></span>
+                          <span className="lnr lnr-frame-expand"></span>
                         </p>
                       </div>
                     </div>
                     <h4><a href="#">single armchair</a></h4>
-                    <p class="arrival-product-price">$80.00</p>
+                    <p className="arrival-product-price">$80.00</p>
                   </div>
                 </div>
-                <div class="col-md-3 col-sm-4">
-                  <div class="single-new-arrival">
-                    <div class="single-new-arrival-bg">
+                <div className="col-md-3 col-sm-4">
+                  <div className="single-new-arrival">
+                    <div className="single-new-arrival-bg">
                       <img src="assets/images/arrivals3.png" alt="new-arrivals images" />
-                      <div class="single-new-arrival-bg-overlay"></div>
-                      <div class="new-arrival-cart">
+                      <div className="single-new-arrival-bg-overlay"></div>
+                      <div className="new-arrival-cart">
                         <p>
-                          <span class="lnr lnr-cart"></span>
+                          <span className="lnr lnr-cart"></span>
                           <a href="#">add <span>to </span> cart</a>
                         </p>
-                        <p class="arrival-review pull-right">
-                          <span class="lnr lnr-heart"></span>
-                          <span class="lnr lnr-frame-expand"></span>
+                        <p className="arrival-review pull-right">
+                          <span className="lnr lnr-heart"></span>
+                          <span className="lnr lnr-frame-expand"></span>
                         </p>
                       </div>
                     </div>
                     <h4><a href="#">wooden armchair</a></h4>
-                    <p class="arrival-product-price">$40.00</p>
+                    <p className="arrival-product-price">$40.00</p>
                   </div>
                 </div>
-                <div class="col-md-3 col-sm-4">
-                  <div class="single-new-arrival">
-                    <div class="single-new-arrival-bg">
+                <div className="col-md-3 col-sm-4">
+                  <div className="single-new-arrival">
+                    <div className="single-new-arrival-bg">
                       <img src="assets/images/arrivals4.png" alt="new-arrivals images" />
-                      <div class="single-new-arrival-bg-overlay"></div>
-                      <div class="sale bg-1">
+                      <div className="single-new-arrival-bg-overlay"></div>
+                      <div className="sale bg-1">
                         <p>sale</p>
                       </div>
-                      <div class="new-arrival-cart">
+                      <div className="new-arrival-cart">
                         <p>
-                          <span class="lnr lnr-cart"></span>
+                          <span className="lnr lnr-cart"></span>
                           <a href="#">add <span>to </span> cart</a>
                         </p>
-                        <p class="arrival-review pull-right">
-                          <span class="lnr lnr-heart"></span>
-                          <span class="lnr lnr-frame-expand"></span>
+                        <p className="arrival-review pull-right">
+                          <span className="lnr lnr-heart"></span>
+                          <span className="lnr lnr-frame-expand"></span>
                         </p>
                       </div>
                     </div>
                     <h4><a href="#">stylish chair</a></h4>
-                    <p class="arrival-product-price">$100.00</p>
+                    <p className="arrival-product-price">$100.00</p>
                   </div>
                 </div>
-                <div class="col-md-3 col-sm-4">
-                  <div class="single-new-arrival">
-                    <div class="single-new-arrival-bg">
+                <div className="col-md-3 col-sm-4">
+                  <div className="single-new-arrival">
+                    <div className="single-new-arrival-bg">
                       <img src="assets/images/arrivals5.png" alt="new-arrivals images" />
-                      <div class="single-new-arrival-bg-overlay"></div>
-                      <div class="new-arrival-cart">
+                      <div className="single-new-arrival-bg-overlay"></div>
+                      <div className="new-arrival-cart">
                         <p>
-                          <span class="lnr lnr-cart"></span>
+                          <span className="lnr lnr-cart"></span>
                           <a href="#">add <span>to </span> cart</a>
                         </p>
-                        <p class="arrival-review pull-right">
-                          <span class="lnr lnr-heart"></span>
-                          <span class="lnr lnr-frame-expand"></span>
+                        <p className="arrival-review pull-right">
+                          <span className="lnr lnr-heart"></span>
+                          <span className="lnr lnr-frame-expand"></span>
                         </p>
                       </div>
                     </div>
                     <h4><a href="#">modern chair</a></h4>
-                    <p class="arrival-product-price">$120.00</p>
+                    <p className="arrival-product-price">$120.00</p>
                   </div>
                 </div>
-                <div class="col-md-3 col-sm-4">
-                  <div class="single-new-arrival">
-                    <div class="single-new-arrival-bg">
+                <div className="col-md-3 col-sm-4">
+                  <div className="single-new-arrival">
+                    <div className="single-new-arrival-bg">
                       <img src="assets/images/arrivals6.png" alt="new-arrivals images" />
-                      <div class="single-new-arrival-bg-overlay"></div>
-                      <div class="sale bg-1">
+                      <div className="single-new-arrival-bg-overlay"></div>
+                      <div className="sale bg-1">
                         <p>sale</p>
                       </div>
-                      <div class="new-arrival-cart">
+                      <div className="new-arrival-cart">
                         <p>
-                          <span class="lnr lnr-cart"></span>
+                          <span className="lnr lnr-cart"></span>
                           <a href="#">add <span>to </span> cart</a>
                         </p>
-                        <p class="arrival-review pull-right">
-                          <span class="lnr lnr-heart"></span>
-                          <span class="lnr lnr-frame-expand"></span>
+                        <p className="arrival-review pull-right">
+                          <span className="lnr lnr-heart"></span>
+                          <span className="lnr lnr-frame-expand"></span>
                         </p>
                       </div>
                     </div>
                     <h4><a href="#">mapple wood dinning table</a></h4>
-                    <p class="arrival-product-price">$140.00</p>
+                    <p className="arrival-product-price">$140.00</p>
                   </div>
                 </div>
-                <div class="col-md-3 col-sm-4">
-                  <div class="single-new-arrival">
-                    <div class="single-new-arrival-bg">
+                <div className="col-md-3 col-sm-4">
+                  <div className="single-new-arrival">
+                    <div className="single-new-arrival-bg">
                       <img src="assets/images/arrivals7.png" alt="new-arrivals images" />
-                      <div class="single-new-arrival-bg-overlay"></div>
-                      <div class="sale bg-2">
+                      <div className="single-new-arrival-bg-overlay"></div>
+                      <div className="sale bg-2">
                         <p>sale</p>
                       </div>
-                      <div class="new-arrival-cart">
+                      <div className="new-arrival-cart">
                         <p>
-                          <span class="lnr lnr-cart"></span>
+                          <span className="lnr lnr-cart"></span>
                           <a href="#">add <span>to </span> cart</a>
                         </p>
-                        <p class="arrival-review pull-right">
-                          <span class="lnr lnr-heart"></span>
-                          <span class="lnr lnr-frame-expand"></span>
+                        <p className="arrival-review pull-right">
+                          <span className="lnr lnr-heart"></span>
+                          <span className="lnr lnr-frame-expand"></span>
                         </p>
                       </div>
                     </div>
                     <h4><a href="#">arm chair</a></h4>
-                    <p class="arrival-product-price">$90.00</p>
+                    <p className="arrival-product-price">$90.00</p>
                   </div>
                 </div>
-                <div class="col-md-3 col-sm-4">
-                  <div class="single-new-arrival">
-                    <div class="single-new-arrival-bg">
+                <div className="col-md-3 col-sm-4">
+                  <div className="single-new-arrival">
+                    <div className="single-new-arrival-bg">
                       <img src="assets/images/arrivals8.png" alt="new-arrivals images" />
-                      <div class="single-new-arrival-bg-overlay"></div>
-                      <div class="new-arrival-cart">
+                      <div className="single-new-arrival-bg-overlay"></div>
+                      <div className="new-arrival-cart">
                         <p>
-                          <span class="lnr lnr-cart"></span>
+                          <span className="lnr lnr-cart"></span>
                           <a href="#">add <span>to </span> cart</a>
                         </p>
-                        <p class="arrival-review pull-right">
-                          <span class="lnr lnr-heart"></span>
-                          <span class="lnr lnr-frame-expand"></span>
+                        <p className="arrival-review pull-right">
+                          <span className="lnr lnr-heart"></span>
+                          <span className="lnr lnr-frame-expand"></span>
                         </p>
                       </div>
                     </div>
                     <h4><a href="#">wooden bed</a></h4>
-                    <p class="arrival-product-price">$140.00</p>
+                    <p className="arrival-product-price">$140.00</p>
                   </div>
                 </div>*/}
               </div>
             </div>
-          </div> 
+          </div>
         </section>
 
-        <section id="populer-products" class="populer-products">
-          <div class="container">
-            <div class="populer-products-content">
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="single-populer-products">
-                    <div class="single-populer-product-img mt40">
+        <section id="populer-products" className="populer-products">
+          <div className="container">
+            <div className="populer-products-content">
+              <div className="row">
+                <div className="col-md-3">
+                  <div className="single-populer-products">
+                    <div className="single-populer-product-img mt40">
                       <img src="assets/images/p1.png" alt="populer-products images" />
                     </div>
                     <h2><a href="#">arm chair</a></h2>
-                    <div class="single-populer-products-para">
+                    <div className="single-populer-products-para">
                       <p>Nemo enim ipsam voluptatem quia volu ptas sit asperna aut odit aut fugit.</p>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <div class="single-populer-products">
-                    <div class="single-inner-populer-products">
-                      <div class="row">
-                        <div class="col-md-4 col-sm-12">
-                          <div class="single-inner-populer-product-img">
+                <div className="col-md-6">
+                  <div className="single-populer-products">
+                    <div className="single-inner-populer-products">
+                      <div className="row">
+                        <div className="col-md-4 col-sm-12">
+                          <div className="single-inner-populer-product-img">
                             <img src="assets/images/p2.png" alt="populer-products images" />
                           </div>
                         </div>
-                        <div class="col-md-8 col-sm-12">
-                          <div class="single-inner-populer-product-txt">
+                        <div className="col-md-8 col-sm-12">
+                          <div className="single-inner-populer-product-txt">
                             <h2>
                               <a href="#">
                                 latest designed stool <span>and</span> chair
@@ -459,10 +459,10 @@ function Home() {
                             <p>
                               Edi ut perspiciatis unde omnis iste natusina error sit voluptatem accusantium doloret mque laudantium, totam rem aperiam.
                             </p>
-                            <div class="populer-products-price">
+                            <div className="populer-products-price">
                               <h4>Sales Start from <span>$99.00</span></h4>
                             </div>
-                            <button class="btn-cart welcome-add-cart populer-products-btn" onclick="window.location.href='#'">
+                            <button className="btn-cart welcome-add-cart populer-products-btn" onClick="window.location.href='#'">
                               discover more
                             </button>
                           </div>
@@ -471,14 +471,14 @@ function Home() {
                     </div>
                   </div>
                 </div>
-                <div class="col-md-3">
-                  <div class="single-populer-products">
-                    <div class="single-populer-products">
-                      <div class="single-populer-product-img">
+                <div className="col-md-3">
+                  <div className="single-populer-products">
+                    <div className="single-populer-products">
+                      <div className="single-populer-product-img">
                         <img src="assets/images/p3.png" alt="populer-products images" />
                       </div>
                       <h2><a href="#">hanging lamp</a></h2>
-                      <div class="single-populer-products-para">
+                      <div className="single-populer-products-para">
                         <p>Nemo enim ipsam voluptatem quia volu ptas sit asperna aut odit aut fugit.</p>
                       </div>
                     </div>
@@ -491,34 +491,34 @@ function Home() {
 
 
         <section id="sofa-collection">
-          <div class="owl-carousel owl-theme" id="collection-carousel">
-            <div class="sofa-collection collectionbg1">
-              <div class="container">
-                <div class="sofa-collection-txt">
+          <div className="owl-carousel owl-theme" id="collection-carousel">
+            <div className="sofa-collection collectionbg1">
+              <div className="container">
+                <div className="sofa-collection-txt">
                   <h2>unlimited sofa collection</h2>
                   <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                   </p>
-                  <div class="sofa-collection-price">
+                  <div className="sofa-collection-price">
                     <h4>strting from <span>$ 199</span></h4>
                   </div>
-                  <button class="btn-cart welcome-add-cart sofa-collection-btn" onclick="window.location.href='#'">
+                  <button className="btn-cart welcome-add-cart sofa-collection-btn" onClick="window.location.href='#'">
                     view more
                   </button>
                 </div>
               </div>
             </div>
-            <div class="sofa-collection collectionbg2">
-              <div class="container">
-                <div class="sofa-collection-txt">
+            <div className="sofa-collection collectionbg2">
+              <div className="container">
+                <div className="sofa-collection-txt">
                   <h2>unlimited dainning table collection</h2>
                   <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                   </p>
-                  <div class="sofa-collection-price">
+                  <div className="sofa-collection-price">
                     <h4>strting from <span>$ 299</span></h4>
                   </div>
-                  <button class="btn-cart welcome-add-cart sofa-collection-btn" onclick="window.location.href='#'">
+                  <button className="btn-cart welcome-add-cart sofa-collection-btn" onClick="window.location.href='#'">
                     view more
                   </button>
                 </div>
@@ -526,75 +526,75 @@ function Home() {
             </div>
           </div>
         </section>
-        <section id="feature" class="feature">
-          <div class="container">
-            <div class="section-header">
+        <section id="feature" className="feature">
+          <div className="container">
+            <div className="section-header">
               <h2>featured products</h2>
             </div>
-            <div class="feature-content">
-              <div class="row">
-                <div class="col-sm-3">
-                  <div class="single-feature">
+            <div className="feature-content">
+              <div className="row">
+                <div className="col-sm-3">
+                  <div className="single-feature">
                     <img src="assets/images/f1.jpg" alt="feature image" />
-                    <div class="single-feature-txt text-center">
+                    <div className="single-feature-txt text-center">
                       <p>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <span class="spacial-feature-icon"><i class="fa fa-star"></i></span>
-                        <span class="feature-review">(45 review)</span>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <span className="spacial-feature-icon"><i className="fa fa-star"></i></span>
+                        <span className="feature-review">(45 review)</span>
                       </p>
                       <h3><a href="#">designed sofa</a></h3>
                       <h5>$160.00</h5>
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-3">
-                  <div class="single-feature">
+                <div className="col-sm-3">
+                  <div className="single-feature">
                     <img src="assets/images/f2.jpg" alt="feature image" />
-                    <div class="single-feature-txt text-center">
+                    <div className="single-feature-txt text-center">
                       <p>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <span class="spacial-feature-icon"><i class="fa fa-star"></i></span>
-                        <span class="feature-review">(45 review)</span>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <span className="spacial-feature-icon"><i className="fa fa-star"></i></span>
+                        <span className="feature-review">(45 review)</span>
                       </p>
                       <h3><a href="#">dinning table </a></h3>
                       <h5>$200.00</h5>
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-3">
-                  <div class="single-feature">
+                <div className="col-sm-3">
+                  <div className="single-feature">
                     <img src="assets/images/f3.jpg" alt="feature image" />
-                    <div class="single-feature-txt text-center">
+                    <div className="single-feature-txt text-center">
                       <p>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <span class="spacial-feature-icon"><i class="fa fa-star"></i></span>
-                        <span class="feature-review">(45 review)</span>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <span className="spacial-feature-icon"><i className="fa fa-star"></i></span>
+                        <span className="feature-review">(45 review)</span>
                       </p>
                       <h3><a href="#">chair and table</a></h3>
                       <h5>$100.00</h5>
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-3">
-                  <div class="single-feature">
+                <div className="col-sm-3">
+                  <div className="single-feature">
                     <img src="assets/images/f4.jpg" alt="feature image" />
-                    <div class="single-feature-txt text-center">
+                    <div className="single-feature-txt text-center">
                       <p>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <span class="spacial-feature-icon"><i class="fa fa-star"></i></span>
-                        <span class="feature-review">(45 review)</span>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <span className="spacial-feature-icon"><i className="fa fa-star"></i></span>
+                        <span className="feature-review">(45 review)</span>
                       </p>
                       <h3><a href="#">modern arm chair</a></h3>
                       <h5>$299.00</h5>
@@ -606,20 +606,20 @@ function Home() {
           </div>
         </section>
 
-        <section id="blog" class="blog">
-          <div class="container">
-            <div class="section-header">
+        <section id="blog" className="blog">
+          <div className="container">
+            <div className="section-header">
               <h2>latest blog</h2>
             </div>
-            <div class="blog-content">
-              <div class="row">
-                <div class="col-sm-4">
-                  <div class="single-blog">
-                    <div class="single-blog-img">
+            <div className="blog-content">
+              <div className="row">
+                <div className="col-sm-4">
+                  <div className="single-blog">
+                    <div className="single-blog-img">
                       <img src="assets/images/b1.jpg" alt="blog image" />
-                      <div class="single-blog-img-overlay"></div>
+                      <div className="single-blog-img-overlay"></div>
                     </div>
-                    <div class="single-blog-txt">
+                    <div className="single-blog-txt">
                       <h2><a href="#">Why Brands are Looking at Local Language</a></h2>
                       <h3>By <a href="#">Robert Norby</a> / 18th March 2018</h3>
                       <p>
@@ -629,13 +629,13 @@ function Home() {
                   </div>
 
                 </div>
-                <div class="col-sm-4">
-                  <div class="single-blog">
-                    <div class="single-blog-img">
+                <div className="col-sm-4">
+                  <div className="single-blog">
+                    <div className="single-blog-img">
                       <img src="assets/images/b2.jpg" alt="blog image" />
-                      <div class="single-blog-img-overlay"></div>
+                      <div className="single-blog-img-overlay"></div>
                     </div>
-                    <div class="single-blog-txt">
+                    <div className="single-blog-txt">
                       <h2><a href="#">Why Brands are Looking at Local Language</a></h2>
                       <h3>By <a href="#">Robert Norby</a> / 18th March 2018</h3>
                       <p>
@@ -644,13 +644,13 @@ function Home() {
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-4">
-                  <div class="single-blog">
-                    <div class="single-blog-img">
+                <div className="col-sm-4">
+                  <div className="single-blog">
+                    <div className="single-blog-img">
                       <img src="assets/images/b3.jpg" alt="blog image" />
-                      <div class="single-blog-img-overlay"></div>
+                      <div className="single-blog-img-overlay"></div>
                     </div>
-                    <div class="single-blog-txt">
+                    <div className="single-blog-txt">
                       <h2><a href="#">Why Brands are Looking at Local Language</a></h2>
                       <h3>By <a href="#">Robert Norby</a> / 18th March 2018</h3>
                       <p>
@@ -665,30 +665,30 @@ function Home() {
 
         </section>
 
-        <section id="clients" class="clients">
-          <div class="container">
-            <div class="owl-carousel owl-theme" id="client">
-              <div class="item">
+        <section id="clients" className="clients">
+          <div className="container">
+            <div className="owl-carousel owl-theme" id="client">
+              <div className="item">
                 <a href="#">
                   <img src="assets/images/c1.png" alt="brand-image" />
                 </a>
               </div>
-              <div class="item">
+              <div className="item">
                 <a href="#">
                   <img src="assets/images/c2.png" alt="brand-image" />
                 </a>
               </div>
-              <div class="item">
+              <div className="item">
                 <a href="#">
                   <img src="assets/images/c3.png" alt="brand-image" />
                 </a>
               </div>
-              <div class="item">
+              <div className="item">
                 <a href="#">
                   <img src="assets/images/c4.png" alt="brand-image" />
                 </a>
               </div>
-              <div class="item">
+              <div className="item">
                 <a href="#">
                   <img src="assets/images/c5.png" alt="brand-image" />
                 </a>
@@ -696,16 +696,16 @@ function Home() {
             </div>
           </div>
         </section>
-        <section id="newsletter" class="newsletter">
-          <div class="container">
-            <div class="hm-footer-details">
-              <div class="row">
-                <div class=" col-md-3 col-sm-6 col-xs-12">
-                  <div class="hm-footer-widget">
-                    <div class="hm-foot-title">
+        <section id="newsletter" className="newsletter">
+          <div className="container">
+            <div className="hm-footer-details">
+              <div className="row">
+                <div className=" col-md-3 col-sm-6 col-xs-12">
+                  <div className="hm-footer-widget">
+                    <div className="hm-foot-title">
                       <h4>information</h4>
                     </div>
-                    <div class="hm-foot-menu">
+                    <div className="hm-foot-menu">
                       <ul>
                         <li><a href="#">about us</a></li>
                         <li><a href="#">contact us</a></li>
@@ -715,12 +715,12 @@ function Home() {
                     </div>
                   </div>
                 </div>
-                <div class=" col-md-3 col-sm-6 col-xs-12">
-                  <div class="hm-footer-widget">
-                    <div class="hm-foot-title">
+                <div className=" col-md-3 col-sm-6 col-xs-12">
+                  <div className="hm-footer-widget">
+                    <div className="hm-foot-title">
                       <h4>collections</h4>
                     </div>
-                    <div class="hm-foot-menu">
+                    <div className="hm-foot-menu">
                       <ul>
                         <li><a href="#">wooden chair</a></li>
                         <li><a href="#">royal cloth sofa</a></li>
@@ -731,12 +731,12 @@ function Home() {
                     </div>
                   </div>
                 </div>
-                <div class=" col-md-3 col-sm-6 col-xs-12">
-                  <div class="hm-footer-widget">
-                    <div class="hm-foot-title">
+                <div className=" col-md-3 col-sm-6 col-xs-12">
+                  <div className="hm-footer-widget">
+                    <div className="hm-foot-title">
                       <h4>my accounts</h4>
                     </div>
-                    <div class="hm-foot-menu">
+                    <div className="hm-foot-menu">
                       <ul>
                         <li><a href="#">my account</a></li>
                         <li><a href="#">wishlist</a></li>
@@ -747,22 +747,22 @@ function Home() {
                     </div>
                   </div>
                 </div>
-                <div class=" col-md-3 col-sm-6  col-xs-12">
-                  <div class="hm-footer-widget">
-                    <div class="hm-foot-title">
+                <div className=" col-md-3 col-sm-6  col-xs-12">
+                  <div className="hm-footer-widget">
+                    <div className="hm-foot-title">
                       <h4>newsletter</h4>
                     </div>
-                    <div class="hm-foot-para">
+                    <div className="hm-foot-para">
                       <p>
                         Subscribe  to get latest news,update and information.
                       </p>
                     </div>
-                    <div class="hm-foot-email">
-                      <div class="foot-email-box">
-                        <input type="text" class="form-control" placeholder="Enter Email Here...." />
+                    <div className="hm-foot-email">
+                      <div className="foot-email-box">
+                        <input type="text" className="form-control" placeholder="Enter Email Here...." />
                       </div>
-                      <div class="foot-email-subscribe">
-                        <span><i class="fa fa-location-arrow"></i></span>
+                      <div className="foot-email-subscribe">
+                        <span><i className="fa fa-location-arrow"></i></span>
                       </div>
                     </div>
                   </div>
@@ -771,15 +771,15 @@ function Home() {
             </div>
           </div>
         </section>
-        <footer id="footer" class="footer">
-          <div class="container">
-            <div class="hm-footer-copyright text-center">
-              <div class="footer-social">
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-instagram"></i></a>
-                <a href="#"><i class="fa fa-linkedin"></i></a>
-                <a href="#"><i class="fa fa-pinterest"></i></a>
-                <a href="#"><i class="fa fa-behance"></i></a>
+        <footer id="footer" className="footer">
+          <div className="container">
+            <div className="hm-footer-copyright text-center">
+              <div className="footer-social">
+                <a href="#"><i className="fa fa-facebook"></i></a>
+                <a href="#"><i className="fa fa-instagram"></i></a>
+                <a href="#"><i className="fa fa-linkedin"></i></a>
+                <a href="#"><i className="fa fa-pinterest"></i></a>
+                <a href="#"><i className="fa fa-behance"></i></a>
               </div>
               <p>
                 &copy;copyright. designed and developed by <a href="https://www.therichpost.com/">Jassa</a>
@@ -787,8 +787,8 @@ function Home() {
             </div>
           </div>
           <div id="scroll-Top">
-            <div class="return-to-top">
-              <i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+            <div className="return-to-top">
+              <i className="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
             </div>
 
           </div>
@@ -797,7 +797,7 @@ function Home() {
 
 
       </header>
-      </div>);
+    </div>);
 
 
 }

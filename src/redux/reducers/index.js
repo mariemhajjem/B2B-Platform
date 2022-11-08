@@ -1,8 +1,12 @@
 import auth from "./auth";
 import users from "./users";
+import produits from "./produits";
+import error from "./error";
 
-const rootReducer = () => ({
+
+export default () => ({
     auth,
-    users
-})
-export default rootReducer;
+    users,
+    error,
+    produits,
+});
