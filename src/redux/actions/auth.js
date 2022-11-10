@@ -6,6 +6,7 @@ export const login = (user) => async (dispatch) => {
 
   try {
     const loggedUser = await api.login(user);
+    console.log("loggedUser from action:",loggedUser)
     dispatch(loginSuccess({
        loggedUser
     }));

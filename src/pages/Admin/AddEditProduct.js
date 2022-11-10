@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Modal,
   Form,
@@ -6,16 +6,18 @@ import {
   Input,
   Cascader,
   Button,
-  Upload
+  Upload,
+  Divider, Space,
 } from "antd";
 import { PlusOutlined } from '@ant-design/icons';
-import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux"; 
+
 
 import { createProduit, updateProduit } from "../../redux/reducers/produits";
 
 const { TextArea } = Input;
 const { Option } = Select;
-
+let index = 0;
 export default function ({ id, title, formData, visible, setIsAddVisible }) {
   const dispatch = useDispatch();
 
@@ -23,15 +25,17 @@ export default function ({ id, title, formData, visible, setIsAddVisible }) {
     product_description,
     product_price,
     product_picture,
-    product_date }) => {  
+    product_date,
+    product_category }) => {
     let updatedProduit = {
       product_label,
       product_description,
       product_price: Number(product_price),
-      product_picture,
+      product_picture: product_picture?.fileList,
       product_date,
+      product_category
     }
-    
+
     try {
       if (!id) {
         console.log(updatedProduit);
@@ -60,33 +64,6 @@ export default function ({ id, title, formData, visible, setIsAddVisible }) {
     </Form.Item>
   );
 
-  const residences = [
-    {
-      value: 'tunis',
-      label: 'tunis',
-      children: [
-        {
-          value: 'babsouika',
-          label: 'bab souika',
-        },
-        {
-          value: 'hayelkhadhra',
-          label: 'hay el khadhra',
-        },
-      ],
-    },
-    {
-      value: 'ariana',
-      label: 'Ariana',
-      children: [
-        {
-          value: 'soukra',
-          label: 'Soukra',
-        },
-      ],
-    },
-  ];
-
   const getBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -108,7 +85,7 @@ export default function ({ id, title, formData, visible, setIsAddVisible }) {
     setPreviewOpen(true);
     setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
   };
-  const handleChange = ({ fileList: newFileList }) =>{ setFileList(newFileList); console.log(fileList)};
+  const handleChange = ({ fileList: newFileList }) => { setFileList(newFileList); console.log(fileList) };
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -121,6 +98,21 @@ export default function ({ id, title, formData, visible, setIsAddVisible }) {
       </div>
     </div>
   );
+
+  const [items, setItems] = useState(['jack', 'lucy']);
+  const [name, setName] = useState('');
+  const inputRef = useRef(null);
+  const onNameChange = (event) => {
+    setName(event.target.value);
+  };
+  const addItem = (e) => {
+    e.preventDefault();
+    setItems([...items, name || `New item ${index++}`]);
+    setName('');
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
+  };
   return (
     <Modal
       title={title}
@@ -147,18 +139,34 @@ export default function ({ id, title, formData, visible, setIsAddVisible }) {
           <Input />
         </Form.Item>
 
-
         <Form.Item
           name="product_category"
-          label="Catégorie du produit"
-          rules={[
-            {
-              type: 'array',
-            },
-          ]}
+          label="Catégorie produit"
         >
-          <Cascader options={residences} />
+          <Select
+            style={{ width: 300 }}
+            placeholder="custom dropdown render"
+            dropdownRender={menu => (
+              <>
+                {menu}
+                <Divider style={{ margin: '8px 0' }} />
+                <Space style={{ padding: '0 8px 4px' }}>
+                  <Input
+                    placeholder="categorie"
+                    ref={inputRef}
+                    value={name}
+                    onChange={onNameChange}
+                  />
+                  <Button type="text" icon={<PlusOutlined />} onClick={addItem}>
+                    Ajouter categorie
+                  </Button>
+                </Space>
+              </>
+            )}
+            options={items.map(item => ({ label: item, value: item }))}
+          />
         </Form.Item>
+
 
         <Form.Item
           name="product_price"
@@ -193,7 +201,7 @@ export default function ({ id, title, formData, visible, setIsAddVisible }) {
           name="product_picture"
           label="product_picture"
         >
-          <Upload 
+          <Upload
             listType="picture-card"
             fileList={fileList}
             onPreview={handlePreview}

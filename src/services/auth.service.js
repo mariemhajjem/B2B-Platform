@@ -8,7 +8,7 @@ export const register = async (user) => {
   try {
     const result = await Axios.post(baseUrl + "/register", user);
     if (result.data) localStorage.setItem("token", result.data);
-    console.log("auth service register function: ",result.data)
+    console.log("auth service register function: ",result)
     const loggedUser = jwt_decode(result.data);
     return loggedUser.user;
   } catch (error) {
@@ -21,7 +21,7 @@ export const login = async (user) => {
   try {
     const result = await Axios.post(baseUrl + "/login", user);
     localStorage.setItem("token", result.data); 
-    
+    console.log(result)
     const loggedUser = jwt_decode(result.data);
     console.log("auth service login function: ",loggedUser.user)
     return  loggedUser.user

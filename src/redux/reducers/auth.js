@@ -5,8 +5,9 @@ const loggedUser = localStorage.getItem("token")
     ? jwt_decode(localStorage.getItem("token"))
     : null;
 const user = loggedUser?.user
+
 const initialState = {
-    loggedUser: user || null,
+    loggedUser: loggedUser?.user || null,
 }
 // Slice
 const slice = createSlice({
@@ -16,7 +17,7 @@ const slice = createSlice({
         register: (state, action) => {
             state.loggedUser = action.payload;
         },
-        loginSuccess: (state, action) => {
+        loginSuccess: (state, action) => { 
             state.loggedUser = action.payload;
         },
         loginFail: (state, action) => {
