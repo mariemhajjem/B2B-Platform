@@ -8,7 +8,7 @@ import {
 	Form,
 	Input,
 } from "antd";
-import { login } from "../../redux/actions/auth";
+import { login } from "../../redux/reducers/auth";
 import { useDispatch } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import PersonalInfo from './PersonalInfo';

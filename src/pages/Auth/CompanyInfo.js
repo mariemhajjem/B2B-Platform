@@ -9,7 +9,7 @@ import {
 } from 'antd';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { register } from "../../redux/actions/auth"
+import { register } from "../../redux/reducers/auth"
 import "./Signup.css";
 import residences from '../../constants/residences';
 import { CLEAR_ERRORS } from '../../redux/reducers/error';

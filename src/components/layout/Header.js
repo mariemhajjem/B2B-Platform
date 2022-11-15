@@ -26,7 +26,7 @@ import { NavLink, Link } from "react-router-dom";
 import styled from "styled-components";
 import avtar from "../../assets/images/team-2.jpg";
 import { useDispatch } from "react-redux";
-import { logout } from "../../redux/actions/auth";
+import { logout } from "../../redux/reducers/auth";
 
 const ButtonContainer = styled.div`
   .ant-btn-primary {

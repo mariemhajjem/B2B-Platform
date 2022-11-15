@@ -1,31 +1,12 @@
-import Axios from "axios";
-import jwt_decode from "jwt-decode";
+import Axios from "axios"; 
 
 
-let baseUrl = "http://localhost:5000/api/auth";
+const baseUrl = "http://localhost:5000/api/auth";
 
 export const register = async (user) => {
-  try {
-    const result = await Axios.post(baseUrl + "/register", user);
-    if (result.data) localStorage.setItem("token", result.data);
-    console.log("auth service register function: ",result)
-    const loggedUser = jwt_decode(result.data);
-    return loggedUser.user;
-  } catch (error) {
-    console.log(error)
-    console.log(error.response?.data)
-  }
+  return await Axios.post(baseUrl + "/register", user); 
 }; 
 
 export const login = async (user) => {
-  try {
-    const result = await Axios.post(baseUrl + "/login", user);
-    localStorage.setItem("token", result.data); 
-    console.log(result)
-    const loggedUser = jwt_decode(result.data);
-    console.log("auth service login function: ",loggedUser.user)
-    return  loggedUser.user
-  } catch (error) {
-    console.log(error.response?.data)
-  }
+  return await Axios.post(baseUrl + "/login", user); 
 };

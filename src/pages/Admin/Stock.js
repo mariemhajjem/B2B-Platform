@@ -5,19 +5,17 @@ import {
   Radio,
   Table,
   Button,
-  Avatar,
   Typography,
   Divider,
   notification,
 } from "antd";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-// Images
-import face2 from "../../assets/images/face-2.jpg";
-import { getAllProduits } from "../../redux/reducers/produits";
+// Images 
+import { deleteProduit, getAllProduits } from "../../redux/reducers/produits";
 import { CLEAR_ERRORS } from "../../redux/reducers/error";
 import AddEditProduct from "./AddEditProduct";
+import { getAllCategories } from "../../redux/reducers/categories";
 
 const { Title } = Typography;
 
@@ -55,6 +53,11 @@ const columns = [
     key: "update",
     dataIndex: "update",
   },
+  {
+    title: "Supprimer",
+    key: "delete",
+    dataIndex: "delete",
+  },
 ];
 
 
@@ -65,80 +68,44 @@ function Stock() {
   const [err, setError] = useState("");
   const [code, setCode] = useState("");
   const token = useSelector((state) => state.auth.loggedUser);
-  const { allProduits } = useSelector((state) => state.produits);
+  const { allProduits } = useSelector((state) => state.produits); 
   const userId = token?.user?._id;
   const dispatch = useDispatch();
   const [product, setProduct] = useState({
     product_label: '',
     product_description: '',
-    product_price: '',
+    product_price: 0,
     product_picture: '',
+    product_quantity: 0,
     product_date: '',
+    product_category: ''
   });
 
-  const handleUpdate = (id) => {
+  const handleUpdate = (prod) => {
     // 👇️ toggle visibility 
-    setId(id)
+    setProduct({ ...prod, product_picture: "", product_category: prod.category_id?.category_name })
+    console.log({ ...prod, product_picture: "", product_category: prod.category_id?.category_name })
     setIsUpdateVisible(current => !current);
   };
-  const data = allProduits?.map((prod, index) => ({
-    key: index,
-    name: (
-      <>
-        <div className="avatar-info">
-          <Title level={5}>{prod?.product_label}</Title>
-        </div>
-      </>
-    ),
-    category: (
-      <>
-        <div className="avatar-info">
-          <Title level={5}>{prod?.product_label}</Title>
-        </div>
-      </>
-    ),
-    description: (
-      <>
-        <div className="author-info">
-          <Title level={5}>{prod?.product_description}</Title>
-          <p>{prod?.product_description}</p>
-        </div>
-      </>
-    ),
-    quantity : (
-      <>
-        <div className="author-info">
-          <Title level={5}>{prod?.product_price}</Title> 
-        </div>
-      </>
-    ),
-    prix: (
-      <>
-        <div className="author-info">
-          <Title level={5}>{prod?.product_price}</Title> 
-        </div>
-      </>
-    ),
-    update: (
-      <>
-        <Button type="primary" className="tag-primary" onClick={() => handleUpdate(prod?._id)}>
-          modifier
-        </Button>
-      </>
-    ),
-  }));
+
+  const handleDelete = (id) => {
+    console.log("Stock:", id);
+    dispatch(deleteProduit(id))
+  }
+
   const error = useSelector((state) => state.error);
 
   useEffect(() => {
     /* if (userId) {
       dispatch(getToursByUser(userId));
     } */
-    console.log(allProduits)
-    dispatch(getAllProduits());
+    dispatch(getAllCategories())
+    dispatch(getAllProduits()); 
     if (error.message) {
       setError(error.message);
       setCode(error.code);
     }
+    setId(userId)
   }, [error, userId]);
 
   const excerpt = (str) => {
@@ -156,11 +123,60 @@ function Stock() {
     });
   };
   const handleClick = event => {
-    // 👇️ toggle visibility 
+    // 👇️ toggle visibility  
     setIsAddVisible(current => !current);
   };
 
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
+  const data = allProduits?.map((prod, index) => ({
+    key: index,
+    name: (
+      <>
+        <div className="avatar-info">
+          <Title level={5}>{prod?.product_label}</Title>
+        </div>
+      </>
+    ),
+    category: (
+      <>
+        <div className="avatar-info">
+          <Title level={5}>{prod?.category_id?.category_name || prod?.category_id }</Title>
+        </div>
+      </>
+    ),
+    description: (
+      <>
+        <div className="author-info">
+          <Title level={5}>{prod?.product_description}</Title>
+          <p>{prod?.product_description}</p>
+        </div>
+      </>
+    ),
+    quantity: (
+      <>
+        <div className="author-info">
+          <Title level={5}>{prod?.product_quantity}</Title>
+        </div>
+      </>
+    ),
+    prix: (
+      <>
+        <div className="author-info">
+          <Title level={5}>{prod?.product_price}</Title>
+        </div>
+      </>
+    ),
+    update: (
+      <>
+        <Button type="primary" className="tag-primary" onClick={() => handleUpdate(prod)}>
+          modifier
+        </Button>
+      </>
+    ),
+    delete: (<Button type="primary" danger className="tag-primary" onClick={() => handleDelete(prod._id)}>
+      supprimer
+    </Button>)
+  }));
 
   return (
     <>
@@ -173,7 +189,7 @@ function Stock() {
             >
               Ajouter produit
             </Button>
-            {isAddVisible && <AddEditProduct title="Ajouter produit" visible={isAddVisible} setIsAddVisible={handleClick} formData={product} />}
+            {isAddVisible && <AddEditProduct title="Ajouter produit" visible={isAddVisible} setIsAddVisible={handleClick} formData={null} id={id} />}
             {err && popUp("error")}
 
             {isUpdateVisible && <AddEditProduct title="Modifier produit" visible={isUpdateVisible} setIsAddVisible={handleUpdate} formData={product} id={id} />}

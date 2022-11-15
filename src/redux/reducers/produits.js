@@ -55,7 +55,7 @@ const produitSlice = createSlice({
       },
       [getAllProduits.rejected]: (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message;
+        state.error = action.payload;
       },
       [getProduitsByUser.pending]: (state, action) => {
         state.loading = true;
@@ -66,7 +66,7 @@ const produitSlice = createSlice({
       },
       [getProduitsByUser.rejected]: (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message;
+        state.error = action.payload;
       },
   
       [updateProduit.pending]: (state, action) => {
@@ -74,15 +74,13 @@ const produitSlice = createSlice({
       },
       [updateProduit.fulfilled]: (state, action) => {
         state.loading = false;
-        const {
-          arg: { id },
-        } = action.meta;
-        if (id) {
+        const { _id } = action.payload;
+        if (_id) {
           state.userProduits = state.userProduits.map((item) =>
-            item._id === id ? action.payload : item
+            item._id === _id ? action.payload : item
           );
           state.allProduits = state.allProduits.map((item) =>
-            item._id === id ? action.payload : item
+            item._id === _id ? {...action.payload,category_id : action.payload.category_id?.category_name,category_obj : action.payload.category_id} : item
           );
         }
       },
@@ -96,12 +94,10 @@ const produitSlice = createSlice({
       },
       [deleteProduit.fulfilled]: (state, action) => {
         state.loading = false;
-        const {
-          arg: { id },
-        } = action.meta;
-        if (id) {
-          state.userProduits = state.userProduits.filter((item) => item._id !== id);
-          state.produits = state.produits.filter((item) => item._id !== id);
+        const { _id } = action.payload;
+        if (_id) {
+          state.userProduits = state.userProduits.filter((item) => item._id !== _id);
+          state.allProduits = state.allProduits.filter((item) => item._id !== _id);
         }
       },
       [deleteProduit.rejected]: (state, action) => {

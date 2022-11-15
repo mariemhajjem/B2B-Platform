@@ -1,56 +1,55 @@
-import { isRejectedWithValue } from "@reduxjs/toolkit";
 import * as api from "../../services/produit.service";
 
-export const getAllProduitsThunk = async () => {
+export const getAllProduitsThunk = async (thunkAPI) => {
 
   try {
     const response = await api.getAllProduits();
+
     console.log(response)
-    return response;
+    return response.data;
   } catch (err) {
-    return isRejectedWithValue(err.response.data);
+    console.log(err?.message)
+    return thunkAPI.rejectWithValue(err?.response?.data || err?.message || err);
   }
 };
 
-export const createProduitThunk = async (updatedProduitData,{RejectWithValue}) => {
+export const createProduitThunk = async (updatedProduitData,thunkAPI) => {
     try {
       console.log(updatedProduitData);
       const response = await api.createNewProduit(updatedProduitData);
       // toast.success("Added Successfully"); 
-      return response;
+      return response.data;
     } catch (err) {
-      return RejectWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err?.response?.data || err);
     }
 };
 
 
-export const getProduitsByUserThunk = async (userId) => {
+export const getProduitsByUserThunk = async (userId,thunkAPI) => {
     try {
       const response = await api.getProduit(`/tour/userProduits/${userId}`);
-      return response;
+      return response.data;
     } catch (err) {
-      return isRejectedWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err?.response?.data || err);
     }
   };
 
 
-export const updateProduitThunk = async ({ id, updatedProduitData, toast, navigate }) => {
+export const updateProduitThunk = async (updatedProduitData,thunkAPI) => {
     try {
-      const response = await api.updateProduit(updatedProduitData);
-      toast.success("Produit Updated Successfully");
-      navigate("/dashboard");
-      return response;
+      const response = await api.updateProduit(updatedProduitData); 
+      console.log(response.data)
+      return response.data;
     } catch (err) {
-      return isRejectedWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err?.response?.data || err);
     }
   };
 
-export const deleteProduitThunk = async ({ id, toast }) => {
+export const deleteProduitThunk = async (id,thunkAPI) => {
     try {
-      const response = await api.deleteProduit(id);
-      toast.success("Produit Deleted Successfully");
-      return response;
+      const response = await api.deleteProduit(id); 
+      return response.data;
     } catch (err) {
-      return isRejectedWithValue(err.response.data);
+      return thunkAPI.rejectWithValue(err?.response?.data || err);
     }
 };

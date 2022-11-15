@@ -1,20 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import i18n from "../../locales/i18n";
 import Produit from "./Produit";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProduits } from "../../redux/reducers/produits";
 
 function Home() {
+  const { allProduits } = useSelector((state) => state.produits); 
   const token = useSelector((state) => state.auth.loggedUser)
   const { t } = useTranslation();
-
+  const dispatch = useDispatch();
   const changeLanguage = (ln) => {
     return () => {
       i18n.changeLanguage(ln);
     };
   };
-  const products = ["first", "sec", "third", "forth", "forth"]
+  useEffect(() => { 
+    dispatch(getAllProduits());  
+  }, []);
   return (
     <div className="App">
       <header id="home" className="welcome-hero">
@@ -46,11 +50,11 @@ function Home() {
                                 <del>$ 499.00</del>
                               </p>
                             </div>
-                            <button className="btn-cart welcome-add-cart" onClick="window.location.href='#'">
+                            <button className="btn-cart welcome-add-cart" onClick={window.location.href='#'}>
                               <span className="lnr lnr-plus-circle"></span>
                               <span>Commander</span>
                             </button>
-                            <button className="btn-cart welcome-add-cart welcome-more-info" onClick="window.location.href='#'">
+                            <button className="btn-cart welcome-add-cart welcome-more-info" onClick={window.location.href='#'}>
                               plus d'info
                             </button>
                           </div>
@@ -87,11 +91,11 @@ function Home() {
                                 <del>$ 299.00</del>
                               </p>
                             </div>
-                            <button className="btn-cart welcome-add-cart" onClick="window.location.href='#'">
+                            <button className="btn-cart welcome-add-cart" onClick={window.location.href='#'}>
                               <span className="lnr lnr-plus-circle"></span>
                               <span>Commander</span>
                             </button>
-                            <button className="btn-cart welcome-add-cart welcome-more-info" onClick="window.location.href='#'">
+                            <button className="btn-cart welcome-add-cart welcome-more-info" onClick={window.location.href='#'}>
                               more info
                             </button>
                           </div>
@@ -128,11 +132,11 @@ function Home() {
                                 <del>$ 399.00</del>
                               </p>
                             </div>
-                            <button className="btn-cart welcome-add-cart" onClick="window.location.href='#'">
+                            <button className="btn-cart welcome-add-cart" onClick={window.location.href='#'}>
                               <span className="lnr lnr-plus-circle"></span>
                               <span>Commander</span>
                             </button>
-                            <button className="btn-cart welcome-add-cart welcome-more-info" onClick="window.location.href='#'">
+                            <button className="btn-cart welcome-add-cart welcome-more-info" onClick={window.location.href='#'}>
                               more info
                             </button>
                           </div>
@@ -220,7 +224,7 @@ function Home() {
                         </li>
                         <li className="total">
                           <span>Total: $0.00</span>
-                          <button className="btn-cart pull-right" onClick="window.location.href='#'">view cart</button>
+                          <button className="btn-cart pull-right" onClick={window.location.href='#'}>view cart</button>
                         </li>
                       </ul>
                     </li>
@@ -267,7 +271,7 @@ function Home() {
             </div>
             <div className="new-arrivals-content">
               <div className="row">
-                {products.map((index, value) => <Produit key={index} />)}
+                {allProduits?.map((value, index) => <Produit key={index} produit={value} />)}
                 {/* <div className="col-md-3 col-sm-4">
                   <div className="single-new-arrival">
                     <div className="single-new-arrival-bg">
@@ -462,7 +466,7 @@ function Home() {
                             <div className="populer-products-price">
                               <h4>Sales Start from <span>$99.00</span></h4>
                             </div>
-                            <button className="btn-cart welcome-add-cart populer-products-btn" onClick="window.location.href='#'">
+                            <button className="btn-cart welcome-add-cart populer-products-btn" onClick={window.location.href='#'}>
                               discover more
                             </button>
                           </div>
@@ -502,7 +506,7 @@ function Home() {
                   <div className="sofa-collection-price">
                     <h4>strting from <span>$ 199</span></h4>
                   </div>
-                  <button className="btn-cart welcome-add-cart sofa-collection-btn" onClick="window.location.href='#'">
+                  <button className="btn-cart welcome-add-cart sofa-collection-btn" onClick={window.location.href='#'}>
                     view more
                   </button>
                 </div>
@@ -518,7 +522,7 @@ function Home() {
                   <div className="sofa-collection-price">
                     <h4>strting from <span>$ 299</span></h4>
                   </div>
-                  <button className="btn-cart welcome-add-cart sofa-collection-btn" onClick="window.location.href='#'">
+                  <button className="btn-cart welcome-add-cart sofa-collection-btn" onClick={window.location.href='#'}>
                     view more
                   </button>
                 </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { login } from "../../redux/actions/auth";
+import { login } from "../../redux/reducers/auth";
 import { useDispatch } from 'react-redux'
 import {
   Layout,
