@@ -125,7 +125,7 @@ export const CompanyInfo = ({
         </p>
       <Form.Item
         name="company_name"
-        label="company name*"
+        label="company name"
         rules={[
           {
             required: true,
@@ -139,7 +139,7 @@ export const CompanyInfo = ({
 
       <Form.Item
         name="matricule_fiscale"
-        label="matricule fiscale*"
+        label="matricule fiscale"
         tooltip="What do you want others to call you?"
         rules={[
           {
@@ -151,22 +151,10 @@ export const CompanyInfo = ({
       >
         <Input onChange={(e) => setFormData({ ...formData, matricule_fiscale: e.target.value })} />
       </Form.Item>
-      <Form.Item
-        name="company_email"
-        label="company email"
-        rules={[
-          {
-            type: 'email',
-            message: 'The input is not valid E-mail!',
-          },
-        ]}
-      >
-        <Input onChange={(e) => setFormData({ ...formData, company_email: e.target.value })} />
-      </Form.Item>
 
       <Form.Item
         name="company_residence"
-        label="Habitual Residence*"
+        label="Siège social"
         rules={[
           {
             type: 'array',
@@ -180,14 +168,14 @@ export const CompanyInfo = ({
 
       <Form.Item
         name="company_address"
-        label="Adresse détaillée"
+        label="Siège social détaillée"
       >
         <Input onChange={(e) => setFormData({ ...formData, company_residence: e.target.value })} />
       </Form.Item>
 
       <Form.Item
         name="company_phoneNumber"
-        label="Phone Number*"
+        label="Phone Number"
         rules={[
           { 
             required: true,
@@ -202,6 +190,19 @@ export const CompanyInfo = ({
             width: '100%',
           }}
         />
+      </Form.Item>
+      
+      <Form.Item
+        name="company_email"
+        label="company email"
+        rules={[
+          {
+            type: 'email',
+            message: 'The input is not valid E-mail!',
+          },
+        ]}
+      >
+        <Input onChange={(e) => setFormData({ ...formData, company_email: e.target.value })} />
       </Form.Item>
       <Form.Item
         name="website"

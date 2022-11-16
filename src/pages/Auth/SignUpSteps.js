@@ -17,7 +17,7 @@ const steps = [
   },
 ];
 
-export default function SignUpSteps() {
+export default function SignUpSteps({role}) {
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -26,7 +26,7 @@ export default function SignUpSteps() {
     phoneNumber: '',
     residence: ['ariana', 'soukra'],
     address: '', 
-    role: 'CLIENT',
+    role,
     gender: '',
     password: '',
     confirmPassword: '',

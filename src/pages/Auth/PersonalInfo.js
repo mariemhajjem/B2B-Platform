@@ -1,14 +1,8 @@
-import React, { useState } from 'react';
-import {
-  AutoComplete,
+import { 
   Button,
-  Cascader,
-  Checkbox,
-  Col,
+  Cascader, 
   Form,
-  Input,
-  InputNumber,
-  Row,
+  Input, 
   Select,
 } from 'antd';
 import { Link } from 'react-router-dom';
@@ -63,7 +57,7 @@ export const PersonalInfo = ({ formData, setFormData, next }) => {
     phoneNumber,
     residence,
     address,  
-    gender );
+    gender, "formData: ",formData );
     setFormData({...formData,firstName,
       lastName,
       email,
@@ -214,26 +208,14 @@ export const PersonalInfo = ({ formData, setFormData, next }) => {
             width: '100%',
           }}
         />
-      </Form.Item>
-
-      <Form.Item
-        name="donation"
-        label="Donation" 
-      >
-        <Input
-          addonAfter={suffixSelector}
-          style={{
-            width: '100%',
-          }}
-        />
-      </Form.Item>
+      </Form.Item> 
     <Form.Item
         name="gender"
-        label="Gender"
-        rules={[
+        label="Gender" 
+        rules={[ 
           {
             required: true,
-            message: 'Please select gender!',
+            message: 'Please input your gender!',
           },
         ]}
       >

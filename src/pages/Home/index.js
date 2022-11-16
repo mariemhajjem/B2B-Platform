@@ -5,19 +5,38 @@ import i18n from "../../locales/i18n";
 import Produit from "./Produit";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProduits } from "../../redux/reducers/produits";
+import { Dropdown } from 'antd';
 
 function Home() {
-  const { allProduits } = useSelector((state) => state.produits); 
+  const { allProduits } = useSelector((state) => state.produits);
   const token = useSelector((state) => state.auth.loggedUser)
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const CLIENT = "CLIENT";
+  const FOURNISSEUR = "FOURNISSEUR"
+  const items = [
+    {
+      label: (!token &&
+        <Link to={`/sign-up/${FOURNISSEUR}`}>
+          <span>Fournisseur</span>
+        </Link>),
+      key: 'FOURNISSEUR'
+    },
+    {
+      label: (!token &&
+        <Link to={`/sign-up/${CLIENT}`}>
+          <span>Client</span>
+        </Link>), 
+      key: 'CLIENT'
+    },
+  ];
   const changeLanguage = (ln) => {
     return () => {
       i18n.changeLanguage(ln);
     };
   };
-  useEffect(() => { 
-    dispatch(getAllProduits());  
+  useEffect(() => {
+    dispatch(getAllProduits());
   }, []);
   return (
     <div className="App">
@@ -50,11 +69,11 @@ function Home() {
                                 <del>$ 499.00</del>
                               </p>
                             </div>
-                            <button className="btn-cart welcome-add-cart" onClick={window.location.href='#'}>
+                            <button className="btn-cart welcome-add-cart" onClick={window.location.href = '#'}>
                               <span className="lnr lnr-plus-circle"></span>
                               <span>Commander</span>
                             </button>
-                            <button className="btn-cart welcome-add-cart welcome-more-info" onClick={window.location.href='#'}>
+                            <button className="btn-cart welcome-add-cart welcome-more-info" onClick={window.location.href = '#'}>
                               plus d'info
                             </button>
                           </div>
@@ -91,11 +110,11 @@ function Home() {
                                 <del>$ 299.00</del>
                               </p>
                             </div>
-                            <button className="btn-cart welcome-add-cart" onClick={window.location.href='#'}>
+                            <button className="btn-cart welcome-add-cart" onClick={window.location.href = '#'}>
                               <span className="lnr lnr-plus-circle"></span>
                               <span>Commander</span>
                             </button>
-                            <button className="btn-cart welcome-add-cart welcome-more-info" onClick={window.location.href='#'}>
+                            <button className="btn-cart welcome-add-cart welcome-more-info" onClick={window.location.href = '#'}>
                               more info
                             </button>
                           </div>
@@ -132,11 +151,11 @@ function Home() {
                                 <del>$ 399.00</del>
                               </p>
                             </div>
-                            <button className="btn-cart welcome-add-cart" onClick={window.location.href='#'}>
+                            <button className="btn-cart welcome-add-cart" onClick={window.location.href = '#'}>
                               <span className="lnr lnr-plus-circle"></span>
                               <span>Commander</span>
                             </button>
-                            <button className="btn-cart welcome-add-cart welcome-more-info" onClick={window.location.href='#'}>
+                            <button className="btn-cart welcome-add-cart welcome-more-info" onClick={window.location.href = '#'}>
                               more info
                             </button>
                           </div>
@@ -185,7 +204,7 @@ function Home() {
                         <span className="lnr lnr-cog"></span>
                       </Link>
                     </li>}
-                   
+
                     <li className="dropdown">
                       <a href="#" className="dropdown-toggle" data-toggle="dropdown" >
                         <span className="lnr lnr-cart"></span>
@@ -224,7 +243,7 @@ function Home() {
                         </li>
                         <li className="total">
                           <span>Total: $0.00</span>
-                          <button className="btn-cart pull-right" onClick={window.location.href='#'}>view cart</button>
+                          <button className="btn-cart pull-right" onClick={window.location.href = '#'}>view cart</button>
                         </li>
                       </ul>
                     </li>
@@ -243,17 +262,16 @@ function Home() {
                     <li className="scroll"><a href="#feature">features</a></li>
 
                     <li className="scroll"><a href="#newsletter">contact</a></li>
-                    <li className="">
-                      {!token &&
-                        <Link to="/sign-up">
-                          <span>{t("S'inscrire")}</span>
-                        </Link>}
-                    </li>
-                    <li className="">
-                      {!token && <Link to="/sign-in">
+                    {!token && <li className="scroll">
+                      <Dropdown menu={{ items }}>
+                        <a>Inscription</a>
+                      </Dropdown>
+                    </li>}
+                    {!token &&<li className="">
+                       <Link to="/sign-in">
                         <span>{t("Se connecter")}</span>
-                      </Link>}
-                    </li>
+                      </Link>
+                    </li>}
                   </ul>
                 </div>
               </div>
@@ -466,7 +484,7 @@ function Home() {
                             <div className="populer-products-price">
                               <h4>Sales Start from <span>$99.00</span></h4>
                             </div>
-                            <button className="btn-cart welcome-add-cart populer-products-btn" onClick={window.location.href='#'}>
+                            <button className="btn-cart welcome-add-cart populer-products-btn" onClick={window.location.href = '#'}>
                               discover more
                             </button>
                           </div>
@@ -506,7 +524,7 @@ function Home() {
                   <div className="sofa-collection-price">
                     <h4>strting from <span>$ 199</span></h4>
                   </div>
-                  <button className="btn-cart welcome-add-cart sofa-collection-btn" onClick={window.location.href='#'}>
+                  <button className="btn-cart welcome-add-cart sofa-collection-btn" onClick={window.location.href = '#'}>
                     view more
                   </button>
                 </div>
@@ -522,7 +540,7 @@ function Home() {
                   <div className="sofa-collection-price">
                     <h4>strting from <span>$ 299</span></h4>
                   </div>
-                  <button className="btn-cart welcome-add-cart sofa-collection-btn" onClick={window.location.href='#'}>
+                  <button className="btn-cart welcome-add-cart sofa-collection-btn" onClick={window.location.href = '#'}>
                     view more
                   </button>
                 </div>
