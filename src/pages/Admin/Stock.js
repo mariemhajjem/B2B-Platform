@@ -12,7 +12,7 @@ import {
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // Images 
-import { deleteProduit, getAllProduits } from "../../redux/reducers/produits";
+import { deleteProduit, getAllProduits, getProduitsByUser } from "../../redux/reducers/produits";
 import { CLEAR_ERRORS } from "../../redux/reducers/error";
 import AddEditProduct from "./AddEditProduct";
 import { getAllCategories } from "../../redux/reducers/categories";
@@ -64,12 +64,11 @@ const columns = [
 function Stock() {
   const [isAddVisible, setIsAddVisible] = useState(false);
   const [isUpdateVisible, setIsUpdateVisible] = useState(false);
-  const [id, setId] = useState(null);
+  const [role, setRole] = useState(null);
   const [err, setError] = useState("");
   const [code, setCode] = useState("");
-  const token = useSelector((state) => state.auth.loggedUser);
-  const { allProduits } = useSelector((state) => state.produits); 
-  const userId = token?.user?._id;
+  const user = useSelector((state) => state.auth.loggedUser);
+  const { userProduits } = useSelector((state) => state.produits);  
   const dispatch = useDispatch();
   const [product, setProduct] = useState({
     product_label: '',
@@ -78,7 +77,9 @@ function Stock() {
     product_picture: '',
     product_quantity: 0,
     product_date: '',
-    product_category: ''
+    product_category: '',
+    product_availability: "En stock",
+    quality_level: "Neuf avec emballage"
   });
 
   const handleUpdate = (prod) => {
@@ -96,17 +97,18 @@ function Stock() {
   const error = useSelector((state) => state.error);
 
   useEffect(() => {
-    /* if (userId) {
-      dispatch(getToursByUser(userId));
-    } */
+    if (role==="ADMIN") {
+      dispatch(getAllProduits());
+    } 
+    console.log({entreprise : user.enterpriseClt?._id || user.enterpriseImport?._id})
     dispatch(getAllCategories())
-    dispatch(getAllProduits()); 
+    dispatch(getProduitsByUser({entreprise : user.enterpriseClt?._id || user.enterpriseImport?._id})); 
     if (error.message) {
       setError(error.message);
       setCode(error.code);
     }
-    setId(userId)
-  }, [error, userId]);
+    setRole(user?.role)
+  }, [error]);
 
   const excerpt = (str) => {
     if (str.length > 40) {
@@ -128,7 +130,7 @@ function Stock() {
   };
 
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
-  const data = allProduits?.map((prod, index) => ({
+  const data = userProduits?.map((prod, index) => ({
     key: index,
     name: (
       <>
@@ -189,10 +191,10 @@ function Stock() {
             >
               Ajouter produit
             </Button>
-            {isAddVisible && <AddEditProduct title="Ajouter produit" visible={isAddVisible} setIsAddVisible={handleClick} formData={null} id={id} />}
+            {isAddVisible && <AddEditProduct title="Ajouter produit" visible={isAddVisible} setIsAddVisible={handleClick} formData={null} />}
             {err && popUp("error")}
 
-            {isUpdateVisible && <AddEditProduct title="Modifier produit" visible={isUpdateVisible} setIsAddVisible={handleUpdate} formData={product} id={id} />}
+            {isUpdateVisible && <AddEditProduct title="Modifier produit" visible={isUpdateVisible} setIsAddVisible={handleUpdate} formData={product} />}
 
             <Divider orientation="left"></Divider>
             <Card

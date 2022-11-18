@@ -24,16 +24,15 @@ export const createProduitThunk = async (updatedProduitData,thunkAPI) => {
     }
 };
 
-
-export const getProduitsByUserThunk = async (userId,thunkAPI) => {
+export const getProduitsByUserThunk = async (user,thunkAPI) => {
     try {
-      const response = await api.getProduit(`/tour/userProduits/${userId}`);
+      const response = await api.getAllProduitsByUser(user);
+      console.log(response)
       return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err?.response?.data || err);
     }
   };
-
 
 export const updateProduitThunk = async (updatedProduitData,thunkAPI) => {
     try {

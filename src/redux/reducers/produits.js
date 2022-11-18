@@ -40,6 +40,7 @@ const produitSlice = createSlice({
       [createProduit.fulfilled]: (state, action) => {
         state.loading = false;
         state.allProduits?.push(action.payload); 
+        state.userProduits?.push(action.payload); 
         toast.success("Added Successfully"); 
       },
       [createProduit.rejected]: (state, action) => {

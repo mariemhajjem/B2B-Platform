@@ -1,4 +1,3 @@
-import { isRejectedWithValue } from "@reduxjs/toolkit";
 import jwt_decode from "jwt-decode";
 import * as api from "../../services/auth.service.js";
 

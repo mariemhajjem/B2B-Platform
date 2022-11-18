@@ -12,56 +12,66 @@ import {
 import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from "react-redux";
 
-import { createProduit, updateProduit } from "../../redux/reducers/produits"; 
+import { createProduit, updateProduit } from "../../redux/reducers/produits";
 
 const { TextArea } = Input;
 const { Option } = Select;
 let index = 0;
-export default function ({ id, title, formData, visible, setIsAddVisible }) {
+export default function ({ title, formData, visible, setIsAddVisible }) {
   const dispatch = useDispatch();
-  const [file,setFile]=useState();
-  const {allCategories} = useSelector((state) => state.categories);
+  const [file, setFile] = useState();
+  const { allCategories } = useSelector((state) => state.categories);
+  const user = useSelector((state) => state.auth.loggedUser)
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState('');
   const inputRef = useRef(null);
-  
+  const availability_options = [
+    { label: "En Stock", value: "En Stock" },
+    { label: "Pré-commande", value: "Pré-commande" },
+    { label: "Epuisé", value: "Epuisé" },
+    { label: "Disponibilité limitée", value: "Disponibilité limitée" },
+    { label: "En rupture de stock", value: "En rupture de stock" }]
   useEffect(() => {
     const categoriesTab = allCategories.map((categorie) => ({
-       label: categorie.category_name, value: categorie.category_name 
-     }));
-     console.log(categoriesTab)
+      label: categorie.category_name, value: categorie.category_name
+    }));
+    console.log(categoriesTab)
     setCategories(categoriesTab)
-  },[])
-  
+  }, [])
+
   const onFinish = ({ product_label,
     product_description,
     product_price,
     product_picture,
     product_category,
     product_quantity }) => {
-      console.log(product_picture)
+    console.log(product_picture)
     let updatedProduit = {
       product_label,
       product_description,
       product_price: Number(product_price),
       product_picture: file,
       product_category,
-      product_quantity: Number(product_quantity)
+      product_quantity: Number(product_quantity),
+      entreprise: user.enterpriseClt?._id || user.enterpriseImport?._id
     }
-    let form = new FormData();    //formdata object 
-    form.append('product_label', product_label);   //append the values with key, value pair
+    let form = new FormData();
+    form.append('product_label', product_label);
     form.append('product_description', product_description);
     form.append('product_price', Number(product_price));
     form.append('product_quantity', Number(product_quantity));
     form.append('product_picture', file);
-    form.append('product_category', product_category); 
+    form.append('product_category', product_category);
+    form.append('entreprise', user.enterpriseClt?._id || user.enterpriseImport?._id);
     try {
       if (!formData) {
-        console.log(form);
+        for (const pair of form.entries()) {
+          console.log(`${pair[0]}, ${pair[1]}`);
+        };
         dispatch(createProduit(form));
       } else {
-        console.log({ id : formData._id, ...updatedProduit });
-        const data = { id : formData._id, ...updatedProduit }
+        console.log({ id: formData._id, ...updatedProduit });
+        const data = { id: formData._id, ...updatedProduit }
         dispatch(updateProduit(data));
       }
 
@@ -98,9 +108,9 @@ export default function ({ id, title, formData, visible, setIsAddVisible }) {
         <Option value="EUR">€</Option>
       </Select>
     </Form.Item>
-  ); 
+  );
 
-  
+
   return (
     <Modal
       title={title}
@@ -146,7 +156,7 @@ export default function ({ id, title, formData, visible, setIsAddVisible }) {
                     value={category}
                     onChange={onNameChange}
                   />
-                  <Button type="text" icon={<PlusOutlined />} onClick={addItem} disabled={!(category.length>3)}>
+                  <Button type="text" icon={<PlusOutlined />} onClick={addItem} disabled={!(category.length > 3)}>
                     Ajouter categorie
                   </Button>
                 </Space>
@@ -163,7 +173,7 @@ export default function ({ id, title, formData, visible, setIsAddVisible }) {
             },
           ]}
         >
-          <Input 
+          <Input
             style={{
               width: '100%',
             }}
@@ -188,6 +198,22 @@ export default function ({ id, title, formData, visible, setIsAddVisible }) {
         </Form.Item>
 
         <Form.Item
+          name="product_availability"
+          label="Disponibilité du produit"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Select
+            style={{ width: 300 }} 
+            defaultValue="En Stock"
+            options={availability_options}
+          />
+        </Form.Item>
+
+        <Form.Item
           name="product_description"
           label="Description produit"
           rules={[
@@ -201,9 +227,9 @@ export default function ({ id, title, formData, visible, setIsAddVisible }) {
 
         <Form.Item
           name="product_picture"
-          label="product_picture" 
-        > 
-          <Input type='file' onChange={handleFileUpload}/>
+          label="product_picture"
+        >
+          <Input type='file' onChange={handleFileUpload} />
         </Form.Item>
 
         <Form.Item>

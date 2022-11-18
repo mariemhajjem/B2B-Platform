@@ -110,7 +110,7 @@ function Sidenav({ color }) {
 			></path>
 		</svg>,
 	]; 
-	const users = [
+	const sidenav = [
 		{
 			link: "/dashboard",
 			label: "Dashboard",
@@ -124,12 +124,12 @@ function Sidenav({ color }) {
 		{
 			link: "/dashboard/demandes",
 			label: "Demandes",
-			role: ["ADMIN", "FOURNISSEUR", "CLIENT"]
+			role: []
 		},
 		{
 			link: "/dashboard/commandes",
 			label: "Commandes",
-			role: ["ADMIN", "CLIENT"]
+			role: ["CLIENT", "FOURNISSEUR"]
 		},
 		{
 			link: "/dashboard/reclamations",
@@ -157,7 +157,7 @@ function Sidenav({ color }) {
 			</div>
 			<hr />
 			<Menu theme="light" mode="inline">
-				{users.map((value, index) => {
+				{sidenav.map((value, index) => {
 					if (value.role.find(findRole))
 						return (
 							<Menu.Item key={index}>

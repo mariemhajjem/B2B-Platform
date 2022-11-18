@@ -6,6 +6,10 @@ export const getAllProduits = async () => {
   return await Axios.get(baseUrl + "/"); 
 }
 
+export const getAllProduitsByUser = async (user) => {
+  console.log(user)
+  return await Axios.get(baseUrl + "/byuser", user);
+}
 
 export const createNewProduit = async (produit) => {
   return await Axios.post(`${baseUrl}/add`, produit);
