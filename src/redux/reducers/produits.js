@@ -32,6 +32,9 @@ const produitSlice = createSlice({
         setCurrentPage: (state, action) => {
             state.currentPage = action.payload;
         },
+        setProduit: (state, action) => {
+          state.produit = action.payload;
+      },
     },
     extraReducers: {
       [createProduit.pending]: (state, action) => {
@@ -110,6 +113,6 @@ const produitSlice = createSlice({
 });
 
 // Actions
-export const { setCurrentPage } = produitSlice.actions
+export const { setCurrentPage, setProduit } = produitSlice.actions
 
 export default produitSlice.reducer

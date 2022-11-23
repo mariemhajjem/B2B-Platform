@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from "react"; 
 import { Navigate, Route, Routes } from 'react-router-dom';
+import ProductItemDetails from "../pages/Home/ProductItemDetails";
 
 const Main = lazy(() => import("../components/layout/Main"));
 const Dashboard = lazy(() => import("../pages/Admin/Dashboard"));
@@ -18,6 +19,7 @@ const Loading = ({ node }) => {
 export const PrivateRoutes = () => { 
     return (
         <Routes> 
+            <Route path="details/:id" exact element={<ProductItemDetails />} />
             <Route path="/dashboard" element={<Loading node={<Main />} />}>
                 <Route index element={<Loading node={<Dashboard />} />} />
                 <Route path="demandes" exact element={<Loading node={<Demandes />} />} />

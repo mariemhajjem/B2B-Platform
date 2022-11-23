@@ -124,7 +124,7 @@ function Sidenav({ color }) {
 		{
 			link: "/dashboard/demandes",
 			label: "Demandes",
-			role: []
+			role: ["CLIENT", "FOURNISSEUR"]
 		},
 		{
 			link: "/dashboard/commandes",

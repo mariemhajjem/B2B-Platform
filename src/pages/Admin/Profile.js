@@ -164,8 +164,8 @@ function Profile() {
                 <Avatar size={74} shape="square" src={profilavatar} />
 
                 <div className="avatar-info">
-                  <h4 className="font-semibold m-0">{`${token.user?.firstName} ${token.user?.lastName}`} </h4>
-                  <p>{`${token.user?.employee_grade.toLowerCase()} / ${token.user?.employee_grade}`} CEO / Co-founder</p>
+                  <h4 className="font-semibold m-0">{`${token?.firstName} ${token?.lastName}`} </h4>
+                  <p>{ `${token?.user_grade}/ ${token?.user_grade.toLowerCase()}`}</p>
                 </div>
               </Avatar.Group>
             </Col>
@@ -197,9 +197,6 @@ function Profile() {
           >
             <ul className="list settings-list">
               <li>
-                <h6 className="list-header text-sm text-muted">ACCOUNT</h6>
-              </li>
-              <li>
                 <Switch defaultChecked />
 
                 <span>Email me when someone follows me</span>
@@ -212,23 +209,6 @@ function Profile() {
                 <Switch defaultChecked />
                 <span>Email me when someone mentions me</span>
               </li>
-              <li>
-                <h6 className="list-header text-sm text-muted m-0">
-                  APPLICATION
-                </h6>
-              </li>
-              <li>
-                <Switch defaultChecked />
-                <span>New launches and projects</span>
-              </li>
-              <li>
-                <Switch defaultChecked />
-                <span>Monthly product updates</span>
-              </li>
-              <li>
-                <Switch defaultChecked />
-                <span>Subscribe to newsletter</span>
-              </li>
             </ul>
           </Card>
         </Col>
@@ -239,16 +219,8 @@ function Profile() {
             className="header-solid h-full card-profile-information"
             extra={<Button type="link">{pencil}</Button>}
             bodyStyle={{ paddingTop: 0, paddingBottom: 16 }}
-          >
-            <p className="text-dark">
-              {" "}
-              Hi, I’m Alec Thompson, Decisions: If you can’t decide, the answer
-              is no. If two equally difficult paths, choose the one more painful
-              in the short term (pain avoidance is creating an illusion of
-              equality).{" "}
-            </p>
-            <hr className="my-25" />
-            <Descriptions title="Oliver Liam">
+          >  
+            <Descriptions>
               <Descriptions.Item label="Full Name" span={3}>
                 Sarah Emily Jacob
               </Descriptions.Item>
