@@ -109,46 +109,122 @@ function Sidenav({ color }) {
 				fill={color}
 			></path>
 		</svg>,
-	]; 
-	const sidenav = [
-		{
-			link: "/dashboard",
-			label: "Dashboard",
-			role: ["ADMIN", "FOURNISSEUR", "CLIENT"]
-		},
-		{
-			link: "/dashboard/clients",
-			label: "Clients",
-			role: ["ADMIN", "FOURNISSEUR"]
-		},
-		{
-			link: "/dashboard/demandes",
-			label: "Demandes",
-			role: ["CLIENT", "FOURNISSEUR"]
-		},
-		{
-			link: "/dashboard/commandes",
-			label: "Commandes",
-			role: ["CLIENT", "FOURNISSEUR"]
-		},
-		{
-			link: "/dashboard/reclamations",
-			label: "Réclamations",
-			role: ["ADMIN", "FOURNISSEUR", "CLIENT"]
-		},
-		{
-			link: "/dashboard/stock",
-			label: "Stock",
-			role: ["ADMIN", "FOURNISSEUR"]
-		},
 	];
 	const authState = useSelector((state) => state.auth.loggedUser)
 	useEffect(() => {
 		console.log(authState)
-	},[])
+	}, [])
 	const findRole = (value) => {
 		return value === authState.role;
 	}
+	const sidenav = [
+		["ADMIN", "FOURNISSEUR", "CLIENT"].find(findRole) && {
+			label:
+				<Link to={"/dashboard"}>
+					<span
+						className="icon"
+						style={{
+							background: page === "/dashboard" ? color : "",
+						}}
+					>
+						{dashboard}
+					</span>
+					<span className="label">Dashboard</span>
+				</Link>,
+			key: 'item-1'
+		},
+		["CLIENT", "FOURNISSEUR"].find(findRole) && {
+			label:
+				<Link to={"/dashboard/clients"}>
+					<span
+						className="icon"
+						style={{
+							background: page === "/dashboard/clients" ? color : "",
+						}}
+					>
+						{dashboard}
+					</span>
+					<span className="label">Clients</span>
+				</Link>,
+			key: 'item-2'
+		},
+		["CLIENT", "FOURNISSEUR"].find(findRole) && {
+			label:
+				<Link to={"/dashboard/demandes"}>
+					<span
+						className="icon"
+						style={{
+							background: page === "/dashboard/demandes" ? color : "",
+						}}
+					>
+						{dashboard}
+					</span>
+					<span className="label">Demandes</span>
+				</Link>,
+			key: 'item-3'
+		},
+		["CLIENT", "FOURNISSEUR"].find(findRole) && {
+			label:
+				<Link to={"/dashboard/commandes"}>
+					<span
+						className="icon"
+						style={{
+							background: page === "/dashboard/commandes" ? color : "",
+						}}
+					>
+						{dashboard}
+					</span>
+					<span className="label">Commandes</span>
+				</Link>,
+			key: 'item-4'
+		},
+		["ADMIN", "FOURNISSEUR", "CLIENT"].find(findRole) && {
+			label:
+				<Link to={"/dashboard/reclamations"}>
+					<span
+						className="icon"
+						style={{
+							background: page === "/dashboard/reclamations" ? color : "",
+						}}
+					>
+						{dashboard}
+					</span>
+					<span className="label">Réclamations</span>
+				</Link>,
+			key: 'item-5'
+		},
+		["ADMIN", "FOURNISSEUR"].find(findRole) && {
+			label:
+				<Link to={"/dashboard/stock"}>
+					<span
+						className="icon"
+						style={{
+							background: page === "/dashboard/stock" ? color : "",
+						}}
+					>
+						{dashboard}
+					</span>
+					<span className="label">Stock</span>
+				</Link>,
+			key: 'item-6'
+		}, 
+		{
+			label: <Link to="/dashboard/profile">
+				<span
+					className="icon"
+					style={{
+						background: page === "/dashboard/profile" ? color : "",
+					}}
+				>
+					{dashboard}
+				</span>
+				<span className="label">Profile</span>
+			</Link>, 
+			key: 'item-8'
+		},
+	];
+
+
 	return (
 		<>
 			<div className="brand">
@@ -156,43 +232,7 @@ function Sidenav({ color }) {
 				<span>Dashboard</span>
 			</div>
 			<hr />
-			<Menu theme="light" mode="inline">
-				{sidenav.map((value, index) => {
-					if (value.role.find(findRole))
-						return (
-							<Menu.Item key={index}>
-								<Link to={value.link}>
-									<span
-										className="icon"
-										style={{
-											background: page === value.link ? color : "",
-										}}
-									>
-										{dashboard}
-									</span>
-									<span className="label">{value.label}</span>
-								</Link>
-							</Menu.Item>)
-				})
-				}
-				<>
-					<Menu.Item className="menu-item-header" key="10">
-						Account Pages
-					</Menu.Item>
-					<Menu.Item key={22}>
-						<Link to="/dashboard/profile">
-							<span
-								className="icon"
-								style={{
-									background: page === "/dashboard/profile" ? color : "",
-								}}
-							>
-								{dashboard}
-							</span>
-							<span className="label">Profile</span>
-						</Link>
-					</Menu.Item></>
-			</Menu>
+			<Menu theme="light" mode="inline" items={sidenav} />
 		</>
 	);
 }

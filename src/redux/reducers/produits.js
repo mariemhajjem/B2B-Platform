@@ -10,7 +10,8 @@ const initialState = {
     relatedProduits: [],
     currentPage: 1,
     numberOfPages: null,
-    error: "",
+    addError: "",
+    getError: "",
     loading: false,
 };
 
@@ -35,6 +36,12 @@ const produitSlice = createSlice({
         setProduit: (state, action) => {
           state.produit = action.payload;
       },
+      clearFilters: (state, action) => {
+        ;
+      },
+      clearErrors: (state, action) => {
+        state.addError= "";
+      },
     },
     extraReducers: {
       [createProduit.pending]: (state, action) => {
@@ -48,7 +55,7 @@ const produitSlice = createSlice({
       },
       [createProduit.rejected]: (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message;
+        state.addError = action.payload;
       },
       [getAllProduits.pending]: (state, action) => {
         state.loading = true;
@@ -59,7 +66,7 @@ const produitSlice = createSlice({
       },
       [getAllProduits.rejected]: (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.getError = action.payload;
       },
       [getProduitsByUser.pending]: (state, action) => {
         state.loading = true;
@@ -70,7 +77,7 @@ const produitSlice = createSlice({
       },
       [getProduitsByUser.rejected]: (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.getError = action.payload;
       },
   
       [updateProduit.pending]: (state, action) => {
@@ -90,7 +97,7 @@ const produitSlice = createSlice({
       },
       [updateProduit.rejected]: (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message;
+        state.addError = action.payload?.message;
       }
       ,
       [deleteProduit.pending]: (state, action) => {
@@ -106,13 +113,13 @@ const produitSlice = createSlice({
       },
       [deleteProduit.rejected]: (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message;
+        state.getError = action.payload?.message;
       },
      
     },
 });
 
 // Actions
-export const { setCurrentPage, setProduit } = produitSlice.actions
+export const { setCurrentPage, setProduit, clearErrors } = produitSlice.actions
 
 export default produitSlice.reducer

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -7,19 +8,20 @@ const cartSlice = createSlice({
   },
   reducers: {
     addToCart: (state, action) => {
-      const itemInCart = state.cart.find((item) => item.id === action.payload.id);
+      const itemInCart = state.cart.find((item) => item._id === action.payload._id);
       if (itemInCart) {
         itemInCart.quantity++;
       } else {
-        state.cart.push({ ...action.payload, quantity: 1 });
+        state.cart.push({ ...action.payload, quantity: 1, key: action.payload._id });
+        toast.success("Produit ajouté au panier");
       }
     },
     incrementQuantity: (state, action) => {
-      const item = state.cart.find((item) => item.id === action.payload);
+      const item = state.cart.find((item) => item._id === action.payload);
       item.quantity++;
     },
     decrementQuantity: (state, action) => {
-      const item = state.cart.find((item) => item.id === action.payload);
+      const item = state.cart.find((item) => item._id === action.payload);
       if (item.quantity === 1) {
         item.quantity = 1
       } else {
@@ -27,8 +29,11 @@ const cartSlice = createSlice({
       }
     },
     removeItem: (state, action) => {
-      const removeItem = state.cart.filter((item) => item.id !== action.payload);
+      const removeItem = state.cart.filter((item) => item._id !== action.payload);
       state.cart = removeItem;
+    },
+    clearCart: (state, action) => {
+      state.cart = [];
     },
   },
 });
@@ -38,4 +43,5 @@ export const {
   incrementQuantity,
   decrementQuantity,
   removeItem,
+  clearCart
 } = cartSlice.actions;

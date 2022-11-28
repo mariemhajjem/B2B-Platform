@@ -16,7 +16,7 @@ const footerS = {
 function Footer() {
   const { t } = useTranslation();
   return (<> 
-    <Space size={60} align="center" wrap split={<Divider type="vertical" />} 
+    <Space id="Contact" size={120} align="center" wrap split={<Divider type="vertical" />} 
       style={{display: "flex", justifyContent: "center"}}>    
             <div >
               <div>
@@ -24,11 +24,10 @@ function Footer() {
                   <h4>information</h4>
                 </div>
                 <div>
-                  <ul style={{listStyleType: "none"}}>
-                    <li><a href="#">about us</a></li>
-                    <li><a href="#">contact us</a></li>
-                    <li><a href="#">news</a></li>
-                    <li><a href="#">store</a></li>
+                  <ul style={{listStyleType: "none", color: "#a09e9c" , marginLeft: "-2em"}}>
+                    <li><a href="#" style={{color: "#a09e9c"}}>about us</a></li>
+                    <li><a href="#" style={{color: "#a09e9c"}}>contact us</a></li> 
+                    <li><a href="#" style={{color: "#a09e9c"}}>store</a></li>
                   </ul>
                 </div>
               </div>
@@ -36,14 +35,14 @@ function Footer() {
             <div>
               <div>
                 <div>
-                  <h4>my accounts</h4>
+                  <h4>mon compte</h4>
                 </div>
                 <div>
-                  <ul>
-                    <li ><a href="#" style={{color: "#a09e9c"}}>my account</a></li>
-                    <li><a href="#">wishlist</a></li> 
-                    <li><a href="#">order history</a></li>
-                    <li><a href="#">my cart</a></li>
+                  <ul style={{listStyleType: "none", color: "#a09e9c", marginLeft: "-2em"}}>
+                    <li ><a href="#" style={{color: "#a09e9c"}}>profile</a></li>
+                    <li><a href="#"style={{color: "#a09e9c"}} >wishlist</a></li> 
+                    <li><a href="#" style={{color: "#a09e9c"}}>historique de commandes</a></li>
+                    <li><a href="#" style={{color: "#a09e9c"}}>ma carte</a></li>
                   </ul>
                 </div>
               </div>
@@ -55,12 +54,12 @@ function Footer() {
                 </div>
                 <div>
                   <p>
-                    Subscribe  to get latest news,update and information.
+                  ABONNEZ-VOUS À NOTRE NEWSLETTER.
                   </p>
                 </div>
                 <div>
                   <div>
-                    <input type="text" className="form-control" placeholder="Enter Email Here...." />
+                    <input type="text" className="form-control" placeholder="Votre adresse Email...." />
                   </div>
                   <div >
                     <span><i className="fa fa-location-arrow"></i></span>
@@ -79,7 +78,7 @@ function Footer() {
             <a href="#"><i className="fa fa-pinterest"></i></a>
           </div>
           <p>
-            &copy;copyright. designed and developed by Mariem Hajjem
+            2022 &copy;copyright. designed and developed by Mariem Hajjem
           </p>
         </div>
       </div>

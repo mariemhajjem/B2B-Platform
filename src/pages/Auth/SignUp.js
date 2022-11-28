@@ -27,15 +27,14 @@ export default function SignUp() {
 		console.log(error);
 	}
 	useEffect(() => {
-		console.log(role)
-		console.log(window.google)
+		console.log(role) 
 		/* global google */
-		const google = window.google;
-		google.accounts.id.initialize({
+		const google = window?.google;
+		google?.accounts.id.initialize({
 			client_id: CLIENT_ID,
 			callback: handleCallbackResponse
 		});
-		google.accounts.id.renderButton(
+		google?.accounts.id.renderButton(
 			document.getElementById("signIn"),
 			{
 				theme: "outline", size: "large",
@@ -43,7 +42,7 @@ export default function SignUp() {
 				'onfailure': onFailure
 			});
 
-		google.accounts.id.prompt();
+		google?.accounts.id.prompt();
 	}, []);
 
 	return (

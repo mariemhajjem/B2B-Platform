@@ -3,57 +3,94 @@ import {
   Modal,
   Form,
   Select,
-  Input,
-  Cascader,
-  Button,
-  Upload,
-  Divider, Space,
+  Input, 
+  Button, 
+  Divider, Space, notification, InputNumber,
 } from "antd";
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from "react-redux";
 
-import { createProduit, updateProduit } from "../../redux/reducers/produits";
-
+import { createProduit, updateProduit } from "../../redux/reducers/produits";  
+const areas = [
+  {
+    label: 'Beijing',
+    value: 'Beijing',
+  },
+  {
+    label: 'Shanghai',
+    value: 'Shanghai',
+  },
+];
+const sights = {
+  Beijing: ['Tiananmen', 'Great Wall'],
+  Shanghai: ['Oriental Pearl', 'The Bund'],
+};
 const { TextArea } = Input;
 const { Option } = Select;
-let index = 0;
-export default function ({ title, formData, visible, setIsAddVisible }) {
+
+export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
   const dispatch = useDispatch();
   const [file, setFile] = useState();
   const { allCategories } = useSelector((state) => state.categories);
   const user = useSelector((state) => state.auth.loggedUser)
+  const { addError } = useSelector((state) => state.produits);
+  const [err, setError] = useState("");
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState('');
   const inputRef = useRef(null);
+  const [form] = Form.useForm();
+  const handleChange = () => {
+    form.setFieldsValue({
+      sights: [],
+    });
+  };
   const availability_options = [
     { label: "En Stock", value: "En Stock" },
     { label: "Pré-commande", value: "Pré-commande" },
     { label: "Epuisé", value: "Epuisé" },
     { label: "Disponibilité limitée", value: "Disponibilité limitée" },
     { label: "En rupture de stock", value: "En rupture de stock" }]
+  const quality_options = [
+    { label: "Neuf avec emballage", value: "Neuf avec emballage" },
+    { label: "Neuf sans emballage", value: "Neuf sans emballage" },
+    { label: "Retour client fonctionnel", value: "Retour client fonctionnel" },
+    { label: "Dommages dûs au transport", value: "Dommages dûs au transport" }]
+
   useEffect(() => {
     const categoriesTab = allCategories.map((categorie) => ({
       label: categorie.category_name, value: categorie.category_name
     }));
     console.log(categoriesTab)
     setCategories(categoriesTab)
-  }, [])
+    if (addError) {
+      setError(addError);
+    }
+  }, [addError])
 
-  const onFinish = ({ product_label,
+  const popUp = (type) => {
+    notification[type]({
+      message: err,
+      description: err, 
+    });
+  };
+  const onFinish = ({product_label,
     product_description,
     product_price,
     product_picture,
     product_category,
-    product_quantity }) => {
-    console.log(product_picture)
+    product_availability,
+    quality_level,
+    product_quantity,suffix}) => { 
     let updatedProduit = {
       product_label,
       product_description,
       product_price: Number(product_price),
       product_picture: file,
       product_category,
+      product_availability,
+      quality_level,
       product_quantity: Number(product_quantity),
-      entreprise: user.enterpriseClt?._id || user.enterpriseImport?._id
+      id: user.enterpriseClt?._id || user.enterpriseImport?._id
     }
     let form = new FormData();
     form.append('product_label', product_label);
@@ -62,9 +99,11 @@ export default function ({ title, formData, visible, setIsAddVisible }) {
     form.append('product_quantity', Number(product_quantity));
     form.append('product_picture', file);
     form.append('product_category', product_category);
-    form.append('entreprise', user.enterpriseClt?._id || user.enterpriseImport?._id);
+    form.append('quality_level', quality_level);
+    form.append('product_availability', product_availability);
+    form.append('id', user.enterpriseClt?._id || user.enterpriseImport?._id);
     try {
-      if (!formData) {
+      if (isAdd) {
         for (const pair of form.entries()) {
           console.log(`${pair[0]}, ${pair[1]}`);
         };
@@ -73,10 +112,10 @@ export default function ({ title, formData, visible, setIsAddVisible }) {
         console.log({ id: formData._id, ...updatedProduit });
         const data = { id: formData._id, ...updatedProduit }
         dispatch(updateProduit(data));
-      }
+      } 
 
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
     }
   };
   const handleFileUpload = (e) => {
@@ -114,13 +153,15 @@ export default function ({ title, formData, visible, setIsAddVisible }) {
   return (
     <Modal
       title={title}
-      visible={visible}
+      open={visible}
       footer={null}
       onCancel={setIsAddVisible}
     >
+      {err && popUp("error")}
 
       <Form
         name="produit"
+        form={form}
         onFinish={onFinish}
         initialValues={formData}
         scrollToFirstError
@@ -140,24 +181,28 @@ export default function ({ title, formData, visible, setIsAddVisible }) {
         <Form.Item
           name="product_category"
           label="Catégorie produit"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
         >
-          <Select
-            style={{ width: 300 }}
+          <Select 
             placeholder="choisir ou ajouter catégorie"
             options={categories}
             dropdownRender={menu => (
               <>
                 {menu}
                 <Divider style={{ margin: '8px 0' }} />
-                <Space style={{ padding: '0 8px 4px' }}>
+                <Space wrap>
                   <Input
-                    placeholder="categorie"
+                    placeholder="ajouter une catégorie"
                     ref={inputRef}
                     value={category}
                     onChange={onNameChange}
                   />
                   <Button type="text" icon={<PlusOutlined />} onClick={addItem} disabled={!(category.length > 3)}>
-                    Ajouter categorie
+                    Ajouter catégorie
                   </Button>
                 </Space>
               </>
@@ -178,8 +223,7 @@ export default function ({ title, formData, visible, setIsAddVisible }) {
               width: '100%',
             }}
           />
-        </Form.Item>
-
+        </Form.Item> 
         <Form.Item
           name="product_price"
           label="Prix du produit"
@@ -197,6 +241,60 @@ export default function ({ title, formData, visible, setIsAddVisible }) {
           />
         </Form.Item>
 
+      <Form.List name="sights">
+        {(fields, { add, remove }) => (
+          <>
+            {fields.map((field) => (
+              <Space key={field.key} align="baseline">
+                <Form.Item
+                  noStyle
+                  shouldUpdate={(prevValues, curValues) =>
+                    prevValues.area !== curValues.area || prevValues.sights !== curValues.sights
+                  }
+                >
+                  {() => (
+                    <Form.Item
+                      {...field}
+                      label="quantités/intervalles"
+                      name={[field.name, 'sight']}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Missing sight',
+                        },
+                      ]}
+                    >
+                      <InputNumber />
+                    </Form.Item>
+                  )}
+                </Form.Item>
+                <Form.Item
+                  {...field}
+                  label="Price"
+                  name={[field.name, 'price']}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Missing price',
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+
+                <MinusCircleOutlined onClick={() => remove(field.name)} />
+              </Space>
+            ))}
+
+            <Form.Item>
+              <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                Ajouter des prix/quantités/intervalles
+              </Button>
+            </Form.Item>
+          </>
+        )}
+      </Form.List>
+        
         <Form.Item
           name="product_availability"
           label="Disponibilité du produit"
@@ -206,10 +304,22 @@ export default function ({ title, formData, visible, setIsAddVisible }) {
             },
           ]}
         >
-          <Select
-            style={{ width: 300 }} 
-            defaultValue="En Stock"
+          <Select 
             options={availability_options}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="quality_level"
+          label="Qualité du produit"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Select  
+            options={quality_options}
           />
         </Form.Item>
 

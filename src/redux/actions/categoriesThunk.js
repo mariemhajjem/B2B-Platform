@@ -3,9 +3,7 @@ import * as api from "../../services/categorie.service";
 export const getAllCategoriesThunk = async (thunkAPI) => {
 
   try {
-    const response = await api.getAllCategories();
-
-    console.log(response)
+    const response = await api.getAllCategories(); 
     return response.data;
   } catch (err) {
     return thunkAPI.rejectWithValue(err?.response?.data || err);

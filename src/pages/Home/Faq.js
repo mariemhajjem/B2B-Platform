@@ -8,9 +8,7 @@ import {
 
 import "./Faq.css";
 const style = {
-  background: "white",
-  padding: "1%",
-  margin: "3%",
+  background: "white", 
 };
 
 function Faq() {
@@ -31,9 +29,8 @@ function Faq() {
               {t(
                 "Quels sont les grands principes de la stratégie de vente ?"
               )}
-            </h3>
-            <p>
-              <p>{t("Nous avons fixé le principes suivant :")}</p>
+            </h3> 
+              <p>{t("Nous avons fixé le principes suivant :")}
               {t(
                 "Un accès équitable gratuit, sûr et de qualité approuvés par les données en temps opportun"
               )} 
@@ -45,7 +42,7 @@ function Faq() {
             <QuestionCircleOutlined className="iconStyle" />
             <br />
             <br />
-            <h3>{t("Comment s’enregistrer pour la vaccination Covid-19 ?")}</h3>
+            <h3>{t("Comment s’enregistrer ?")}</h3>
             <p>{t("Website : www.tradingoptimum.tn")} </p>
             <p>{t("SMS : 23255036")}</p> <p> {t("Appel : 23255036")}</p>
           </div>

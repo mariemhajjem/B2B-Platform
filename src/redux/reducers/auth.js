@@ -28,7 +28,7 @@ const slice = createSlice({
         [register.fulfilled]: (state, action) => {
             state.loading = false;
             state.loggedUser = action.payload;
-            toast.success("Registered Successfully");
+            toast.success(`Bienvenue ${action.payload.firstName} ${action.payload.lastName}`);
         },
         [register.rejected]: (state, action) => {
             state.loading = false;
@@ -41,7 +41,7 @@ const slice = createSlice({
         [login.fulfilled]: (state, action) => {
             state.loading = false;
             state.loggedUser = action.payload;
-            toast.success("logged in Successfully");
+            toast.success(`Bienvenue ${action.payload.firstName} ${action.payload.lastName}`);
         },
         [login.rejected]: (state, action) => {
             state.loading = false;
@@ -54,7 +54,7 @@ const slice = createSlice({
         [logout.fulfilled]: (state, action) => {
             state.loading = false;
             state.loggedUser = null;
-            toast.success("logged out Successfully");
+            toast.success("logged out Successfully",{autoClose: 1000});
         },
         [logout.rejected]: (state, action) => {
             state.loading = false;

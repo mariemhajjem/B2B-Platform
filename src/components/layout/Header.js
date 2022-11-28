@@ -155,23 +155,25 @@ const data = [
   },
 ];
 
-const menu = (
-  <List
-    min-width="100%"
-    className="header-notifications-dropdown "
-    itemLayout="horizontal"
-    dataSource={data}
-    renderItem={(item) => (
-      <List.Item>
-        <List.Item.Meta
-          avatar={<Avatar shape="square" src={item.avatar} />}
-          title={item.title}
-          description={item.description}
-        />
-      </List.Item>
-    )}
-  />
-);
+const menu = [{
+  label:
+    <List
+      min-width="100%"
+      className="header-notifications-dropdown "
+      itemLayout="horizontal"
+      dataSource={data}
+      renderItem={(item) => (
+        <List.Item>
+          <List.Item.Meta
+            avatar={<Avatar shape="square" src={item.avatar} />}
+            title={item.title}
+            description={item.description}
+          />
+        </List.Item>
+      )}
+    />,
+  key: "1"
+}];
 
 const profileMenu = (
   <List
@@ -298,7 +300,7 @@ function Header({
         </Col>
         <Col span={24} md={18} className="header-control">
           <Badge size="small" count={4}>
-            <Dropdown overlay={menu} trigger={["click"]}>
+            <Dropdown menu={menu} trigger={["click"]}>
               <a
                 href="#pablo"
                 className="ant-dropdown-link"
@@ -308,7 +310,7 @@ function Header({
               </a>
             </Dropdown>
           </Badge>
-          <Dropdown overlay={menu} trigger={["click"]}>
+          <Dropdown menu={menu} trigger={["click"]}>
             <a
               href="#pablo"
               className="ant-dropdown-link"

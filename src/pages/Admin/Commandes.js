@@ -11,8 +11,6 @@ import {
   Avatar,
   Typography,
 } from "antd";
-
-import { ToTopOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 // Images
@@ -128,7 +126,7 @@ function Commandes() {
             <Card
               bordered={false}
               className="criclebox tablespace mb-24"
-              title="Projects Table"
+              title="Tableau des commandes clients"
               extra={
                 <>
                   <Radio.Group onChange={onChange} defaultValue="all">

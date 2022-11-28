@@ -1,21 +1,8 @@
 import React, { useState } from 'react';
-import { Button, message, Steps } from 'antd';
-import { Link } from 'react-router-dom';
+import { Steps } from 'antd';
 import { PersonalInfo } from './PersonalInfo';
 import { CompanyInfo } from './CompanyInfo';
-import "./Signup.css";
-
-const { Step } = Steps;
-const steps = [
-  {
-    title: 'Personal Info',
-    content: 'First-content',
-  },
-  {
-    title: 'Company Info',
-    content: 'Second-content',
-  },
-];
+import "./Signup.css"; 
 
 export default function SignUpSteps({role}) {
 
@@ -49,15 +36,12 @@ export default function SignUpSteps({role}) {
   const onChange = (values) => {
     setFormData(values)
   };
+  const items = [ {title: 'Personal Info'} , { title: 'Company Info' }];
   return (
     <>
-      <Steps current={current}>
-        {steps.map((item) => (
-          <Step key={item.title} title={item.title} />
-        ))}
-      </Steps>
+      <Steps current={current} items={items} /> 
       <div className="steps-content">
-        {steps[current].content === 'First-content' ?
+        {items[current].title === 'Personal Info' ?
           <PersonalInfo
             formData={formData}
             setFormData={onChange}

@@ -24,5 +24,5 @@ export const deleteUser = async (idUser) => {
 }
 
 export const blockUser = async (idUser) => {
-  return await Axios.put(baseUrl + "/block" + idUser); 
+  return await Axios.put(baseUrl + "/block/" + idUser); 
 }

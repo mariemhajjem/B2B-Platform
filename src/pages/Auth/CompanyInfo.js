@@ -11,8 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { register } from "../../redux/reducers/auth"
 import "./Signup.css";
-import residences from '../../constants/residences';
-import { CLEAR_ERRORS } from '../../redux/reducers/error';
+import residences from '../../constants/residences'; 
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -51,16 +50,11 @@ export const CompanyInfo = ({
 }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const navigate = useNavigate()
-  const error = useSelector((state) => state.error);
+  const navigate = useNavigate() 
   const [err, setError] = useState("");
   const [code, setCode] = useState("");
-  useEffect(() => {
-    if (error.message) {
-      setError(error.message);
-      setCode(error.code);
-    }
-  }, [error]);
+  useEffect(() => { 
+  }, []);
   const onSubmit = ({ matricule_fiscale,
     company_name,
     company_phoneNumber,
@@ -99,10 +93,7 @@ export const CompanyInfo = ({
     label: website,
     value: website,
   }));
-  const clearError = () => {
-    dispatch(CLEAR_ERRORS());
-    setError("");
-    setCode("");
+  const clearError = () => {  
   };
   const popUp = (type) => {
     notification[type]({

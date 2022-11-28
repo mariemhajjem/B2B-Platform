@@ -51,3 +51,12 @@ export const deleteUserThunk = async (idUser, thunkAPI) => {
         return thunkAPI.rejectWithValue(error?.response?.data || error);
     }
 }
+export const blockUserThunk = async (idUser, thunkAPI) => {
+    try {
+        const result = await api.blockUser(idUser);
+        return result.data;
+    } catch (error) {
+        console.log(error.response?.data);
+        return thunkAPI.rejectWithValue(error?.response?.data || error);
+    }
+}

@@ -26,8 +26,31 @@
   border-bottom: 1px solid lightgray;
 
 }
+.cartItem__incrDec{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  width: 100px;
+}
 
+.cartItem__incrDec button{
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: gainsboro;
+  border: none;
+  border-radius: 100px;
+}
 
+.ant-table .ant-table-container .ant-table-content table thead.ant-table-thead .ant-table-cell { 
+  background-color: rgb(203, 203, 203); }
+a, a:hover, a:focus, a:active {
+  text-decoration: none;
+  color: inherit;
+}
 @media(max-width: 800px){
   .cart{
     flex-direction: column-reverse;

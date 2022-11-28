@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { getAllUsersThunk, getUserThunk, createNewUserThunk, updateUserThunk, deleteUserThunk } from '../actions/usersThunk';
-import { toast } from "react-toastify";
+import { getAllUsersThunk, getUserThunk, createNewUserThunk, updateUserThunk, deleteUserThunk, blockUserThunk } from '../actions/usersThunk';
 
 const initialState = {
     user: null,
@@ -13,6 +12,7 @@ export const getUser = createAsyncThunk('users/getUser', getUserThunk);
 export const getAllUsers = createAsyncThunk('users/getAllUsers', getAllUsersThunk);
 export const updateUser = createAsyncThunk('users/updateUser', updateUserThunk);
 export const deleteUser = createAsyncThunk('users/deleteUser', deleteUserThunk);
+export const blockUser = createAsyncThunk('users/blockUser', blockUserThunk);
 
 
 // Slice
@@ -38,10 +38,10 @@ const slice = createSlice({
         },
         [getUser.fulfilled]: (state, action) => {
             state.loading = false;
-            const { id } = action.payload;
-            if (id) {
+            const { _id } = action.payload;
+            if (_id) {
                 state.user = state.list.filter((item) => {
-                    return item._id === id;
+                    return item._id === _id;
                 }); // [0] array with [selected user]
             }
             state.user = action.payload;
@@ -55,30 +55,41 @@ const slice = createSlice({
         },
         [updateUser.fulfilled]: (state, action) => {
             state.loading = false;
-            const {
-                arg: { id },
-            } = action.meta;
-            if (id) {
+            const { _id } = action.payload;
+            if (_id) {
                 state.list = state.list.map((item) =>
-                    item._id === id ? action.payload : item
+                    item._id === _id ? action.payload : item
                 ); 
             }
         },
         [updateUser.rejected]: (state, action) => {
             state.loading = false;
             state.error = action.payload?.message;
-        }
-        ,
+        },
+        [blockUser.pending]: (state, action) => {
+            state.loading = true;
+        },
+        [blockUser.fulfilled]: (state, action) => {
+            state.loading = false;
+            const { _id }  = action.payload;
+            if (_id) {
+                state.list = state.list.map((item) =>
+                    item._id === _id ? action.payload : item
+                ); 
+            }
+        },
+        [blockUser.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.payload?.message;
+        },
         [deleteUser.pending]: (state, action) => {
             state.loading = true;
         },
         [deleteUser.fulfilled]: (state, action) => {
             state.loading = false;
-            const {
-                arg: { id },
-            } = action.meta;
-            if (id) {
-                state.list = state.list.filter((item) => item._id !== id); 
+            const { _id } = action.payload;
+            if (_id) {
+                state.list = state.list.filter((item) => item._id !== _id); 
             }
         },
         [deleteUser.rejected]: (state, action) => {

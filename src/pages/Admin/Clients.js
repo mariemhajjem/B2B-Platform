@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 // Images
 import face2 from "../../assets/images/face-2.jpg";
-import { getAllUsers } from "../../redux/reducers/users";
+import { blockUser, getAllUsers } from "../../redux/reducers/users";
 
 const { Title } = Typography;
 
@@ -38,7 +38,7 @@ const columns = [
     dataIndex: "phoneNumber",
   },
   {
-    title: "Bloquer",
+    title: "Bloquer/ débloquer",
     key: "block",
     dataIndex: "block",
   },
@@ -46,69 +46,75 @@ const columns = [
 
 
 
-function Clients() { 
+function Clients() {
   const [err, setError] = useState("");
   const [code, setCode] = useState("");
   const { list } = useSelector((state) => state.users);
-  // const userId = token?.user?._id;
+  const { role } = useSelector((state) => state.auth.loggedUser);
+   
   const dispatch = useDispatch();
   useEffect(() => {
-    /* if (userId) {
-      dispatch(getToursByUser(userId));
-    } */
-    dispatch(getAllUsers())
+    if (role === "ADMIN") {
+      dispatch(getAllUsers())
+    } else {
+
+    }
   }, []);
-  /* const error = useSelector((state) => state.errorReducer);
-   
+  /* 
   const popUp = (type) => {
     notification[type]({
       message: code,
       description: err,
       onClose: clearError,
     });
-  }; */ 
+  }; */
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
-
-  const data = list?.map((user) => ({
-      key: "1",
-      name: (
-        <>
-          <Avatar.Group>
-            {/* <Avatar
+  const block = (id) => { dispatch(blockUser(id)) }
+  const data = list?.map((user, key) => ({
+    key: key,
+    name: (
+      <>
+        <Avatar.Group>
+          {/* <Avatar
               className="shape-avatar"
               shape="square"
               size={40}
               src={face2}
             ></Avatar> */}
-            <div className="avatar-info">
-              <Title level={5}>{`${user?.firstName} ${user?.lastName}`}</Title>
-              <p>{user?.email}</p>
-            </div>
-          </Avatar.Group>
-        </>
-      ),
-      function: (
-        <>
-          <div className="author-info">
-            <Title level={5}>{user?.user_grade} </Title>
-            <p></p>
+          <div className="avatar-info">
+            <Title level={5}>{`${user?.firstName} ${user?.lastName}`}</Title>
+            <p>{user?.email}</p>
           </div>
-        </>
-      ),
-      phoneNumber: (
+        </Avatar.Group>
+      </>
+    ),
+    function: (
+      <>
         <div className="author-info">
-            <Title level={5}>{user?.phoneNumber} </Title>
-            <p></p>
+          <Title level={5}>{user?.user_grade} </Title>
+          <p></p>
         </div>
-      ),
-      block: (
-        <>
-          <Button type="primary" danger className="tag-primary">
+      </>
+    ),
+    phoneNumber: (
+      <div className="author-info">
+        <Title level={5}>{user?.phoneNumber} </Title>
+        <p></p>
+      </div>
+    ),
+    block: (
+      <> {
+        user?.isBlocked ?
+          <Button type="primary" onClick={() => block(user?._id)} className="tag-primary">
+            débloquer
+          </Button> :
+          <Button type="primary" danger onClick={() => block(user?._id)} className="tag-primary">
             bloquer
           </Button>
-        </>
-      ),
-    }));
+      }
+      </>
+    ),
+  }));
   return (
     <>
       <div className="tabled">

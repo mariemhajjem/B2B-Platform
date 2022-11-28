@@ -116,13 +116,7 @@ function Demandes() {
     <>
       <div className="tabled"> 
         <Row gutter={[24, 0]}>
-        <Col xs="24" xl={24}>
-      <Button
-            type="primary"
-            onClick={() => setIsAddVisible(true)}
-          >
-            Ajouter client
-          </Button>
+        <Col xs="24" xl={24}> 
           {/* {err && popUp("error")}
           {isAddVisible && <AddClient />}
           {isUpdateVisible && <UpdateClient />} */}
@@ -132,7 +126,7 @@ function Demandes() {
             <Card
               bordered={false}
               className="criclebox tablespace mb-24"
-              title="Clients Table"
+              title="Tableau des demandes de devis"
               extra={
                 <>
                   <Radio.Group onChange={onChange} defaultValue="a">

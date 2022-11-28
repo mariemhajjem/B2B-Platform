@@ -12,8 +12,7 @@ import {
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // Images 
-import { deleteProduit, getAllProduits, getProduitsByUser } from "../../redux/reducers/produits";
-import { CLEAR_ERRORS } from "../../redux/reducers/error";
+import { deleteProduit, getAllProduits, getProduitsByUser } from "../../redux/reducers/produits"; 
 import AddEditProduct from "./AddEditProduct";
 import { getAllCategories } from "../../redux/reducers/categories";
 
@@ -64,24 +63,33 @@ const columns = [
 function Stock() {
   const [isAddVisible, setIsAddVisible] = useState(false);
   const [isUpdateVisible, setIsUpdateVisible] = useState(false);
-  const [role, setRole] = useState(null);
   const [err, setError] = useState("");
-  const [code, setCode] = useState("");
-  const user = useSelector((state) => state.auth.loggedUser);
-  const { userProduits } = useSelector((state) => state.produits);  
+  const { role, enterpriseImport } = useSelector((state) => state.auth.loggedUser);
+  const { userProduits, getError } = useSelector((state) => state.produits);
   const dispatch = useDispatch();
   const [product, setProduct] = useState({
     product_label: '',
-    product_description: '',
-    product_price: 0,
-    product_picture: '',
-    product_quantity: 0,
+    product_description: '', 
+    product_picture: '', 
     product_date: '',
     product_category: '',
     product_availability: "En stock",
     quality_level: "Neuf avec emballage"
   });
+  useEffect(() => { 
+      if (role === "ADMIN") {
+        dispatch(getAllProduits());
+      } else {
+        dispatch(getProduitsByUser({ id: enterpriseImport?._id }));
+      }
+      console.log({ entreprise: enterpriseImport?._id })
+      dispatch(getAllCategories())
 
+      if (getError) {
+        setError(getError);
+      }
+
+    }, [getError]);
   const handleUpdate = (prod) => {
     // 👇️ toggle visibility 
     setProduct({ ...prod, product_picture: "", product_category: prod.category_id?.category_name })
@@ -94,21 +102,7 @@ function Stock() {
     dispatch(deleteProduit(id))
   }
 
-  const error = useSelector((state) => state.error);
-
-  useEffect(() => {
-    if (role==="ADMIN") {
-      dispatch(getAllProduits());
-    } 
-    console.log({entreprise : user.enterpriseClt?._id || user.enterpriseImport?._id})
-    dispatch(getAllCategories())
-    dispatch(getProduitsByUser({entreprise : user.enterpriseClt?._id || user.enterpriseImport?._id})); 
-    if (error.message) {
-      setError(error.message);
-      setCode(error.code);
-    }
-    setRole(user?.role)
-  }, [error]);
+  
 
   const excerpt = (str) => {
     if (str.length > 40) {
@@ -119,9 +113,8 @@ function Stock() {
 
   const popUp = (type) => {
     notification[type]({
-      message: code,
-      description: err,
-      onClose: CLEAR_ERRORS,
+      message: err,
+      description: err, 
     });
   };
   const handleClick = event => {
@@ -142,15 +135,14 @@ function Stock() {
     category: (
       <>
         <div className="avatar-info">
-          <Title level={5}>{prod?.category_id?.category_name || prod?.category_id }</Title>
+          <Title level={5}>{prod?.category_id?.category_name || prod?.category_id}</Title>
         </div>
       </>
     ),
     description: (
       <>
         <div className="author-info">
-          <Title level={5}>{prod?.product_description}</Title>
-          <p>{prod?.product_description}</p>
+          <p>{excerpt(prod?.product_description)}</p>
         </div>
       </>
     ),
@@ -191,10 +183,10 @@ function Stock() {
             >
               Ajouter produit
             </Button>
-            {isAddVisible && <AddEditProduct title="Ajouter produit" visible={isAddVisible} setIsAddVisible={handleClick} formData={null} />}
+            {isAddVisible && <AddEditProduct title="Ajouter produit" visible={isAddVisible} setIsAddVisible={handleClick} isAdd={true} formData={product} />}
             {err && popUp("error")}
 
-            {isUpdateVisible && <AddEditProduct title="Modifier produit" visible={isUpdateVisible} setIsAddVisible={handleUpdate} formData={product} />}
+            {isUpdateVisible && <AddEditProduct title="Modifier produit" visible={isUpdateVisible} setIsAddVisible={handleUpdate} isAdd={false} formData={product} />}
 
             <Divider orientation="left"></Divider>
             <Card
@@ -204,7 +196,7 @@ function Stock() {
               extra={
                 <>
                   <Radio.Group onChange={onChange} defaultValue="a">
-                    <Radio.Button value="a">All</Radio.Button>
+                    <Radio.Button value="a">Tous</Radio.Button>
                     <Radio.Button value="b">ONLINE</Radio.Button>
                   </Radio.Group>
                 </>
