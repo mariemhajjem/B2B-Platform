@@ -44,6 +44,9 @@ export default function ProductItemDetails() {
   const onIncrementQuantity = () => {
     setQuantity(quantity + 1)
   }
+  const base64String = btoa(
+    String.fromCharCode(...new Uint8Array(produit.product_picture?.data?.data))
+  );
   return (<> 
     {produit?
     <div className="site-card-border-less-wrapper" style={{
@@ -54,7 +57,7 @@ export default function ProductItemDetails() {
       width: '100%', 
     }}>
       <Space wrap>
-        <Image src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" style={Style} />
+        <Image src={`data:${produit.product_picture?.contentType};base64,${base64String}`} style={Style} />
         <Card 
           style={Style}
         >

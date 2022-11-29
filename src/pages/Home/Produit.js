@@ -9,6 +9,9 @@ export default function Produit({ produit }) {
   const dispatch = useDispatch();
 
   const id = produit?._id;
+  const base64String = btoa(
+    String.fromCharCode(...new Uint8Array(produit.product_picture?.data?.data))
+  );
   const excerpt = (str) => {
     if (str.length > 40) {
       str = str.substring(0, 40) + " ...";
@@ -24,7 +27,7 @@ export default function Produit({ produit }) {
         style={{
           width: 240,
         }}
-        cover={<Link to={`/details/${id}`}><img alt="example" src={`../../../../server/${produit?.product_picture}`} /></Link>}
+        cover={<Link to={`/details/${id}`}><img alt="example" src={`data:${produit.product_picture?.contentType};base64,${base64String}`} /></Link>}
         actions={[
           <div onClick={() => dispatch(addToCart(produit))}>
             <ShoppingCartOutlined /></div>,

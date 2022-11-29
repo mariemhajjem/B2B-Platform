@@ -55,7 +55,7 @@ const produitSlice = createSlice({
       },
       [createProduit.rejected]: (state, action) => {
         state.loading = false;
-        state.addError = action.payload;
+        state.addError = action.payload?.message;
       },
       [getAllProduits.pending]: (state, action) => {
         state.loading = true;

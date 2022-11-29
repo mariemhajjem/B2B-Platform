@@ -27,16 +27,24 @@ function Cart() {
   }
   const columns = [
     {
+      title: 'Image',
+      dataIndex: 'product_image',
+      key: 'image',
+      render: (_, produit) => { const base64String = btoa(
+        String.fromCharCode(...new Uint8Array(produit.product_picture?.data?.data))
+      ); return <img alt="image produit" src={`data:${produit.product_picture?.contentType};base64,${base64String}`} width="70"/>},
+    },
+    {
       title: 'Produit',
       dataIndex: 'product_label',
       key: 'title',
-      render: (_, text) => <p>{text.product_label}</p>,
+      render: (_, produit) => <p>{produit.product_label}</p>,
     },
     {
       title: 'Prix',
       dataIndex: 'product_price',
       key: 'price',
-      render: (_, text) => <p>{text.product_price} DT</p>,
+      render: (_, produit) => <p>{produit.product_price} DT</p>,
     },
     {
       title: 'quantité',
@@ -62,11 +70,15 @@ function Cart() {
   ];
 
   const sendCommande = () => {
+    // TODO : check if not connected redirect to login/ register
+    // else navigate or add here in the same component commande steps ( addresses + livraison)
+    // show steps and hide table
     let commande = {
       commande_summary: [],
       id: user.enterpriseClt?._id || user.enterpriseImport?._id
     }
     cart.map((prod) => commande.commande_summary.push({ produit: prod._id, quantity: prod.quantity }))
+
     dispatch(createCommande(commande)) 
     dispatch(clearCart())
     
@@ -79,7 +91,7 @@ function Cart() {
         <Table pagination={false} columns={columns} dataSource={cart} style={{ width: "80%" }} />
         <Card title="SOMMAIRE" style={{ height: "35%" }}>
           <h4>Total TTC   <span>{getTotal().totalPrice} DT</span></h4>
-          <p>total ({getTotal().totalQuantity} items)</p>
+          <p>({getTotal().totalQuantity} articles)</p>
           <Button type='primary' onClick={sendCommande}>Commander</Button>
         </Card>
       </div>
