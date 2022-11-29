@@ -18,9 +18,14 @@ const apiStatusConstants = {
 }
 
 const Style = {
-  width: 500,
+  width: 400,
   height: 500,
   display: "flex", justifyContent: "center"
+};
+const Style1 = {
+  width: 300,
+  height: 500,
+  display: "flex", justifyContent: "flex-end"
 };
 export default function ProductItemDetails() { 
   const [quantity, setQuantity] = useState(1);
@@ -51,10 +56,9 @@ export default function ProductItemDetails() {
     {produit?
     <div className="site-card-border-less-wrapper" style={{
       display: 'flex',
-      justifyContent: 'center',
+      justifyContent:"space-around",
       alignItems: 'center',
-      marginTop: '8%',
-      width: '100%', 
+      paddingTop: '5%',  
     }}>
       <Space wrap>
         <Image src={`data:${produit.product_picture?.contentType};base64,${base64String}`} style={Style} />
@@ -87,8 +91,26 @@ export default function ProductItemDetails() {
               ADD TO CART
             </button> 
         </Card>
+        <Card 
+          style={Style1}
+        >
+          <h2>Informations fournisseur</h2> 
+          <h2>{produit?.category_id?.category_name}</h2>
+          <p>{produit?.product_description}</p>  
+           
+            <Space split={<Divider type='vertical' />} >
+              <h4> </h4> 
+            </Space>
+            <Divider /> 
+            <p>Pour les demandes concernant les prix, la personnalisation ou les autres demandes de renseignements :</p>
+            <button type="button" onClick={() => {}}>
+              Contactez le fournisseur
+            </button> 
+        </Card>
       </Space></div> : <h1 className="product-not-found-heading">Product Not Found</h1>}
-    <h1>Produits dans la même catégorie</h1>
+     
+    <h1>Autres produits dans la même catégorie</h1>
+
   </>)
 }
 

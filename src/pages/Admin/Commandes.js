@@ -4,8 +4,6 @@ import {
   Card,
   Radio,
   Table,
-  Upload,
-  message,
   Progress,
   Button,
   Avatar,
@@ -15,108 +13,66 @@ import { Link } from "react-router-dom";
 
 // Images
 import ava1 from "../../assets/images/logo-shopify.svg";
-import ava2 from "../../assets/images/logo-atlassian.svg"; 
+import ava2 from "../../assets/images/logo-atlassian.svg";
 import pencil from "../../assets/images/pencil.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { getAllCommandes, getCommandesByUser } from "../../redux/reducers/commande";
+import { DeleteTwoTone, EyeTwoTone } from "@ant-design/icons";
 
 const { Title } = Typography;
 // project table start
 const project = [
   {
-    title: "COMPANIES",
+    title: "Entreprise",
     dataIndex: "name",
-    width: "32%",
   },
   {
-    title: "BUDGET",
-    dataIndex: "age",
+    title: "TOTAL",
+    dataIndex: "total",
   },
   {
     title: "STATUS",
+    dataIndex: "status",
+  },
+  {
+    title: "DATE",
+    dataIndex: "date",
+  },
+  {
+    title: "ADRESSE",
     dataIndex: "address",
   },
   {
-    title: "COMPLETION",
-    dataIndex: "completion",
+    title: "ACTION",
+    dataIndex: "action",
   },
 ];
-const dataproject = [
-  {
-    key: "1",
 
-    name: (
-      <>
-        <Avatar.Group>
-          <Avatar className="shape-avatar" src={ava1} size={25} alt="" />
-          <div className="avatar-info">
-            <Title level={5}>Spotify Version</Title>
-          </div>
-        </Avatar.Group>
-      </>
-    ),
-    age: (
-      <>
-        <div className="semibold">$14,000</div>
-      </>
-    ),
-    address: (
-      <>
-        <div className="text-sm">working</div>
-      </>
-    ),
-    completion: (
-      <>
-        <div className="ant-progress-project">
-          <Progress percent={30} size="small" />
-          <span>
-            <Link to="/">
-              <img src={pencil} alt="" />
-            </Link>
-          </span>
-        </div>
-      </>
-    ),
-  },
-
-  {
-    key: "2",
-    name: (
-      <>
-        <Avatar.Group>
-          <Avatar className="shape-avatar" src={ava2} size={25} alt="" />
-          <div className="avatar-info">
-            <Title level={5}>Progress Track</Title>
-          </div>
-        </Avatar.Group>
-      </>
-    ),
-    age: (
-      <>
-        <div className="semibold">$3,000</div>
-      </>
-    ),
-    address: (
-      <>
-        <div className="text-sm">working</div>
-      </>
-    ),
-    completion: (
-      <>
-        <div className="ant-progress-project">
-          <Progress percent={10} size="small" />
-          <span>
-            <Link to="/">
-              <img src={pencil} alt="" />
-            </Link>
-          </span>
-        </div>
-      </>
-    ),
-  },
-];
 
 function Commandes() {
+  const dispatch = useDispatch();
+  const [isVisible, setIsVisible] = useState(false);
+  const { allCommandes } = useSelector((state) => state.commande);
+  useEffect(() => { 
+    /* if (role === "ADMIN") {
+      dispatch(getAllCommandes());
+    } else {
+      //dispatch(getCommandesByUser({ id: enterpriseImport?._id }));
+    } */
+     
+    dispatch(getAllCommandes()) 
+  }, []);
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
-
+  const dataproject = allCommandes.map((commande,key) =>({
+      key,
+      name: (<Title level={5}>{commande.entrepriseClt?.company_name}</Title>),
+      total: (<div className="semibold">{commande?.total || "-"}</div>),
+      status: (<div className="text-sm">{commande?.commande_status || "-"}</div>),
+      date: (<div className="ant-progress-project">{commande?.commande_date?.split('T')[0] || "-"}</div>),
+      address: (<div className="text-sm">{commande?.commande_address[0]?.address + ", " +commande?.commande_address[0]?.code_postal}</div>),
+      action: (<div><Button><EyeTwoTone /></Button><Button><DeleteTwoTone twoToneColor="#eb2f96"/></Button></div>),
+    }));
   return (
     <>
       <div className="tabled">
@@ -144,7 +100,7 @@ function Commandes() {
                   pagination={false}
                   className="ant-border-space"
                 />
-              </div> 
+              </div>
             </Card>
           </Col>
         </Row>

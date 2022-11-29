@@ -1,18 +1,31 @@
 import { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Card, Space, Table } from 'antd';
 import { decrementQuantity, incrementQuantity, removeItem, clearCart } from '../../redux/reducers/cartSlice';
 import { createCommande } from '../../redux/reducers/commande';
 import './cart.css'
+import OrderSteps from './delivery/OrderSteps';
 
 function Cart() {
-  const [err,setErr] = useState();
+  const [err,setErr] = useState("");
+  const [order,setOrder] = useState(false);
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.loggedUser)
   const { cart } = useSelector((state) => state.persistedReducer);
   const { error } = useSelector((state) => state.commande);
-
+  const [formData, setFormData] = useState({ 
+    code_postal: '',
+    company_phoneNumber: 0,   
+    company_name: '', 
+    company_email: '',  
+    company_residence: ['ariana', 'soukra'], 
+    company_address: '',
+  });
+  const onChange = (values) => {
+    setFormData(values)
+  };
   useEffect(() => {
     setErr(error)
   }, [error])
@@ -38,13 +51,13 @@ function Cart() {
       title: 'Produit',
       dataIndex: 'product_label',
       key: 'title',
-      render: (_, produit) => <p>{produit.product_label}</p>,
+      render: (_, produit) => <h5>{produit.product_label}</h5>,
     },
     {
       title: 'Prix',
       dataIndex: 'product_price',
       key: 'price',
-      render: (_, produit) => <p>{produit.product_price} DT</p>,
+      render: (_, produit) => <h5>{produit.product_price} DT</h5>,
     },
     {
       title: 'quantité',
@@ -54,7 +67,7 @@ function Cart() {
         <Space size="middle">
           <div className='cartItem__incrDec'>
             <button onClick={() => dispatch(decrementQuantity(record._id))}>-</button>
-            <p>{record.quantity}</p>
+            <h3>{record.quantity}</h3>
             <button onClick={() => dispatch(incrementQuantity(record._id))}>+</button>
           </div>
         </Space>
@@ -68,35 +81,40 @@ function Cart() {
       ),
     },
   ];
+  const setOrderVisible = () => {
+    setOrder(current => !current);
+  }
 
   const sendCommande = () => {
     // TODO : check if not connected redirect to login/ register
-    // else navigate or add here in the same component commande steps ( addresses + livraison)
-    // show steps and hide table
-    let commande = {
-      commande_summary: [],
-      id: user.enterpriseClt?._id || user.enterpriseImport?._id
-    }
-    cart.map((prod) => commande.commande_summary.push({ produit: prod._id, quantity: prod.quantity }))
-
-    dispatch(createCommande(commande)) 
-    dispatch(clearCart())
-    
+    // else navigate or add here in the same component commande steps ( addresses + livraison) 
+    if(!user) navigate("/sign-in")
+    else setFormData({...formData,
+      company_name:user.enterpriseClt?.company_name,
+      company_email: user.enterpriseClt?.company_email,
+      company_residence: user.enterpriseClt?.company_residence,
+      company_phoneNumber: user.enterpriseClt?.company_phoneNumber,
+      company_address: user.enterpriseClt?.company_address})
+    setOrderVisible()    
   }
-  return (
+
+  return (<>
     <Space id="capture" wrap direction="vertical" size="middle" style={{ display: "flex", justifyContent: "center", padding: "0 10em" }}>
       <h1>Votre commande</h1>
       <h2>{"Date : " + new Date().toLocaleDateString()}</h2>
-      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
-        <Table pagination={false} columns={columns} dataSource={cart} style={{ width: "80%" }} />
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-around" }}>
+        <Table pagination={false} columns={columns} dataSource={cart} style={{ width: "60%" }} />
         <Card title="SOMMAIRE" style={{ height: "35%" }}>
-          <h4>Total TTC   <span>{getTotal().totalPrice} DT</span></h4>
-          <p>({getTotal().totalQuantity} articles)</p>
+          <h5>({getTotal().totalQuantity} articles)</h5>
+          <h5>Total (TTC)   <span>{getTotal().totalPrice} DT</span></h5>
+          
           <Button type='primary' onClick={sendCommande}>Commander</Button>
         </Card>
       </div>
       <h3 style={{ padding: "-50em 0 0 10em" }}> <Link to='/'>{`< Continuer mes achats`}</Link></h3>
     </Space>
+    {order? <OrderSteps visible={order} setOrder={setOrderVisible} onChange={onChange} formData={formData} />:null}
+    </>
   )
 }
 

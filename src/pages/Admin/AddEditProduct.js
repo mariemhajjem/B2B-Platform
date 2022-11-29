@@ -5,7 +5,7 @@ import {
   Select,
   Input, 
   Button, 
-  Divider, Space, notification, InputNumber,
+  Divider, Space, notification, InputNumber, Slider,
 } from "antd";
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from "react-redux";
@@ -264,7 +264,7 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
                         },
                       ]}
                     >
-                      <InputNumber />
+                      <Slider range defaultValue={[0, 99]} />
                     </Form.Item>
                   )}
                 </Form.Item>

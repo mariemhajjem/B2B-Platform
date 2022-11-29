@@ -25,7 +25,7 @@ const columns = [
     width: "32%",
   },
   {
-    title: "FUNCTION",
+    title: "Budget",
     dataIndex: "function",
     key: "function",
   },
