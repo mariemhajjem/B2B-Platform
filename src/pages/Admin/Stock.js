@@ -12,7 +12,7 @@ import {
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // Images 
-import { deleteProduit, getAllProduits, getProduitsByUser } from "../../redux/reducers/produits"; 
+import { clearErrors, deleteProduit, getAllProduits, getProduitsByUser } from "../../redux/reducers/produits"; 
 import AddEditProduct from "./AddEditProduct";
 import { getAllCategories } from "../../redux/reducers/categories";
 
@@ -64,7 +64,7 @@ function Stock() {
   const [isAddVisible, setIsAddVisible] = useState(false);
   const [isUpdateVisible, setIsUpdateVisible] = useState(false);
   const [err, setError] = useState("");
-  const { role, enterpriseImport } = useSelector((state) => state.auth.loggedUser);
+  const { role, entrepriseImport } = useSelector((state) => state.auth.loggedUser);
   const { userProduits, getError } = useSelector((state) => state.produits);
   const dispatch = useDispatch();
   const [product, setProduct] = useState({
@@ -80,13 +80,14 @@ function Stock() {
       if (role === "ADMIN") {
         dispatch(getAllProduits());
       } else {
-        dispatch(getProduitsByUser({ id: enterpriseImport?._id }));
+        dispatch(getProduitsByUser({ id: entrepriseImport?._id }));
       }
-      console.log({ entreprise: enterpriseImport?._id })
+      console.log({ entreprise: entrepriseImport?._id })
       dispatch(getAllCategories())
 
       if (getError) {
         setError(getError);
+        dispatch(clearErrors())
       }
 
     }, [getError]);

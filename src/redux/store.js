@@ -17,7 +17,11 @@ import {
         getDefaultMiddleware({
             serializableCheck: {
               ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+              warnAfter: 500
             },
+            immutableCheck: {
+              warnAfter: 500
+            }
           }).concat(thunk),
     devTools: true
 })

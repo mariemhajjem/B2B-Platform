@@ -33,7 +33,7 @@ const slice = createSlice({
         [register.rejected]: (state, action) => {
             state.loading = false;
             state.loggedUser = null;
-            state.error = action.payload?.message;
+            state.error = action.payload;
         },
         [login.pending]: (state, action) => {
             state.loading = true;

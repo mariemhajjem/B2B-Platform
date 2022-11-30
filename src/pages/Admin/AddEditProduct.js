@@ -90,7 +90,7 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
       product_availability,
       quality_level,
       product_quantity: Number(product_quantity),
-      id: user.enterpriseClt?._id || user.enterpriseImport?._id
+      id: user.entrepriseClt?._id || user.entrepriseImport?._id
     }
     let form = new FormData();
     form.append('product_label', product_label);
@@ -101,7 +101,7 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
     form.append('product_category', product_category);
     form.append('quality_level', quality_level);
     form.append('product_availability', product_availability);
-    form.append('id', user.enterpriseClt?._id || user.enterpriseImport?._id);
+    form.append('id', user.entrepriseClt?._id || user.entrepriseImport?._id);
     try {
       if (isAdd) {
         for (const pair of form.entries()) {
@@ -247,26 +247,10 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
             {fields.map((field) => (
               <Space key={field.key} align="baseline">
                 <Form.Item
-                  noStyle
-                  shouldUpdate={(prevValues, curValues) =>
-                    prevValues.area !== curValues.area || prevValues.sights !== curValues.sights
-                  }
-                >
-                  {() => (
-                    <Form.Item
-                      {...field}
-                      label="quantités/intervalles"
-                      name={[field.name, 'sight']}
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Missing sight',
-                        },
-                      ]}
-                    >
-                      <Slider range defaultValue={[0, 99]} />
-                    </Form.Item>
-                  )}
+                  label="quantités/intervalles"
+                  name={[field.name, 'sight']} 
+                > 
+                  <Slider range step={1} defaultValue={[0, 99]} /> 
                 </Form.Item>
                 <Form.Item
                   {...field}

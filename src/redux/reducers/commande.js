@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { createCommandeThunk, getAllCommandesThunk, getCommandesByUserThunk } from '../actions/commandesThunk';
+import { createCommandeThunk, getAllCommandesThunk, getCommandesByUserThunk, updateCommandeThunk } from '../actions/commandesThunk';
 
 import { toast } from "react-toastify";
 const initialState = { 
@@ -15,7 +15,7 @@ export const getAllCommandes = createAsyncThunk('commandes/getAllCommandes', get
 export const createCommande = createAsyncThunk('commandes/createCommande', createCommandeThunk);
 
 export const getCommandesByUser = createAsyncThunk('commandes/getCommandesByUser', getCommandesByUserThunk); 
-
+export const updateCommande = createAsyncThunk('commandes/updateCommande', updateCommandeThunk); 
 // Slice
 const commandeSlice = createSlice({
     name: 'commandes',
@@ -51,11 +51,27 @@ const commandeSlice = createSlice({
       },
       [getCommandesByUser.fulfilled]: (state, action) => {
         state.loading = false;
-        state.userCommandes = action.payload;
+        state.allCommandes = action.payload;
       },
       [getCommandesByUser.rejected]: (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      },
+      [updateCommande.pending]: (state, action) => {
+        state.loading = true;
+      },
+      [updateCommande.fulfilled]: (state, action) => {
+        state.loading = false;
+        const { _id } = action.payload;
+        if (_id) { 
+          state.allCommandes = state.allCommandes.map((item) =>
+            item._id === _id ? { ...action.payload } : item
+          );
+        }
+      },
+      [updateCommande.rejected]: (state, action) => {
+        state.loading = false;
+        state.addError = action.payload?.message;
       }     
     },
 });

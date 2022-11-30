@@ -17,3 +17,7 @@ export const createNewCommande = async (commande) => {
 export const getCommande = async (idCommande) => {
   return await Axios.get(`${baseUrl}/${idCommande}`); 
 } 
+
+export const updateCommande = async (commande) => {
+  return await Axios.put(`${baseUrl}/update`, commande); 
+}

@@ -32,4 +32,14 @@ export const getCommandesByUserThunk = async (user,thunkAPI) => {
     } catch (err) {
       return thunkAPI.rejectWithValue(err?.response?.data || err);
     }
-  };
+};
+
+export const updateCommandeThunk = async (updatedCommandeData, thunkAPI) => {
+  try {
+    const response = await api.updateCommande(updatedCommandeData);
+    console.log(response.data)
+    return response.data;
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err?.response?.data || err);
+  }
+};

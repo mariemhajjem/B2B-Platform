@@ -69,10 +69,14 @@ export const PaymentInfo = ({
 					}
 				],
 				commande_summary: [],
-				id: user.enterpriseClt?._id || user.enterpriseImport?._id
+				id: user.entrepriseClt?._id || user.entrepriseImport?._id
 			}
 			if(cart !== []) {
-				cart.map((prod) => commande.commande_summary.push({ produit: prod._id, quantity: prod.quantity }))
+				cart.map((prod) => commande.commande_summary.push({
+					produit: prod._id,
+					quantity: prod.quantity,
+					idFournisseur: prod.entrepriseImport
+				}))
 			
 				dispatch(createCommande(commande))
 				dispatch(clearCart()) 

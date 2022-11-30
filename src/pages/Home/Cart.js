@@ -12,7 +12,7 @@ function Cart() {
   const [order,setOrder] = useState(false);
   const navigate = useNavigate()
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.loggedUser)
+  const {entrepriseClt} = useSelector((state) => state.auth.loggedUser)
   const { cart } = useSelector((state) => state.persistedReducer);
   const { error } = useSelector((state) => state.commande);
   const [formData, setFormData] = useState({ 
@@ -27,6 +27,7 @@ function Cart() {
     setFormData(values)
   };
   useEffect(() => {
+    entrepriseClt && setFormData({...formData, ...entrepriseClt}) 
     setErr(error)
   }, [error])
   const getTotal = () => {
@@ -43,9 +44,7 @@ function Cart() {
       title: 'Image',
       dataIndex: 'product_image',
       key: 'image',
-      render: (_, produit) => { const base64String = btoa(
-        String.fromCharCode(...new Uint8Array(produit.product_picture?.data?.data))
-      ); return <img alt="image produit" src={`data:${produit.product_picture?.contentType};base64,${base64String}`} width="70"/>},
+      render: (_, produit) => { return <img alt="image produit" src={produit.product_picture} width="70"/>},
     },
     {
       title: 'Produit',
@@ -74,6 +73,14 @@ function Cart() {
       ),
     },
     {
+      title: 'Sous-total',
+      dataIndex: 'sous-total',
+      key: 'sous-total',
+      render: (_, record) => ( 
+            <h3>{record.quantity*record.product_price}</h3> 
+      ),
+    },
+    {
       title: 'Supprimer',
       key: 'supprimer',
       render: (_, record) => (
@@ -85,16 +92,8 @@ function Cart() {
     setOrder(current => !current);
   }
 
-  const sendCommande = () => {
-    // TODO : check if not connected redirect to login/ register
-    // else navigate or add here in the same component commande steps ( addresses + livraison) 
-    if(!user) navigate("/sign-in")
-    else setFormData({...formData,
-      company_name:user.enterpriseClt?.company_name,
-      company_email: user.enterpriseClt?.company_email,
-      company_residence: user.enterpriseClt?.company_residence,
-      company_phoneNumber: user.enterpriseClt?.company_phoneNumber,
-      company_address: user.enterpriseClt?.company_address})
+  const sendCommande = () => { 
+    if(!entrepriseClt) navigate("/sign-in") 
     setOrderVisible()    
   }
 
@@ -102,15 +101,15 @@ function Cart() {
     <Space id="capture" wrap direction="vertical" size="middle" style={{ display: "flex", justifyContent: "center", padding: "0 10em" }}>
       <h1>Votre commande</h1>
       <h2>{"Date : " + new Date().toLocaleDateString()}</h2>
-      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-around" }}>
-        <Table pagination={false} columns={columns} dataSource={cart} style={{ width: "60%" }} />
+      <Space wrap style={{ width: "120%" }}>
+        <Table pagination={false} columns={columns} dataSource={cart}  />
         <Card title="SOMMAIRE" style={{ height: "35%" }}>
           <h5>({getTotal().totalQuantity} articles)</h5>
           <h5>Total (TTC)   <span>{getTotal().totalPrice} DT</span></h5>
           
           <Button type='primary' onClick={sendCommande}>Commander</Button>
         </Card>
-      </div>
+      </Space>
       <h3 style={{ padding: "-50em 0 0 10em" }}> <Link to='/'>{`< Continuer mes achats`}</Link></h3>
     </Space>
     {order? <OrderSteps visible={order} setOrder={setOrderVisible} onChange={onChange} formData={formData} />:null}
