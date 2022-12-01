@@ -13,7 +13,7 @@ const cartSlice = createSlice({
         itemInCart.quantity++;
       } else {
         state.cart.push({ ...action.payload, quantity: 1, key: action.payload._id });
-        toast.success("Produit ajouté au panier");
+        toast.success(`Vous avez ajouté ${action.payload.product_label} à votre commande`);
       }
     },
     incrementQuantity: (state, action) => {

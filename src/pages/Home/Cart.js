@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Card, Space, Table } from 'antd';
 import { decrementQuantity, incrementQuantity, removeItem, clearCart } from '../../redux/reducers/cartSlice';
-import { createCommande } from '../../redux/reducers/commande';
 import './cart.css'
 import OrderSteps from './delivery/OrderSteps';
 
@@ -12,7 +11,7 @@ function Cart() {
   const [order,setOrder] = useState(false);
   const navigate = useNavigate()
   const dispatch = useDispatch();
-  const {entrepriseClt} = useSelector((state) => state.auth.loggedUser)
+  const user = useSelector((state) => state.auth.loggedUser);
   const { cart } = useSelector((state) => state.persistedReducer);
   const { error } = useSelector((state) => state.commande);
   const [formData, setFormData] = useState({ 
@@ -27,7 +26,7 @@ function Cart() {
     setFormData(values)
   };
   useEffect(() => {
-    entrepriseClt && setFormData({...formData, ...entrepriseClt}) 
+    user && setFormData({...formData, ...user?.entrepriseClt}) 
     setErr(error)
   }, [error])
   const getTotal = () => {
@@ -93,7 +92,7 @@ function Cart() {
   }
 
   const sendCommande = () => { 
-    if(!entrepriseClt) navigate("/sign-in") 
+    if(!user) navigate("/sign-in") 
     setOrderVisible()    
   }
 

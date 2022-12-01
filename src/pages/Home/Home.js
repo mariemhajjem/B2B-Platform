@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Carousel, Divider, Image, Space, FloatButton } from "antd";
-
+import { Carousel as AntdCarousel, Divider, Image, Space, FloatButton } from "antd";
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 import Faq from "./Faq";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
@@ -19,28 +20,39 @@ const contentStyle = {
   height: "700px",
   width: "1600px",
 };
+const responsive = {
+  superLargeDesktop: { 
+    breakpoint: { max: 4000, min: 3000 },
+    items: 5
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 4
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1
+  }
+};
 
 function Home() {
-  const { allProduits } = useSelector((state) => state.produits); 
-  const cart = useSelector((state) => state.cart); 
+  const { allProduits } = useSelector((state) => state.produits);
+  const { allCategories, loading } = useSelector((state) => state.categories);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllCategories())
     dispatch(getAllProduits());
-  },[])
-  const getTotalQuantity = () => {
-    let total = 0
-    cart?.forEach(item => {
-      total += item.quantity
-    })
-    return total
-  }
+  }, [])
 
   return (
     <div id="Home" style={{ marginTop: "-20px", marginLeft: "-8px", overflowX: "hidden" }}>
       <Navbar />
 
-      <Carousel autoplay autoplaySpeed={6000}>
+      <AntdCarousel autoplay autoplaySpeed={6000}>
         <div>
           <Image src={tal0} className="full" style={contentStyle} />
         </div>
@@ -50,21 +62,28 @@ function Home() {
         <div>
           <Image src={tal2} className="full" style={contentStyle} />
         </div>
+      </AntdCarousel>
+
+      <h1 style={{ display: "flex", justifyContent: "center", color: "#e3823e", padding: "3%" }}>Nos catégories</h1>
+
+      <ul className="grid">
+        {allCategories?.map((value, index) =>
+          <li className="grid__child">
+            <img src={tal2} />
+            <h4 style={{ display: "flex", justifyContent: "center" }}>{value.category_name}</h4>
+          </li>)}
+      </ul>
+
+      <Divider />
+
+      <h1 id="Produits" style={{ display: "flex", justifyContent: "center", color: "#e3823e" }}>Nos produits</h1>
+      <Carousel transitionDuration={1000} centerMode={true} responsive={responsive} itemClass="carousel-item-padding-20-px">
+        {allProduits?.map((value, index) => <Space><Produit key={index} produit={value} /></Space>)}
       </Carousel>
-      <h1 style={{ display: "flex", justifyContent: "center", color: "black" }}>Nos produits</h1>
 
-      <Space size={50} wrap style={{ marginRight: "10%", marginLeft: "10%" }}>
-
-        {allProduits?.map((value, index) => <Produit key={index} produit={value} />)}
-      </Space>
       <Divider />
       <Faq />
       <Divider />
-      {/* <Chatbot /> 
-      <div className='shopping-cart' onClick={() => navigate('/cart')}>
-        <ShoppingCart id='cartIcon' />
-        <p>{getTotalQuantity() || 0}</p>
-      </div>*/}
       <FloatButton.BackTop />
       <Footer />
     </div>

@@ -53,7 +53,7 @@ const produitSlice = createSlice({
       state.loading = false;
       state.allProduits?.push(action.payload);
       state.userProduits?.push(action.payload);
-      toast.success("Product added Successfully");
+      toast.success(`${action.payload.product_label} ajouté`);
     },
     [createProduit.rejected]: (state, action) => {
       state.loading = false;

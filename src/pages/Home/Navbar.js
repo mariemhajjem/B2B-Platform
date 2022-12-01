@@ -8,7 +8,6 @@ import "./Navbar.css";
 import logo from "../../assets/images/user-circle.svg";
 import { logout as Logout } from "../../redux/reducers/auth";
 
-import { getAllCategories } from "../../redux/reducers/categories";
 const centerStyle = {
 	alignItems: "center",
 	justifyContent: "center",
@@ -23,29 +22,41 @@ const changeLanguage = (ln) => {
 	};
 };
 
+
 function Navbar() {
 	const token = useSelector((state) => state.auth.loggedUser);
 	const { allCategories, loading } = useSelector((state) => state.categories);
+	const { cart } = useSelector((state) => state.persistedReducer);
 	const [categories, setCategories] = useState([]);
 	const [category, setCategory] = useState('');
+	const [total, setTotal] = useState(0);
 	const { t } = useTranslation();
 	const dispatch = useDispatch();
 
 	const CLIENT = "CLIENT";
 	const FOURNISSEUR = "FOURNISSEUR";
-	useEffect(() => { 
+	useEffect(() => {
 		const categoriesTab = allCategories.map((categorie) => ({
 			label: <Link to={`/category/${category}`}>
 				{categorie.category_name}
 			</Link>, key: categorie._id
-		})); 
-		setCategories(categoriesTab) 
-		
-	}, [loading])
+		}));
+		setCategories(categoriesTab)
+		const getTotalQuantity = () => {
+			let total = 0
+			cart?.forEach(item => {
+				total += item.quantity
+			})
+			return total
+		}
+		console.log(getTotalQuantity())
+		setTotal(getTotalQuantity())
+	}, [loading, cart, total])
 
 	const logout = (e) => {
 		dispatch(Logout());
 	};
+
 
 	const items = [
 		{ label: <Image src={logo} className="logos" />, key: 'item-1' },
@@ -54,7 +65,7 @@ function Navbar() {
 			label: <Link to="/">{t("Catégories")}</Link>, key: 'item-6',
 			children: categories,
 		},
-		{ label: <Link to="/">{t("Produits")}</Link>, key: 'item-3' },
+		{ label: <a href="#Produits">{t("Produits")}</a>, key: 'item-3' },
 		{ label: <a href="#Contact">{t("Contactez-nous")}</a>, key: 'item-4' },
 		{ label: <a href="#Faq"> {t("FAQ")}</a>, key: 'item-5' },
 		!token && {
@@ -89,7 +100,7 @@ function Navbar() {
 		},
 		{
 			label: <Link to="/cart">
-				<ShoppingCart />
+				<ShoppingCart /> <span className="badge badge-warning" id='lblCartCount'> {total} </span>
 			</Link>, key: 'item-c'
 		},
 	];

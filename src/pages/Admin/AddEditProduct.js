@@ -1,13 +1,13 @@
-import { useState, useRef, useEffect, useLayoutEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Modal,
   Form,
   Select,
   Input, 
   Button, 
-  Divider, Space, notification, InputNumber, Slider,
+  Divider, Space, notification
 } from "antd";
-import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from "react-redux";
 
 import { createProduit, updateProduit } from "../../redux/reducers/produits";  
@@ -39,11 +39,7 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
   const [category, setCategory] = useState('');
   const inputRef = useRef(null);
   const [form] = Form.useForm();
-  const handleChange = () => {
-    form.setFieldsValue({
-      sights: [],
-    });
-  };
+
   const availability_options = [
     { label: "En Stock", value: "En Stock" },
     { label: "Pré-commande", value: "Pré-commande" },
@@ -241,44 +237,6 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
           />
         </Form.Item>
 
-      <Form.List name="sights">
-        {(fields, { add, remove }) => (
-          <>
-            {fields.map((field) => (
-              <Space key={field.key} align="baseline">
-                <Form.Item
-                  label="quantités/intervalles"
-                  name={[field.name, 'sight']} 
-                > 
-                  <Slider range step={1} defaultValue={[0, 99]} /> 
-                </Form.Item>
-                <Form.Item
-                  {...field}
-                  label="Price"
-                  name={[field.name, 'price']}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Missing price',
-                    },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-
-                <MinusCircleOutlined onClick={() => remove(field.name)} />
-              </Space>
-            ))}
-
-            <Form.Item>
-              <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                Ajouter des prix/quantités/intervalles
-              </Button>
-            </Form.Item>
-          </>
-        )}
-      </Form.List>
-        
         <Form.Item
           name="product_availability"
           label="Disponibilité du produit"
