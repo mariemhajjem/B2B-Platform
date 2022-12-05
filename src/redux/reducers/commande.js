@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { createCommandeThunk, getAllCommandesThunk, getCommandesByUserThunk, updateCommandeThunk } from '../actions/commandesThunk';
+import { createCommandeThunk, getAllCommandesThunk, getCommandesByUserThunk, getCommandesThunk, updateCommandeThunk } from '../actions/commandesThunk';
 
 import { toast } from "react-toastify";
 const initialState = { 
@@ -10,8 +10,9 @@ const initialState = {
     loading: false,
 };
 
-export const getAllCommandes = createAsyncThunk('commandes/getAllCommandes', getAllCommandesThunk);
 
+export const getAllCommandes = createAsyncThunk('commandes/getAllCommandes', getAllCommandesThunk);
+export const getCommandes = createAsyncThunk('commandes/getCommandes', getCommandesThunk);
 export const createCommande = createAsyncThunk('commandes/createCommande', createCommandeThunk);
 
 export const getCommandesByUser = createAsyncThunk('commandes/getCommandesByUser', getCommandesByUserThunk); 
@@ -43,6 +44,17 @@ const commandeSlice = createSlice({
         state.allCommandes = action.payload;
       },
       [getAllCommandes.rejected]: (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      },
+      [getCommandes.pending]: (state, action) => {
+        state.loading = true;
+      },
+      [getCommandes.fulfilled]: (state, action) => {
+        state.loading = false;
+        state.allCommandes = action.payload;
+      },
+      [getCommandes.rejected]: (state, action) => {
         state.loading = false;
         state.error = action.payload;
       },

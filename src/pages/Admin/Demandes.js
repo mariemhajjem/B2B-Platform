@@ -12,8 +12,7 @@ import {
 import { useState } from "react";
 
 // Images
-import face2 from "../../assets/images/face-2.jpg";
-import Tab from "./Table"
+import face2 from "../../assets/images/face-2.jpg"; 
 const { Title } = Typography;
 
 // table code start
@@ -148,7 +147,6 @@ function Demandes() {
           </Col>
         </Row>
       </div>
-      <Tab />
     </>
   );
 }

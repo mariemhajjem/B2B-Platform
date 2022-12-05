@@ -48,8 +48,7 @@ function Navbar() {
 				total += item.quantity
 			})
 			return total
-		}
-		console.log(getTotalQuantity())
+		} 
 		setTotal(getTotalQuantity())
 	}, [loading, cart, total])
 
@@ -93,12 +92,12 @@ function Navbar() {
 					<span>{t("Se connecter")}</span>
 				</Link>, key: 'item-9'
 		},
-		{
+		token?.role=="CLIENT" && {
 			label: <Link to="/devis">
 				<PostAdd />Devis
 			</Link>, key: 'item-d'
 		},
-		{
+		token?.role=="CLIENT" && {
 			label: <Link to="/cart">
 				<ShoppingCart /> <span className="badge badge-warning" id='lblCartCount'> {total} </span>
 			</Link>, key: 'item-c'

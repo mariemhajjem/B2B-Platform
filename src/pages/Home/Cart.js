@@ -100,11 +100,13 @@ function Cart() {
     <Space id="capture" wrap direction="vertical" size="middle" style={{ display: "flex", justifyContent: "center", padding: "0 10em" }}>
       <h1>Votre commande</h1>
       <h2>{"Date : " + new Date().toLocaleDateString()}</h2>
-      <Space wrap style={{ width: "120%" }}>
-        <Table pagination={false} columns={columns} dataSource={cart}  />
-        <Card title="SOMMAIRE" style={{ height: "35%" }}>
-          <h5>({getTotal().totalQuantity} articles)</h5>
-          <h5>Total (TTC)   <span>{getTotal().totalPrice} DT</span></h5>
+      <Space wrap style={{ display: "flex", alignItems:"flex-start" }}>
+        <Table pagination={false} columns={columns} dataSource={cart} />
+        <Card title="SOMMAIRE" style={{ height: "35%", width: "150%" }}>
+          <h3>{getTotal().totalQuantity} article(s)</h3>
+          <div style={{ display: "flex", alignItems:"flex-end" }}>
+            <h3>Total (TTC)   <span>{getTotal().totalPrice} DT</span></h3>
+          </div>
           
           <Button type='primary' onClick={sendCommande}>Commander</Button>
         </Card>

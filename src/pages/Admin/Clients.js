@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 // Images
 import face2 from "../../assets/images/face-2.jpg";
-import { blockUser, getAllUsers } from "../../redux/reducers/users";
+import { blockUser, getAllUsers, getAllUsersByRole } from "../../redux/reducers/users";
 
 const { Title } = Typography;
 
@@ -27,9 +27,9 @@ const columns = [
     width: "32%",
   },
   {
-    title: "FUNCTION",
-    dataIndex: "function",
-    key: "function",
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
   },
 
   {
@@ -50,14 +50,14 @@ function Clients() {
   const [err, setError] = useState("");
   const [code, setCode] = useState("");
   const { list } = useSelector((state) => state.users);
-  const { role } = useSelector((state) => state.auth.loggedUser);
+  const { role, entrepriseImport } = useSelector((state) => state.auth.loggedUser);
    
   const dispatch = useDispatch();
   useEffect(() => {
     if (role === "ADMIN") {
       dispatch(getAllUsers())
     } else {
-
+      dispatch(getAllUsersByRole(entrepriseImport?._id))
     }
   }, []);
   /* 
@@ -82,33 +82,32 @@ function Clients() {
               src={face2}
             ></Avatar> */}
           <div className="avatar-info">
-            <Title level={5}>{`${user?.firstName} ${user?.lastName}`}</Title>
-            <p>{user?.email}</p>
+            <Title level={5}>{`${user?.entrepriseClt?.company_name}`}</Title> 
           </div>
         </Avatar.Group>
       </>
     ),
-    function: (
+    email: (
       <>
         <div className="author-info">
-          <Title level={5}>{user?.user_grade} </Title>
+          <Title level={5}>{user.entrepriseClt?.company_email} </Title>
           <p></p>
         </div>
       </>
     ),
     phoneNumber: (
       <div className="author-info">
-        <Title level={5}>{user?.phoneNumber} </Title>
+        <Title level={5}>{user.entrepriseClt?.company_phoneNumber} </Title>
         <p></p>
       </div>
     ),
     block: (
       <> {
-        user?.isBlocked ?
-          <Button type="primary" onClick={() => block(user?._id)} className="tag-primary">
+        user.entrepriseClt?.isBlocked ?
+          <Button type="primary" onClick={() => block(user.entrepriseClt?._id)} className="tag-primary">
             débloquer
           </Button> :
-          <Button type="primary" danger onClick={() => block(user?._id)} className="tag-primary">
+          <Button type="primary" danger onClick={() => block(user.entrepriseClt?._id)} className="tag-primary">
             bloquer
           </Button>
       }

@@ -6,6 +6,9 @@ export const getAllUsers = async () => {
   return await Axios.get(baseUrl + "/"); 
 }
 
+export const getAllUsersByFournisseur = async (id) => {
+  return await Axios.get(baseUrl + "/byfournisseur/"+ id);
+}
 
 export const createNewUser = async (user) => {
   return await Axios.post(baseUrl + "/", user); 

@@ -9,7 +9,7 @@
 }
 
 .grid:hover .grid__child:not(:hover) {
-  opacity: 0.3;
+  opacity: 0.25;
 }
 
 .grid__child {

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Carousel as AntdCarousel, Divider, Image, Space, FloatButton } from "antd";
+import { Carousel as AntdCarousel, Divider, FloatButton } from "antd";
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import Faq from "./Faq";
@@ -31,7 +31,7 @@ const responsive = {
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
-    items: 2
+    items: 1
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
@@ -54,13 +54,13 @@ function Home() {
 
       <AntdCarousel autoplay autoplaySpeed={6000}>
         <div>
-          <Image src={tal0} className="full" style={contentStyle} />
+          <img src={tal0} alt="imagecarousel" className="full" style={contentStyle} />
         </div>
         <div>
-          <Image src={tal1} className="full" style={contentStyle} />
+          <img src={tal1} alt="imagecarousel" className="full" style={contentStyle} />
         </div>
         <div>
-          <Image src={tal2} className="full" style={contentStyle} />
+          <img src={tal2} alt="imagecarousel" className="full" style={contentStyle} />
         </div>
       </AntdCarousel>
 
@@ -68,8 +68,8 @@ function Home() {
 
       <ul className="grid">
         {allCategories?.map((value, index) =>
-          <li className="grid__child">
-            <img src={tal2} />
+          <li className="grid__child" key={index}>
+            <img src={tal2} alt="image_categorie"/>
             <h4 style={{ display: "flex", justifyContent: "center" }}>{value.category_name}</h4>
           </li>)}
       </ul>
@@ -77,8 +77,8 @@ function Home() {
       <Divider />
 
       <h1 id="Produits" style={{ display: "flex", justifyContent: "center", color: "#e3823e" }}>Nos produits</h1>
-      <Carousel transitionDuration={1000} centerMode={true} responsive={responsive} itemClass="carousel-item-padding-20-px">
-        {allProduits?.map((value, index) => <Space><Produit key={index} produit={value} /></Space>)}
+      <Carousel swipeable={true} centerMode={true} responsive={responsive} itemClass="carousel-item-padding-20-px">
+        {allProduits?.map((value, index) => <Produit key={index} produit={value} />)}
       </Carousel>
 
       <Divider />

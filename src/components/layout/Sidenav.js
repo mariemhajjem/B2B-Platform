@@ -133,7 +133,7 @@ function Sidenav({ color }) {
 				</Link>,
 			key: 'item-1'
 		},
-		["CLIENT", "FOURNISSEUR"].find(findRole) && {
+		["FOURNISSEUR"].find(findRole) && {
 			label:
 				<Link to={"/dashboard/clients"}>
 					<span
@@ -157,7 +157,7 @@ function Sidenav({ color }) {
 							background: page === "/dashboard/demandes" ? color : "",
 						}}
 					>
-						{dashboard}
+						{rtl}
 					</span>
 					<span className="label">Demandes</span>
 				</Link>,
@@ -172,7 +172,7 @@ function Sidenav({ color }) {
 							background: page === "/dashboard/commandes" ? color : "",
 						}}
 					>
-						{dashboard}
+						{billing}
 					</span>
 					<span className="label">Commandes</span>
 				</Link>,
@@ -187,7 +187,7 @@ function Sidenav({ color }) {
 							background: page === "/dashboard/reclamations" ? color : "",
 						}}
 					>
-						{dashboard}
+						{rtl}
 					</span>
 					<span className="label">Réclamations</span>
 				</Link>,
@@ -202,7 +202,7 @@ function Sidenav({ color }) {
 							background: page === "/dashboard/stock" ? color : "",
 						}}
 					>
-						{dashboard}
+						{tables}
 					</span>
 					<span className="label">Stock</span>
 				</Link>,
@@ -216,7 +216,7 @@ function Sidenav({ color }) {
 						background: page === "/dashboard/profile" ? color : "",
 					}}
 				>
-					{dashboard}
+					{profile}
 				</span>
 				<span className="label">Profile</span>
 			</Link>, 
@@ -229,7 +229,7 @@ function Sidenav({ color }) {
 		<>
 			<div className="brand">
 				<img src={logo} alt="" />
-				<span>Dashboard</span>
+				<Link to="/">Accueil </Link>
 			</div>
 			<hr />
 			<Menu theme="light" mode="inline" items={sidenav} />

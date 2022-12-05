@@ -55,7 +55,7 @@ export const getProduitByIdThunk = async (id, thunkAPI) => {
 export const updateProduitThunk = async (updatedProduitData, thunkAPI) => {
   try {
     const response = await api.updateProduit(updatedProduitData);
-    console.log(response.data)
+    console.log(response)
     return response.data;
   } catch (err) {
     return thunkAPI.rejectWithValue(err?.response?.data || err);

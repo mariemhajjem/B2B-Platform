@@ -105,8 +105,8 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
         };
         dispatch(createProduit(form));
       } else {
-        console.log({ id: formData._id, ...updatedProduit });
-        const data = { id: formData._id, ...updatedProduit }
+        console.log({ idProduit: formData._id, ...updatedProduit });
+        const data = { idProduit: formData._id, ...updatedProduit }
         dispatch(updateProduit(data));
       } 
 
