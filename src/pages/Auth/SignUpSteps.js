@@ -11,7 +11,7 @@ export default function SignUpSteps({role}) {
     lastName: '',
     email: '',
     phoneNumber: '',
-    residence: ['ariana', 'soukra'],
+    residence: '',
     address: '', 
     role,
     gender: '',
@@ -22,7 +22,7 @@ export default function SignUpSteps({role}) {
     company_phoneNumber: '',
     company_email: '', 
     logo: '',
-    company_residence: ['ariana', 'soukra'], 
+    company_residence: '', 
     company_address: '',
   });
 

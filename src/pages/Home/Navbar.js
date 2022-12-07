@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Menu, Image } from "antd";
+import { Menu, Image, Badge } from "antd";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { PostAdd, ShoppingCart } from '@mui/icons-material';
@@ -9,7 +9,7 @@ import logo from "../../assets/images/user-circle.svg";
 import { logout as Logout } from "../../redux/reducers/auth";
 
 const centerStyle = {
-	alignItems: "center",
+	alignItems: "flex-end",
 	justifyContent: "center",
 	position: "fixed",
 	zIndex: 2,
@@ -21,7 +21,6 @@ const changeLanguage = (ln) => {
 		// i18n.changeLanguage(ln);
 	};
 };
-
 
 function Navbar() {
 	const token = useSelector((state) => state.auth.loggedUser);
@@ -92,14 +91,15 @@ function Navbar() {
 					<span>{t("Se connecter")}</span>
 				</Link>, key: 'item-9'
 		},
-		token?.role=="CLIENT" && {
+		!(token?.role==FOURNISSEUR) && {
 			label: <Link to="/devis">
 				<PostAdd />Devis
 			</Link>, key: 'item-d'
 		},
-		token?.role=="CLIENT" && {
+		!(token?.role==FOURNISSEUR) && {
 			label: <Link to="/cart">
-				<ShoppingCart /> <span className="badge badge-warning" id='lblCartCount'> {total} </span>
+				<Badge size="small" count={total}>
+				<ShoppingCart /> </Badge>
 			</Link>, key: 'item-c'
 		},
 	];

@@ -34,9 +34,6 @@ const produitSlice = createSlice({
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
     },
-    setProduit: (state, action) => {
-      state.produit = action.payload;
-    },
     clearFilters: (state, action) => {
       ;
     },
@@ -133,6 +130,6 @@ const produitSlice = createSlice({
 });
 
 // Actions
-export const { setCurrentPage, setProduit, clearErrors } = produitSlice.actions
+export const { setCurrentPage, clearErrors } = produitSlice.actions
 
 export default produitSlice.reducer

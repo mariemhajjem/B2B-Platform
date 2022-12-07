@@ -46,7 +46,7 @@ export const OrderPersonalInfo = ({ formData, setFormData, next }) => {
   const [form] = Form.useForm();
   const onFinish = (values) => {
     console.log('Received values of form: ',values);
-    setFormData({...formData,values});
+    setFormData({...formData,values,company_residence: values.company_residence.toString() });
     next()
   }; 
 

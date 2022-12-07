@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Carousel as AntdCarousel, Divider, FloatButton } from "antd";
+import { Carousel as AntdCarousel, Divider, FloatButton, Input } from "antd";
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import Faq from "./Faq";
@@ -13,6 +13,8 @@ import Produit from "./Produit";
 import "./home.css"
 import { getAllProduits } from "../../redux/reducers/produits";
 import { getAllCategories } from "../../redux/reducers/categories";
+import Reclamation from "./Reclamation";
+import { SearchOutlined } from "@ant-design/icons";
 
 // import Chatbot from "./Chatbot";
 
@@ -21,7 +23,7 @@ const contentStyle = {
   width: "1600px",
 };
 const responsive = {
-  superLargeDesktop: { 
+  superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },
     items: 5
   },
@@ -69,7 +71,7 @@ function Home() {
       <ul className="grid">
         {allCategories?.map((value, index) =>
           <li className="grid__child" key={index}>
-            <img src={tal2} alt="image_categorie"/>
+            <img src={tal2} alt="image_categorie" />
             <h4 style={{ display: "flex", justifyContent: "center" }}>{value.category_name}</h4>
           </li>)}
       </ul>
@@ -77,14 +79,22 @@ function Home() {
       <Divider />
 
       <h1 id="Produits" style={{ display: "flex", justifyContent: "center", color: "#e3823e" }}>Nos produits</h1>
+
       <Carousel swipeable={true} centerMode={true} responsive={responsive} itemClass="carousel-item-padding-20-px">
         {allProduits?.map((value, index) => <Produit key={index} produit={value} />)}
       </Carousel>
 
       <Divider />
+      <Input
+        className="header-search"
+        placeholder="Type here..."
+        prefix={<SearchOutlined />}
+      />
       <Faq />
       <Divider />
+      <Reclamation />
       <FloatButton.BackTop />
+      <Divider />
       <Footer />
     </div>
   );

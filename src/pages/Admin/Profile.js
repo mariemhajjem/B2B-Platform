@@ -12,6 +12,10 @@ import {
   Switch,
   Upload,
   message,
+  Form,
+  Modal,
+  Input,
+  Cascader,
 } from "antd";
 
 import {
@@ -31,12 +35,31 @@ import convesionImg5 from "../../assets/images/face-2.jpg";
 import project1 from "../../assets/images/home-decor-1.jpeg";
 import project2 from "../../assets/images/home-decor-2.jpeg";
 import project3 from "../../assets/images/home-decor-3.jpeg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { current } from "@reduxjs/toolkit";
+import residences from "../../constants/residences";
+import { updateProfile } from "../../redux/reducers/auth";
 
 function Profile() {
   const [imageURL, setImageURL] = useState(false);
+  const [form] = Form.useForm();
+  const dispatch = useDispatch()
   const [, setLoading] = useState(false);
-  const token = useSelector((state) => state.auth.loggedUser)
+  const [visible, setVisible] = useState(false);
+  const user = useSelector((state) => state.auth.loggedUser);
+  const [formData, setFormData] = useState({
+    id: user?._id,
+    firstName: user?.firstName,
+    lastName: user?.lastName,
+    email: user?.email,
+    phoneNumber: user?.phoneNumber,
+    address: user?.address,
+    residence: [...user?.residence?.split(",")],
+    user_grade: user?.user_grade
+  });
+  const setModalVisible = () => {
+    setVisible(current => !current)
+  }
   const getBase64 = (img, callback) => {
     const reader = new FileReader();
     reader.addEventListener("load", () => callback(reader.result));
@@ -146,7 +169,21 @@ function Profile() {
         "Different people have different taste, and various types of music, Zimbali Resort",
     },
   ];
-
+  const onFinish = ({ firstName,
+    lastName,
+    email,
+    phoneNumber,
+    residence,
+    address }) => { 
+    dispatch(updateProfile({
+      ...formData, firstName,
+      lastName,
+      email,
+      phoneNumber,
+      residence: residence.toString(),
+      address
+    }))
+  }
   return (
     <>
       <div
@@ -164,8 +201,8 @@ function Profile() {
                 <Avatar size={74} shape="square" src={profilavatar} />
 
                 <div className="avatar-info">
-                  <h4 className="font-semibold m-0">{`${token?.firstName} ${token?.lastName}`} </h4>
-                  <p>{ `${token?.user_grade}/ ${token?.user_grade.toLowerCase()}`}</p>
+                  <h4 className="font-semibold m-0">{`${user?.firstName} ${user?.lastName}`} </h4>
+                  <p>{`${user?.user_grade}/ ${user?.user_grade.toLowerCase()}`}</p>
                 </div>
               </Avatar.Group>
             </Col>
@@ -189,7 +226,7 @@ function Profile() {
       ></Card>
 
       <Row gutter={[24, 0]}>
-        <Col span={24} md={8} className="mb-24 ">
+        {/* <Col span={24} md={8} className="mb-24 ">
           <Card
             bordered={false}
             className="header-solid h-full"
@@ -211,27 +248,27 @@ function Profile() {
               </li>
             </ul>
           </Card>
-        </Col>
+        </Col> */}
         <Col span={24} md={8} className="mb-24">
           <Card
             bordered={false}
-            title={<h6 className="font-semibold m-0">Profile Information</h6>}
+            title={<h6 className="font-semibold m-0">Informations personnelles</h6>}
             className="header-solid h-full card-profile-information"
-            extra={<Button type="link">{pencil}</Button>}
+            extra={<Button type="link" onClick={setModalVisible}>{pencil}</Button>}
             bodyStyle={{ paddingTop: 0, paddingBottom: 16 }}
-          >  
+          >
             <Descriptions>
-              <Descriptions.Item label="Full Name" span={3}>
-                Sarah Emily Jacob
+              <Descriptions.Item label="Nom complet" span={3}>
+                {user?.firstName + " " + user?.lastName}
               </Descriptions.Item>
               <Descriptions.Item label="Mobile" span={3}>
-                (44) 123 1234 123
+                (+216) {user?.phoneNumber}
               </Descriptions.Item>
               <Descriptions.Item label="Email" span={3}>
-                sarahjacob@mail.com
+                {user?.email}
               </Descriptions.Item>
-              <Descriptions.Item label="Location" span={3}>
-                USA
+              <Descriptions.Item label="Adresse" span={3}>
+                {user?.residence} {user?.address}
               </Descriptions.Item>
               <Descriptions.Item label="Social" span={3}>
                 <a href="#pablo" className="mx-5 px-5">
@@ -274,7 +311,7 @@ function Profile() {
           </Card>
         </Col>
       </Row>
-      <Card
+     {/*  <Card
         bordered={false}
         className="header-solid mb-24"
         title={
@@ -330,6 +367,106 @@ function Profile() {
           </Col>
         </Row>
       </Card>
+ */}
+      <Modal
+        title="Modifier profil"
+        open={visible}
+        footer={null}
+        onCancel={setModalVisible}
+      >
+        <Form
+          name="produit"
+          form={form}
+          onFinish={onFinish}
+          initialValues={formData}
+          scrollToFirstError
+        >
+          <Form.Item
+            name="firstName"
+            label="Prénom"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your firstname!',
+                whitespace: true,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="lastName"
+            label="Nom"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your lastname!',
+                whitespace: true,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="email"
+            label="E-mail"
+            rules={[
+              {
+                type: 'email',
+                message: 'The input is not valid E-mail!',
+              },
+              {
+                required: true,
+                message: 'Please input your E-mail!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            name="residence"
+            label="Habitual Residence"
+            rules={[
+              {
+                type: 'array',
+                required: true,
+                message: 'Please select your habitual residence!',
+              },
+            ]}
+          >
+            <Cascader options={residences} />
+          </Form.Item>
+
+          <Form.Item
+            name="address"
+            label="Adresse détaillée"
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            name="phoneNumber"
+            label="Phone Number"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your phone number!',
+              },
+            ]}
+          >
+            <Input
+              style={{
+                width: '100%',
+              }}
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" shape="round"> Valider </Button>
+          </Form.Item>
+
+        </Form>
+      </Modal>
     </>
   );
 }

@@ -310,15 +310,6 @@ function Header({
               </a>
             </Dropdown>
           </Badge>
-          <Dropdown menu={menu} trigger={["click"]}>
-            <a
-              href="#pablo"
-              className="ant-dropdown-link"
-              onClick={(e) => e.preventDefault()}
-            >
-              {profile}
-            </a>
-          </Dropdown>
           <Button
             type="link"
             className="sidebar-toggler"
@@ -334,11 +325,7 @@ function Header({
             >{profile}Se déconnecter
             </Button>
           </Link>
-          <Input
-            className="header-search"
-            placeholder="Type here..."
-            prefix={<SearchOutlined />}
-          />
+          
         </Col>
       </Row>
     </>

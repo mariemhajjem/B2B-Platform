@@ -12,21 +12,13 @@ const cartSlice = createSlice({
       if (itemInCart) {
         itemInCart.quantity++;
       } else {
-        state.cart.push({ ...action.payload, quantity: 1, key: action.payload._id });
+        state.cart.push({ ...action.payload, quantity: action.payload?.quantity || 1, key: action.payload._id });
         toast.success(`Vous avez ajouté ${action.payload.product_label} à votre commande`);
       }
     },
-    incrementQuantity: (state, action) => {
-      const item = state.cart.find((item) => item._id === action.payload);
-      item.quantity++;
-    },
-    decrementQuantity: (state, action) => {
-      const item = state.cart.find((item) => item._id === action.payload);
-      if (item.quantity === 1) {
-        item.quantity = 1
-      } else {
-        item.quantity--;
-      }
+    changeQuantity: (state, action) => {
+      const item = state.cart.find((item) => item._id === action.payload._id);
+      item.quantity = action.payload.quantity || 1;
     },
     removeItem: (state, action) => {
       const removeItem = state.cart.filter((item) => item._id !== action.payload);
@@ -40,8 +32,7 @@ const cartSlice = createSlice({
 export const cartReducer = cartSlice.reducer;
 export const {
   addToCart,
-  incrementQuantity,
-  decrementQuantity,
+  changeQuantity,
   removeItem,
   clearCart
 } = cartSlice.actions;

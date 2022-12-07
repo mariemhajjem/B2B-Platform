@@ -4,7 +4,7 @@ export const getAllProduitsThunk = async (thunkAPI) => {
 
   try {
     const response = await api.getAllProduits();
-    const produits = response.data?.map((produit) => {
+    /* const produits = response.data?.map((produit) => {
       let binaryString = ""
       for (let i = 0; i < produit.product_picture?.data?.data.length; i++) {
         binaryString += String.fromCharCode(produit.product_picture?.data?.data[i])
@@ -13,7 +13,8 @@ export const getAllProduitsThunk = async (thunkAPI) => {
       return { ...produit,product_picture: `data:${produit.product_picture?.contentType};base64,${base64String}`}
     })
 
-    return produits;
+    return produits; */
+    return response.data;
   } catch (err) {
     console.log(err?.message)
     return thunkAPI.rejectWithValue(err?.response?.data || err?.message || err);

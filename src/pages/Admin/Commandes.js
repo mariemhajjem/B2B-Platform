@@ -9,6 +9,8 @@ import {
   Tag,
   Modal,
   Timeline,
+  Popconfirm,
+  Spin,
 } from "antd";
 import Paragraph from "antd/lib/typography/Paragraph";
 import { useDispatch, useSelector } from "react-redux";
@@ -103,10 +105,7 @@ function Commandes() {
     status: (<Tag color={getColor(commande?.commande_status)}>{commande?.commande_status || "-"}</Tag>),
     date: (<div className="ant-progress-project">{commande?.commande_date?.split('T')[0] || "-"}</div>),
     address: (<div className="text-sm">{commande?.commande_address[0]?.address + ", " + commande?.commande_address[0]?.code_postal}</div>),
-    action: (<div>
-      <Button onClick={() => setVisible(commande)}><EyeTwoTone /></Button>
-      { commande?.commande_status==='En cours' && <Button onClick={() => refuser(commande?._id)}><CloseCircleTwoTone twoToneColor="#eb2f96" /></Button> }
-    </div>),
+    action: (<Popconfirm open={false} onOpenChange={() => setVisible(commande)}><EyeTwoTone /></Popconfirm >),
   })) : [];
   const data = (role === "CLIENT" && !loading) ? allCommandes?.map((commande, key) => ({
     key,
@@ -116,7 +115,7 @@ function Commandes() {
     date: (<div className="ant-progress-project">{commande?.commande?.commande_date?.split('T')[0] || "-"}</div>),
     address: (<div className="text-sm">{commande?.commande?.commande_address[0]?.address + ", " + commande?.commande?.commande_address[0]?.code_postal}</div>),
     action: (<div>
-      <Button onClick={() => setVisible(commande)}><EyeTwoTone /></Button>
+      <Popconfirm open={false} onOpenChange={() => setVisible(commande)}><EyeTwoTone /></Popconfirm >
     </div>),
   })) : [];
 
@@ -177,7 +176,7 @@ function Commandes() {
                   className="ant-border-space"
                 />
               </div>
-            </Card>: "chargement..."}
+            </Card>: <Spin size="large" />}
           </Col>
           {role == "CLIENT" && <Col xs={24} sm={24} md={12} lg={12} xl={8} className="mb-24">
             <Card bordered={false} className="criclebox h-full">
@@ -216,9 +215,13 @@ function Commandes() {
         title={"Détails commande"}
         open={isVisible}
         footer={(role === "FOURNISSEUR") && [
+        <Button key="submit" type="primary" danger disabled={commande.commande_status === REFUSEE ||commande.commande_status === CONFIRMEE} onClick={() =>{refuser(commande?._id);setIsVisible(current => !current)}}>
+          Refuser
+        </Button>,
           <Button key="submit" type="primary" disabled={commande.commande_status === REFUSEE || commande.commande_status === CONFIRMEE} onClick={() => {accept(commande._id);setIsVisible(current => !current)}}>
             Accepter
-          </Button>
+          </Button>,
+          
         ]}
         onCancel={() => setIsVisible(current => !current)}
       >

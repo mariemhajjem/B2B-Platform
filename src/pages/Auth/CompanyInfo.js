@@ -66,7 +66,7 @@ export const CompanyInfo = ({
       company_name,
       company_phoneNumber,
       company_email,
-      company_residence,
+      company_residence:company_residence.toString(),
       company_address
     });
     console.log(formData);

@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { login } from "../../redux/reducers/auth";
-import { useDispatch } from 'react-redux'
+import { clearErrors, login, resetPassword } from "../../redux/reducers/auth";
+import { useDispatch, useSelector } from 'react-redux'
 import {
   Layout,
   Button,
@@ -10,6 +10,8 @@ import {
   Typography,
   Form,
   Input,
+  Divider,
+  notification,
 } from "antd";
 import signinbg from "../../assets/images/img-signin.jpg";
 
@@ -17,37 +19,42 @@ const { Title } = Typography;
 const { Content } = Layout;
 
 export default function SignIn() {
+  const { error, loggedUser } = useSelector((state) => state.auth);
+  const [email, setEmail] = useState('')
   const [errMsg, setErrMsg] = useState('')
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
-
+  const CLIENT = "CLIENT";
+	const FOURNISSEUR = "FOURNISSEUR";
+  useEffect(() => {
+  const popUp = (type) => {
+      notification[type]({
+        message: error, 
+      });
+      dispatch(clearErrors())
+    };
+    error && popUp("error")
+  },[error])
   const onFinish = async (values) => {
     const user = { 
       email: values.email,
       password: values.password,
     };
-    try {
-      dispatch(login(user))
+    
+    dispatch(login(user));
+    if(loggedUser) {
       navigate('/')
-    } catch (err) {
-      if (!err?.originalStatus) {
-        // isLoading: true until timeout occurs
-        setErrMsg('No Server Response');
-      } else if (err.originalStatus === 400) {
-        setErrMsg('Missing Username or Password');
-      } else if (err.originalStatus === 401) {
-        setErrMsg('Unauthorized');
-      } else {
-        setErrMsg('Login Failed');
-      }
     }
   }
+
+  
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
   return (
     <div className="layout-default ant-layout layout-sign-up">
+      
       <Content className="signin">
         <Row gutter={[24, 0]} justify="space-around">
           <Col
@@ -57,7 +64,7 @@ export default function SignIn() {
           >
             <Title className="mb-15">Se connecter</Title>
             <Title className="font-regular text-muted" level={5}>
-              Enter your email and password to sign in
+            Accéder à votre compte.
             </Title>
             <Form
               onFinish={onFinish}
@@ -76,12 +83,12 @@ export default function SignIn() {
                   },
                 ]}
               >
-                <Input placeholder="Email" />
+                <Input placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
               </Form.Item>
 
               <Form.Item
                 className="username"
-                label="Password"
+                label="Mot de passe"
                 name="password"
                 rules={[
                   {
@@ -99,15 +106,26 @@ export default function SignIn() {
                   htmlType="submit"
                   style={{ width: "100%" }}
                 >
-                  SIGN IN
+                  Se connecter
                 </Button>
               </Form.Item>
+              <Divider />
               <p className="font-semibold text-muted">
-                Don't have an account?{" "}
-                <Link to="/sign-up" className="text-dark font-bold">
-                  Sign Up
+              Mot de passe oublié ? <br /> Insérez le mot de passe reçu sur votre email {email}. <br />
+                <Button onClick={() =>{dispatch(resetPassword({email}))}} className="text-dark font-bold">
+                  Envoyer mot de passe 
+                </Button>
+              </p>
+              <p className="font-semibold text-muted">
+              Vous êtes nouveau ? Créez votre compte rapidement <br />
+                <Link to={`/sign-up/${FOURNISSEUR}`} className="text-dark font-bold">
+                Créez compte fournisseur
+                </Link> <br />
+                <Link to={`/sign-up/${CLIENT}`} className="text-dark font-bold">
+                Créez compte client
                 </Link>
               </p>
+              
             </Form>
           </Col>
           <Col

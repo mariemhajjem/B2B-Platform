@@ -3,6 +3,7 @@ import { Card } from "antd";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { addToCart } from "../../redux/reducers/cartSlice";
+import imgToString from "../../utils/imgToString";
 
 const { Meta } = Card;
 export default function Produit({ produit }) {
@@ -18,21 +19,22 @@ export default function Produit({ produit }) {
 
   return (
     <Card
-        hoverable
-        style={{
-          width: 240,
-        }}
-        cover={<Link to={`/details/${id}`}><img alt="example" src={produit?.product_picture} style={{ height: 250 ,width: 240
-        }}/></Link>}
-        actions={[
-          <div onClick={() => dispatch(addToCart(produit))}>
-            <ShoppingCartOutlined /></div>,
-          <HeartOutlined />,
-        ]}
-      >
-        <Meta title={<Link to={`/details/${id}`}>{produit?.product_label}</Link>} description={excerpt(produit?.product_description)} />
-        <h4>{produit?.product_price} DT</h4>
-      </Card>
+      hoverable
+      style={{
+        width: 240,
+      }}
+      cover={<Link to={`/details/${id}`}><img alt="example" src={imgToString(produit?.product_picture)} style={{
+        height: 250, width: 240
+      }} /></Link>}
+      actions={[
+        <div onClick={() => dispatch(addToCart({...produit, quantity: 1}))}>
+          <ShoppingCartOutlined /></div>,
+        <HeartOutlined />,
+      ]}
+    >
+      <Meta title={<Link to={`/details/${id}`}>{produit?.product_label}</Link>} description={excerpt(produit?.product_description)} />
+      <h4>{produit?.product_price} DT</h4>
+    </Card>
   );
 
 }

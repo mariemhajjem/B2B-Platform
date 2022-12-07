@@ -51,18 +51,11 @@ export const PersonalInfo = ({ formData, setFormData, next }) => {
   residence,
   address,  
   gender}) => {
-    console.log('Received values of form: ',firstName,
-    lastName,
-    email,
-    phoneNumber,
-    residence,
-    address,  
-    gender, "formData: ",formData );
     setFormData({...formData,firstName,
       lastName,
       email,
       phoneNumber,
-      residence,
+      residence : residence.toString(),
       address, 
       password, 
       gender});

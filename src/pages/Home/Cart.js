@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, Card, Space, Table } from 'antd';
-import { decrementQuantity, incrementQuantity, removeItem, clearCart } from '../../redux/reducers/cartSlice';
+import { Button, Card, InputNumber, Space, Table } from 'antd';
+import { changeQuantity, removeItem, clearCart } from '../../redux/reducers/cartSlice';
 import './cart.css'
 import OrderSteps from './delivery/OrderSteps';
+import imgToString from '../../utils/imgToString';
 
 function Cart() {
   const [err,setErr] = useState("");
@@ -19,14 +20,14 @@ function Cart() {
     company_phoneNumber: 0,   
     company_name: '', 
     company_email: '',  
-    company_residence: ['ariana', 'soukra'], 
+    company_residence: '', 
     company_address: '',
   });
   const onChange = (values) => {
     setFormData(values)
   };
   useEffect(() => {
-    user && setFormData({...formData, ...user?.entrepriseClt}) 
+    user && setFormData({...formData,company_residence: [...user?.entrepriseClt?.company_residence?.split(",")], ...user?.entrepriseClt}) 
     setErr(error)
   }, [error])
   const getTotal = () => {
@@ -43,7 +44,7 @@ function Cart() {
       title: 'Image',
       dataIndex: 'product_image',
       key: 'image',
-      render: (_, produit) => { return <img alt="image produit" src={produit.product_picture} width="70"/>},
+      render: (_, produit) => { return <img alt="image produit" src={imgToString(produit?.product_picture)} width="70"/>},
     },
     {
       title: 'Produit',
@@ -63,10 +64,9 @@ function Cart() {
       key: 'quantity',
       render: (_, record) => (
         <Space size="middle">
-          <div className='cartItem__incrDec'>
-            <button onClick={() => dispatch(decrementQuantity(record._id))}>-</button>
-            <h3>{record.quantity}</h3>
-            <button onClick={() => dispatch(incrementQuantity(record._id))}>+</button>
+          <div className='cartItem__incrDec'> 
+            <InputNumber min={1} max={record?.product_quantity}
+            defaultValue={record.quantity} onChange={(quantity) => dispatch(changeQuantity({_id: record._id, quantity}))} />
           </div>
         </Space>
       ),

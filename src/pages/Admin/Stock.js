@@ -8,6 +8,7 @@ import {
   Typography,
   Divider,
   notification,
+  Spin,
 } from "antd";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -65,7 +66,7 @@ function Stock() {
   const [isUpdateVisible, setIsUpdateVisible] = useState(false);
   const [err, setError] = useState("");
   const { role, entrepriseImport } = useSelector((state) => state.auth.loggedUser);
-  const { userProduits, getError } = useSelector((state) => state.produits);
+  const { userProduits, getError, loading } = useSelector((state) => state.produits);
   const dispatch = useDispatch();
   const [product, setProduct] = useState({
     product_label: '',
@@ -190,7 +191,7 @@ function Stock() {
             {isUpdateVisible && <AddEditProduct title="Modifier produit" visible={isUpdateVisible} setIsAddVisible={handleUpdate} isAdd={false} formData={product} />}
 
             <Divider orientation="left"></Divider>
-            <Card
+            {loading? <Spin size="large" /> : <Card
               bordered={false}
               className="criclebox tablespace mb-24"
               title="Products Table"
@@ -211,7 +212,7 @@ function Stock() {
                   className="ant-border-space"
                 />
               </div>
-            </Card>
+            </Card>}
           </Col>
         </Row>
       </div>

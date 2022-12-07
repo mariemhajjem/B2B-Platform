@@ -8,6 +8,7 @@ import {
   Avatar,
   Typography,
   Divider,
+  Spin,
 } from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,18 +39,16 @@ const columns = [
     dataIndex: "phoneNumber",
   },
   {
-    title: "Bloquer/ débloquer",
+    title: "Bloquer",
     key: "block",
     dataIndex: "block",
   },
 ];
 
-
-
 function Clients() {
   const [err, setError] = useState("");
   const [code, setCode] = useState("");
-  const { list } = useSelector((state) => state.users);
+  const { list, loading } = useSelector((state) => state.users);
   const { role, entrepriseImport } = useSelector((state) => state.auth.loggedUser);
    
   const dispatch = useDispatch();
@@ -102,14 +101,14 @@ function Clients() {
       </div>
     ),
     block: (
-      <> {
-        user.entrepriseClt?.isBlocked ?
+      <> {user.role === "ADMIN" ?
+        (user.entrepriseClt?.isBlocked ?
           <Button type="primary" onClick={() => block(user.entrepriseClt?._id)} className="tag-primary">
             débloquer
           </Button> :
           <Button type="primary" danger onClick={() => block(user.entrepriseClt?._id)} className="tag-primary">
             bloquer
-          </Button>
+          </Button>) : (user.entrepriseClt?.isBlocked ? "Oui" : "Non")
       }
       </>
     ),
@@ -130,6 +129,7 @@ function Clients() {
             {isUpdateVisible && <UpdateClient />} */}
           </Col>
           <Divider orientation="left"></Divider>
+          {loading? <Spin size="large" /> : 
           <Col xs="24" xl={24}>
             <Card
               bordered={false}
@@ -153,7 +153,7 @@ function Clients() {
                 />
               </div>
             </Card>
-          </Col>
+          </Col>}
         </Row>
       </div>
     </>
