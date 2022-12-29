@@ -12,7 +12,7 @@ const cartSlice = createSlice({
       if (itemInCart) {
         itemInCart.quantity++;
       } else {
-        state.cart.push({ ...action.payload, quantity: action.payload?.quantity || 1, key: action.payload._id });
+        state.cart.push({ ...action.payload, price: action.payload?.price, quantity: action.payload?.quantity || 1, key: action.payload._id });
         toast.success(`Vous avez ajouté ${action.payload.product_label} à votre commande`);
       }
     },

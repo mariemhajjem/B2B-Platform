@@ -9,7 +9,7 @@ if (env == "development") {
   url = "https://app/api/";
 }
 
-const api = axios.create({
+const axiosInstance = axios.create({
   baseURL: url,
   timeout: 10000,
   header: {
@@ -17,4 +17,4 @@ const api = axios.create({
   }
 });
 
-export default api;
+export default axiosInstance;

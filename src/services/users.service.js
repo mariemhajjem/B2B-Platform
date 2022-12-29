@@ -10,6 +10,10 @@ export const getAllUsersByFournisseur = async (id) => {
   return await Axios.get(baseUrl + "/byfournisseur/"+ id);
 }
 
+export const getEntreprise = async (id) => {
+  return await Axios.get(baseUrl + "/entreprise/" + id);
+}
+
 export const createNewUser = async (user) => {
   return await Axios.post(baseUrl + "/", user); 
 }

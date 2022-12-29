@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { createProduitThunk, deleteProduitThunk, getAllProduitsThunk, getProduitByIdThunk, getProduitsByUserThunk, updateProduitThunk } from '../actions/produitsThunk';
+import { createProduitThunk, deleteProduitThunk, getAllProduitsThunk, getProduitByIdThunk, getProduitsByCategoryThunk, getProduitsByUserThunk, updateProduitThunk } from '../actions/produitsThunk';
 
 import { toast } from "react-toastify";
 const initialState = {
@@ -20,6 +20,7 @@ export const getAllProduits = createAsyncThunk('produits/getAllProduits', getAll
 export const createProduit = createAsyncThunk('produits/createProduit', createProduitThunk);
 
 export const getProduitsByUser = createAsyncThunk('produits/getProduitsByUser', getProduitsByUserThunk);
+export const getProduitsByCategory = createAsyncThunk('produits/getProduitsByCategory', getProduitsByCategoryThunk);
 export const getProduitById = createAsyncThunk('produits/getProduitById', getProduitByIdThunk);
 
 export const updateProduit = createAsyncThunk('produits/updateProduit', updateProduitThunk);
@@ -75,6 +76,17 @@ const produitSlice = createSlice({
       state.userProduits = action.payload;
     },
     [getProduitsByUser.rejected]: (state, action) => {
+      state.loading = false;
+      state.getError = action.payload;
+    },
+    [getProduitsByCategory.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [getProduitsByCategory.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.allProduits = action.payload;
+    },
+    [getProduitsByCategory.rejected]: (state, action) => {
       state.loading = false;
       state.getError = action.payload;
     },

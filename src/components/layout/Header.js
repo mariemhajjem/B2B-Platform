@@ -9,10 +9,8 @@ import {
   Button,
   List,
   Avatar,
-  Input,
   Drawer,
   Typography,
-  Switch,
 } from "antd";
 
 import {
@@ -20,12 +18,13 @@ import {
   StarOutlined,
   TwitterOutlined,
   FacebookFilled,
+  LogoutOutlined,
 } from "@ant-design/icons";
 
 import { NavLink, Link } from "react-router-dom";
 import styled from "styled-components";
 import avtar from "../../assets/images/team-2.jpg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/reducers/auth";
 
 const ButtonContainer = styled.div`
@@ -271,6 +270,7 @@ function Header({
 
   const [visible, setVisible] = useState(false);
   const [sidenavType, setSidenavType] = useState("transparent");
+  const authState = useSelector((state) => state.auth.loggedUser)
   const dispatch = useDispatch()
   useEffect(() => window.scrollTo(0, 0));
   const signOut = () => {
@@ -299,7 +299,7 @@ function Header({
           </div> */}
         </Col>
         <Col span={24} md={18} className="header-control">
-          <Badge size="small" count={4}>
+          {/* <Badge size="small" count={4}>
             <Dropdown menu={menu} trigger={["click"]}>
               <a
                 href="#pablo"
@@ -309,7 +309,7 @@ function Header({
                 {bell}
               </a>
             </Dropdown>
-          </Badge>
+          </Badge> */}
           <Button
             type="link"
             className="sidebar-toggler"
@@ -317,15 +317,20 @@ function Header({
           >
             {toggler}
           </Button>
+
           <Link to="/" className="btn-sign-in">
 
             <Button
               type="link"
               onClick={signOut}
-            >{profile}Se déconnecter
+            >{<LogoutOutlined />}
             </Button>
           </Link>
-          
+          <Button
+            type="link"
+          >
+            {`${authState.firstName} ${authState.lastName}`} 
+          </Button>
         </Col>
       </Row>
     </>

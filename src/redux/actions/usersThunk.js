@@ -20,6 +20,17 @@ export const getAllUsersByRoleThunk = async (user,thunkAPI) => {
     }
 }
 
+export const getEntrepriseThunk = async (user,thunkAPI) => {
+    try {
+        const result = await api.getEntreprise(user);
+        if (result.data.length) return result.data[0];
+        else return result.data;
+    } catch (error) {
+        console.log(error.response?.data);
+        return thunkAPI.rejectWithValue(error?.response?.data || error);
+    }
+}
+
 
 export const createNewUserThunk = async (user, thunkAPI) => {
     try {

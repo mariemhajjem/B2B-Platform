@@ -5,7 +5,7 @@ import {
   Select,
   Input, 
   Button, 
-  Divider, Space, notification
+  Divider, Space, notification, Switch
 } from "antd";
 import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from "react-redux";
@@ -37,6 +37,7 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
   const [err, setError] = useState("");
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState('');
+  const [checked, setChecked] = useState(true);
   const inputRef = useRef(null);
   const [form] = Form.useForm();
 
@@ -76,26 +77,32 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
     product_category,
     product_availability,
     quality_level,
+    isShown,
+    product_brand,
     product_quantity,suffix}) => { 
     let updatedProduit = {
-      product_label,
+      product_label:product_label.toLowerCase(),
       product_description,
       product_price: Number(product_price),
       product_picture: file,
       product_category,
       product_availability,
       quality_level,
+      product_brand,
+      isShown,
       product_quantity: Number(product_quantity),
       id: user.entrepriseClt?._id || user.entrepriseImport?._id
     }
     let form = new FormData();
-    form.append('product_label', product_label);
+    form.append('product_label', product_label.toLowerCase());
     form.append('product_description', product_description);
     form.append('product_price', Number(product_price));
     form.append('product_quantity', Number(product_quantity));
     form.append('product_picture', file);
     form.append('product_category', product_category);
     form.append('quality_level', quality_level);
+    form.append('isShown', isShown);
+    form.append('product_brand', product_brand);
     form.append('product_availability', product_availability);
     form.append('id', user.entrepriseClt?._id || user.entrepriseImport?._id);
     try {
@@ -220,6 +227,7 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
             }}
           />
         </Form.Item> 
+        
         <Form.Item
           name="product_price"
           label="Prix du produit"
@@ -235,6 +243,18 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
               width: '100%',
             }}
           />
+        </Form.Item>
+        
+        <Form.Item
+          name="product_brand"
+          label="La marque du produit"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Input />
         </Form.Item>
 
         <Form.Item
@@ -263,6 +283,18 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
           <Select  
             options={quality_options}
           />
+        </Form.Item>
+       
+        <Form.Item
+          name="isShown"
+          label="visibilité du produit"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Switch defaultChecked={formData.isShown} />
         </Form.Item>
 
         <Form.Item

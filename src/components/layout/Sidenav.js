@@ -111,9 +111,7 @@ function Sidenav({ color }) {
 		</svg>,
 	];
 	const authState = useSelector((state) => state.auth.loggedUser)
-	useEffect(() => {
-		console.log(authState)
-	}, [])
+	
 	const findRole = (value) => {
 		return value === authState.role;
 	}
@@ -178,7 +176,7 @@ function Sidenav({ color }) {
 				</Link>,
 			key: 'item-4'
 		},
-		["ADMIN", "FOURNISSEUR", "CLIENT"].find(findRole) && {
+		["ADMIN"].find(findRole) && {
 			label:
 				<Link to={"/dashboard/reclamations"}>
 					<span
@@ -207,6 +205,21 @@ function Sidenav({ color }) {
 					<span className="label">Stock</span>
 				</Link>,
 			key: 'item-6'
+		},
+		["ADMIN"].find(findRole) && {
+			label:
+				<Link to={"/dashboard/category"}>
+					<span
+						className="icon"
+						style={{
+							background: page === "/dashboard/category" ? color : "",
+						}}
+					>
+						{tables}
+					</span>
+					<span className="label">Catégories</span>
+				</Link>,
+			key: 'item-7'
 		}, 
 		{
 			label: <Link to="/dashboard/profile">
@@ -218,7 +231,7 @@ function Sidenav({ color }) {
 				>
 					{profile}
 				</span>
-				<span className="label">Profile</span>
+				<span className="label">Profil</span>
 			</Link>, 
 			key: 'item-8'
 		},
@@ -228,8 +241,8 @@ function Sidenav({ color }) {
 	return (
 		<>
 			<div className="brand">
-				<img src={logo} alt="" />
-				<Link to="/">Accueil </Link>
+				<Link to="/"><img src={logo} alt="" />
+				Accueil </Link>
 			</div>
 			<hr />
 			<Menu theme="light" mode="inline" items={sidenav} />

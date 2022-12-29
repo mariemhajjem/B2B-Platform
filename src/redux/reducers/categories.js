@@ -22,7 +22,11 @@ export const deleteCategorie = createAsyncThunk('categories/deleteCategorie', de
 const categorieSlice = createSlice({
     name: 'categories',
     initialState,
-    reducers: {},
+    reducers: {
+      clearError: (state, action) => {
+        state.error = "";
+      },
+    },
     extraReducers: {
       [createCategorie.pending]: (state, action) => {
         state.loading = true;
@@ -69,9 +73,9 @@ const categorieSlice = createSlice({
       },
       [deleteCategorie.fulfilled]: (state, action) => {
         state.loading = false;
-        const { _id } = action.payload;
-        if (_id) { 
-          state.allCategories = state.allCategories.filter((item) => item._id !== _id);
+        const { arg } = action.meta;
+        if (arg) { 
+          state.allCategories = state.allCategories.filter((item) => item._id !== arg);
         }
       },
       [deleteCategorie.rejected]: (state, action) => {
@@ -82,5 +86,5 @@ const categorieSlice = createSlice({
     },
 });
  
-
+export const { clearError } = categorieSlice.actions;
 export default categorieSlice.reducer

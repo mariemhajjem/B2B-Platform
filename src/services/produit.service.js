@@ -32,6 +32,10 @@ export const getProduit = async (idProduit) => {
   return await Axios.get(`${baseUrl}/${idProduit}`); 
 }
 
+export const getProduitsByCategory = async (category_id) => {
+  return await Axios.get(`${baseUrl}/bycategory/${category_id}`); 
+}
+
 export const deleteProduit = async (idProduit) => {
   return await Axios.delete(`${baseUrl}/${idProduit}`); 
 }

@@ -9,6 +9,7 @@ import {
   Divider,
   notification,
   Spin,
+  Tag,
 } from "antd";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,6 +38,12 @@ const columns = [
     title: "Description",
     dataIndex: "description",
     key: "description",
+    width: "10%",
+  },
+  {
+    title: "Visible",
+    dataIndex: "visible",
+    key: "visible",
   },
   {
     title: "Quantité en stock",
@@ -52,6 +59,38 @@ const columns = [
     title: "Modifier",
     key: "update",
     dataIndex: "update",
+    width: "10%",
+  },
+  {
+    title: "Supprimer",
+    key: "delete",
+    dataIndex: "delete",
+    width: "10%",
+  },
+];
+
+const AdminColumns = [
+  {
+    title: "Nom produit",
+    dataIndex: "name",
+    key: "name",
+    width: "20%",
+  },
+  {
+    title: "Catégorie",
+    dataIndex: "category",
+    key: "category",
+    width: "22%",
+  },
+  {
+    title: "Description",
+    dataIndex: "description",
+    key: "description",
+  },
+  {
+    title: "Prix unitaire",
+    key: "prix",
+    dataIndex: "prix",
   },
   {
     title: "Supprimer",
@@ -66,7 +105,7 @@ function Stock() {
   const [isUpdateVisible, setIsUpdateVisible] = useState(false);
   const [err, setError] = useState("");
   const { role, entrepriseImport } = useSelector((state) => state.auth.loggedUser);
-  const { userProduits, getError, loading } = useSelector((state) => state.produits);
+  const { userProduits, allProduits, getError, loading } = useSelector((state) => state.produits);
   const dispatch = useDispatch();
   const [product, setProduct] = useState({
     product_label: '',
@@ -75,6 +114,7 @@ function Stock() {
     product_date: '',
     product_category: '',
     product_availability: "En stock",
+    isShown: true,
     quality_level: "Neuf avec emballage"
   });
   useEffect(() => { 
@@ -104,11 +144,9 @@ function Stock() {
     dispatch(deleteProduit(id))
   }
 
-  
-
   const excerpt = (str) => {
-    if (str.length > 40) {
-      str = str.substring(0, 40) + " ...";
+    if (str.length > 30) {
+      str = str.substring(0, 30) + " ...";
     }
     return str;
   };
@@ -125,7 +163,8 @@ function Stock() {
   };
 
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
-  const data = userProduits?.map((prod, index) => ({
+  let produits = role === "ADMIN" ? allProduits : userProduits;
+  const data = produits?.map((prod, index) => ({
     key: index,
     name: (
       <>
@@ -148,7 +187,8 @@ function Stock() {
         </div>
       </>
     ),
-    quantity: (
+    visible:  !(role === "ADMIN") && (prod?.isShown ? <Tag color="green">Oui</Tag> : <Tag color="red">Non</Tag>),
+    quantity:  !(role === "ADMIN") && (
       <>
         <div className="author-info">
           <Title level={5}>{prod?.product_quantity}</Title>
@@ -162,7 +202,7 @@ function Stock() {
         </div>
       </>
     ),
-    update: (
+    update: !(role === "ADMIN") && (
       <>
         <Button type="primary" className="tag-primary" onClick={() => handleUpdate(prod)}>
           modifier
@@ -195,8 +235,8 @@ function Stock() {
               bordered={false}
               className="criclebox tablespace mb-24"
               title="Products Table"
-              extra={
-                <>
+              extra={!(role === "ADMIN") &&
+                <>  
                   <Radio.Group onChange={onChange} defaultValue="a">
                     <Radio.Button value="a">Tous</Radio.Button>
                     <Radio.Button value="b">ONLINE</Radio.Button>
@@ -206,7 +246,7 @@ function Stock() {
             >
               <div className="table-responsive">
                 <Table
-                  columns={columns}
+                  columns={role === "ADMIN" ? AdminColumns : columns}
                   dataSource={data}
                   pagination={false}
                   className="ant-border-space"

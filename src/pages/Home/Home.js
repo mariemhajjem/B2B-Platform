@@ -15,6 +15,7 @@ import { getAllProduits } from "../../redux/reducers/produits";
 import { getAllCategories } from "../../redux/reducers/categories";
 import Reclamation from "./Reclamation";
 import { SearchOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 // import Chatbot from "./Chatbot";
 
@@ -42,61 +43,66 @@ const responsive = {
 };
 
 function Home() {
-  const { allProduits } = useSelector((state) => state.produits);
-  const { allCategories, loading } = useSelector((state) => state.categories);
+  const { allProduits, loading } = useSelector((state) => state.produits);
+  const { allCategories } = useSelector((state) => state.categories);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllCategories())
     dispatch(getAllProduits());
   }, [])
 
+  useEffect(() => {
+
+  }, [loading])
   return (
-    <div id="Home" style={{ marginTop: "-20px", marginLeft: "-8px", overflowX: "hidden" }}>
-      <Navbar />
+    loading ?
+      <div class="spinner">
+        <div class="cube1"></div>
+        <div class="cube2"></div>
+      </div> :
+      <div id="Home" style={{ marginTop: "-20px", overflowX: "hidden" }}>
+        <Navbar />
 
-      <AntdCarousel autoplay autoplaySpeed={6000}>
-        <div>
-          <img src={tal0} alt="imagecarousel" className="full" style={contentStyle} />
-        </div>
-        <div>
-          <img src={tal1} alt="imagecarousel" className="full" style={contentStyle} />
-        </div>
-        <div>
-          <img src={tal2} alt="imagecarousel" className="full" style={contentStyle} />
-        </div>
-      </AntdCarousel>
+        <AntdCarousel autoplay autoplaySpeed={6000}>
+          <div>
+            <img src={tal0} alt="imagecarousel" className="full" style={contentStyle} />
+          </div>
+          <div>
+            <img src={tal1} alt="imagecarousel" className="full" style={contentStyle} />
+          </div>
+          <div>
+            <img src={tal2} alt="imagecarousel" className="full" style={contentStyle} />
+          </div>
+        </AntdCarousel>
 
-      <h1 style={{ display: "flex", justifyContent: "center", color: "#e3823e", padding: "3%" }}>Nos catégories</h1>
+        <h1 style={{ display: "flex", justifyContent: "center", color: "#e3823e", padding: "3%" }}>Nos catégories</h1>
 
-      <ul className="grid">
-        {allCategories?.map((value, index) =>
-          <li className="grid__child" key={index}>
-            <img src={tal2} alt="image_categorie" />
-            <h4 style={{ display: "flex", justifyContent: "center" }}>{value.category_name}</h4>
-          </li>)}
-      </ul>
+        <ul className="grid">
+          {allCategories?.map((value, index) =>
+            <li className="grid__child" key={index}>
+              <Link to={`/produits/${value._id}`}>
+                <img src={tal2} alt="image_categorie" />
+                <h4 style={{ display: "flex", justifyContent: "center" }}>{value.category_name}</h4>
+              </Link>
+            </li>)}
+        </ul>
 
-      <Divider />
+        <Divider />
 
-      <h1 id="Produits" style={{ display: "flex", justifyContent: "center", color: "#e3823e" }}>Nos produits</h1>
+        <h1 id="Produits" style={{ display: "flex", justifyContent: "center", color: "#e3823e" }}>Nos produits</h1>
 
-      <Carousel swipeable={true} centerMode={true} responsive={responsive} itemClass="carousel-item-padding-20-px">
-        {allProduits?.map((value, index) => <Produit key={index} produit={value} />)}
-      </Carousel>
+        <Carousel swipeable={true} centerMode={true} responsive={responsive} itemClass="carousel-item-padding-20-px">
+          {allProduits?.map((value, index) => <Produit key={index} produit={value} />)}
+        </Carousel>
 
-      <Divider />
-      <Input
-        className="header-search"
-        placeholder="Type here..."
-        prefix={<SearchOutlined />}
-      />
-      <Faq />
-      <Divider />
-      <Reclamation />
-      <FloatButton.BackTop />
-      <Divider />
-      <Footer />
-    </div>
+        <Divider />
+        <Faq />
+        <Divider />
+        <Reclamation />
+        <FloatButton.BackTop />
+        <Divider />
+        <Footer />
+      </div>
   );
 }
 export default Home;

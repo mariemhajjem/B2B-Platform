@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from "react"; 
 import { Navigate, Route, Routes } from 'react-router-dom';
-import ProductItemDetails from "../pages/Home/ProductItemDetails";
 
 const Main = lazy(() => import("../components/layout/Main"));
 const Dashboard = lazy(() => import("../pages/Admin/Dashboard"));
@@ -9,17 +8,17 @@ const Clients = lazy(() => import("../pages/Admin/Clients"));
 const Stock = lazy(() => import("../pages/Admin/Stock"));
 const Reclamations = lazy(() => import("../pages/Admin/Reclamations"));
 const Commandes = lazy(() => import("../pages/Admin/Commandes"));
+const Categories = lazy(() => import("../pages/Admin/Categories"));
 const Profile = lazy(() => import("../pages/Admin/Profile"));
 
 
 const Loading = ({ node }) => {
-    return (<Suspense fallback={<div>Loading... </div>}>{node}</Suspense>)
+    return (<Suspense fallback={<div>Loading...</div>}>{node}</Suspense>)
 }
 
 export const PrivateRoutes = () => { 
     return (
-        <Routes> 
-            <Route path="details/:id" exact element={<ProductItemDetails />} />
+        <Routes>
             <Route path="/dashboard" element={<Loading node={<Main />} />}>
                 <Route index element={<Loading node={<Dashboard />} />} />
                 <Route path="demandes" exact element={<Loading node={<Demandes />} />} />
@@ -27,6 +26,7 @@ export const PrivateRoutes = () => {
                 <Route path="reclamations" exact element={<Loading node={<Reclamations />} />} />
                 <Route path="clients" exact element={<Loading node={<Clients />} />} />
                 <Route path="commandes" element={<Loading node={<Commandes />} />} />
+                <Route path="category" element={<Loading node={<Categories />} />} />
                 <Route path="profile" element={<Loading node={<Profile />} />} />
             </Route>
 

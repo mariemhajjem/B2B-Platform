@@ -5,18 +5,27 @@ import users from "./users";
 import produits from "./produits"; 
 import categories from "./categories";
 import commande from "./commande";
+import demande from "./demande";
 import { cartReducer } from "./cartSlice";
+import { devisReducer } from "./devisSlice";
 
 const persistConfig = {
     key: 'root',
     storage,
 }
+const persistDevisConfig = {
+    key: 'devis',
+    storage,
+}
 const persistedReducer = persistReducer(persistConfig, cartReducer)
+const demandesDevis = persistReducer(persistDevisConfig, devisReducer)
 export default () => ({
     auth,
     users, 
     produits,
     categories,
     persistedReducer,
-    commande
+    demandesDevis,
+    commande,
+    demande
 });

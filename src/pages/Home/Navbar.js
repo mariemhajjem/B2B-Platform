@@ -7,6 +7,7 @@ import { PostAdd, ShoppingCart } from '@mui/icons-material';
 import "./Navbar.css";
 import logo from "../../assets/images/user-circle.svg";
 import { logout as Logout } from "../../redux/reducers/auth";
+import { getAllCategories } from "../../redux/reducers/categories";
 
 const centerStyle = {
 	alignItems: "flex-end",
@@ -26,14 +27,20 @@ function Navbar() {
 	const token = useSelector((state) => state.auth.loggedUser);
 	const { allCategories, loading } = useSelector((state) => state.categories);
 	const { cart } = useSelector((state) => state.persistedReducer);
+	const { cart : devis } = useSelector((state) => state.demandesDevis);
 	const [categories, setCategories] = useState([]);
+	const [childrenCategories, setChildrenCategories] = useState([]);
 	const [category, setCategory] = useState('');
 	const [total, setTotal] = useState(0);
+	const [show, setShow] = useState(devis.length > 0);
 	const { t } = useTranslation();
 	const dispatch = useDispatch();
 
 	const CLIENT = "CLIENT";
 	const FOURNISSEUR = "FOURNISSEUR";
+	useEffect(() =>{
+		dispatch(getAllCategories())
+	}, [])
 	useEffect(() => {
 		const categoriesTab = allCategories.map((categorie) => ({
 			label: <Link to={`/category/${category}`}>
@@ -49,6 +56,14 @@ function Navbar() {
 			return total
 		} 
 		setTotal(getTotalQuantity())
+		const children = allCategories.map((category,key) => ({
+			label:
+				<Link to={`/produits/${category._id}`}>
+					{category.category_name}
+				</Link>,
+			key
+		}))
+		setChildrenCategories(children)
 	}, [loading, cart, total])
 
 	const logout = (e) => {
@@ -61,7 +76,7 @@ function Navbar() {
 		{ label: <Link to="/">{t("Accueil")}</Link>, key: 'item-2' },
 		{
 			label: <Link to="/">{t("Catégories")}</Link>, key: 'item-6',
-			children: categories,
+			children: childrenCategories,
 		},
 		{ label: <a href="#Produits">{t("Produits")}</a>, key: 'item-3' },
 		{ label: <a href="#Contact">{t("Contactez-nous")}</a>, key: 'item-4' },
@@ -93,7 +108,8 @@ function Navbar() {
 		},
 		!(token?.role==FOURNISSEUR) && {
 			label: <Link to="/devis">
-				<PostAdd />Devis
+				<Badge dot={show}>
+				<PostAdd />Devis</Badge>
 			</Link>, key: 'item-d'
 		},
 		!(token?.role==FOURNISSEUR) && {
