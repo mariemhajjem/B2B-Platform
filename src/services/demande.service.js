@@ -1,6 +1,6 @@
 import Axios from "axios";
 
-let baseUrl = "http://localhost:5000/api/demandes";
+let baseUrl = "http://localhost:8000/api/demandes";
  
 export const getAllDemandes = async () => {
   return await Axios.get(baseUrl + "/"); 

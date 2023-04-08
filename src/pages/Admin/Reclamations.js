@@ -4,121 +4,65 @@ import {
   Card,
   Radio,
   Table,
-  Upload,
   message,
   Progress,
   Button,
-  Avatar,
   Typography,
 } from "antd";
 
 import { ToTopOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-
-// Images
-import ava1 from "../../assets/images/logo-shopify.svg";
-import ava2 from "../../assets/images/logo-atlassian.svg"; 
-import pencil from "../../assets/images/pencil.svg";
+import { useEffect, useState } from "react";
+import Modal from "antd/es/modal/Modal";
+import { useSelector } from "react-redux";
+import { getAllReclamations } from "../../redux/reducers/reclamation";
+import { useDispatch } from "react-redux";
 
 const { Title } = Typography;
 // project table start
 const project = [
   {
-    title: "COMPANIES",
+    title: "Email",
     dataIndex: "name",
     width: "32%",
   },
   {
-    title: "BUDGET",
-    dataIndex: "age",
+    title: "réclamation",
+    dataIndex: "reclamationText",
   },
   {
-    title: "STATUS",
-    dataIndex: "address",
-  },
-  {
-    title: "COMPLETION",
+    title: "Date",
     dataIndex: "completion",
   },
 ];
-const dataproject = [
-  {
-    key: "1",
 
-    name: (
-      <>
-        <Avatar.Group>
-          <Avatar className="shape-avatar" src={ava1} size={25} alt="" />
-          <div className="avatar-info">
-            <Title level={5}>Spotify Version</Title>
-          </div>
-        </Avatar.Group>
-      </>
-    ),
-    age: (
-      <>
-        <div className="semibold">$14,000</div>
-      </>
-    ),
-    address: (
-      <>
-        <div className="text-sm">working</div>
-      </>
-    ),
-    completion: (
-      <>
-        <div className="ant-progress-project">
-          <Progress percent={30} size="small" />
-          <span>
-            <Link to="/">
-              <img src={pencil} alt="" />
-            </Link>
-          </span>
-        </div>
-      </>
-    ),
-  },
-
-  {
-    key: "2",
-    name: (
-      <>
-        <Avatar.Group>
-          <Avatar className="shape-avatar" src={ava2} size={25} alt="" />
-          <div className="avatar-info">
-            <Title level={5}>Progress Track</Title>
-          </div>
-        </Avatar.Group>
-      </>
-    ),
-    age: (
-      <>
-        <div className="semibold">$3,000</div>
-      </>
-    ),
-    address: (
-      <>
-        <div className="text-sm">working</div>
-      </>
-    ),
-    completion: (
-      <>
-        <div className="ant-progress-project">
-          <Progress percent={10} size="small" />
-          <span>
-            <Link to="/">
-              <img src={pencil} alt="" />
-            </Link>
-          </span>
-        </div>
-      </>
-    ),
-  },
-];
 
 function Reclamations() {
+  const [isVisible, setIsVisible] = useState(false);
+  const { allReclamations } = useSelector((state) => state.reclamation);
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
+  const setVisible = () => setIsVisible(current => !current);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+		
+		dispatch(getAllReclamations());
+		
+	}, []);
+  const dataproject = allReclamations.map((value, key) => ({
+    key,
+    name: (<Title level={5}>{value.email}</Title>),
+    reclamationText: (
+      <>
+        <div className="text-sm">{value.reclamationText}</div>
+      </>
+    ),
+    completion: (
+      <>
+        <div className="text-sm">{value.dateSentReport.substring(0,10)}</div>
+      </>
+    ),
+  }))
   return (
     <>
       <div className="tabled">
@@ -146,11 +90,25 @@ function Reclamations() {
                   pagination={false}
                   className="ant-border-space"
                 />
-              </div> 
+              </div>
             </Card>
           </Col>
         </Row>
       </div>
+      <Modal
+        title={"Détails reclamation"}
+        open={isVisible}
+        width={1000}
+        footer={[
+          <Button key="refuse" type="primary"
+            onClick={setVisible}>
+            Terminer
+          </Button>
+        ]}
+        onCancel={setVisible}
+      >
+        hi
+      </Modal>
     </>
   );
 }

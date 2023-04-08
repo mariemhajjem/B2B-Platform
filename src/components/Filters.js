@@ -1,22 +1,30 @@
 import { SearchOutlined } from '@ant-design/icons';
-import { Checkbox, Input, List, Space } from 'antd';
+import { Input, List } from 'antd';
 import CheckableTag from 'antd/es/tag/CheckableTag';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const Filters = ({ selectedSizes, setSize, onChange, handleChange, selectedTags, inputHandler }) => {
-    const availabilities = ["En Stock", "Pré-commande", "En arrivage", "Epuisé", "Disponibilité limitée", "En rupture de stock"];
+    const availabilities = ["En Stock", "Pré-commande", "En arrivage", "Disponibilité limitée"];
     const sizes = ['XS', 'S', 'M', 'ML', 'L', 'XL', 'XXL'];
-
+    const { allProduits } = useSelector((state) => state.produits);
+    const [brands, setBrands] = useState([])
+    useEffect(() => {
+        allProduits.map((prod) => {
+            setBrands([...brands, prod.product_brand])
+        })
+    }, [])
     return (
         <div className="sizes">
-            <Link to="/"><h2>Accueil</h2></Link>
+            <h2>Filtres</h2>
             <Input
                 className="header-search"
                 placeholder="recherche..."
                 prefix={<SearchOutlined />}
                 onChange={inputHandler}
             />
-            <h2>Filtres</h2>
+            
             {/* <h3>Sizes</h3>
             <div className="size-list">
                 {
@@ -33,7 +41,7 @@ const Filters = ({ selectedSizes, setSize, onChange, handleChange, selectedTags,
                     })
                 }
             </div> */}
-            <h3>Les marques</h3>
+            <h3>Disponibilité</h3>
             <div className="size-list">
                 <List>
                     {availabilities.map((tag, index) => (

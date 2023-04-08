@@ -3,11 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { Menu, Image, Badge } from "antd";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { PostAdd, ShoppingCart } from '@mui/icons-material';
 import "./Navbar.css";
 import logo from "../../assets/images/user-circle.svg";
 import { logout as Logout } from "../../redux/reducers/auth";
 import { getAllCategories } from "../../redux/reducers/categories";
+import { FileDoneOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 
 const centerStyle = {
 	alignItems: "flex-end",
@@ -100,7 +100,7 @@ function Navbar() {
 			}],
 		},
 		token ? { label: <Link to="/dashboard">Dashboard</Link>, key: 'item-8' } : null,
-		token ? { label: "Logout", onClick: logout, key: 'item-7' } : {
+		token ? null : {
 			label:
 				<Link to="/sign-in">
 					<span>{t("Se connecter")}</span>
@@ -109,13 +109,13 @@ function Navbar() {
 		!(token?.role==FOURNISSEUR) && {
 			label: <Link to="/devis">
 				<Badge dot={show}>
-				<PostAdd />Devis</Badge>
+				<FileDoneOutlined />Devis</Badge>
 			</Link>, key: 'item-d'
 		},
 		!(token?.role==FOURNISSEUR) && {
 			label: <Link to="/cart">
 				<Badge size="small" count={total}>
-				<ShoppingCart /> </Badge>
+				<ShoppingCartOutlined /> </Badge>
 			</Link>, key: 'item-c'
 		},
 	];

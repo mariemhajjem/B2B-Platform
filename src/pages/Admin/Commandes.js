@@ -30,7 +30,7 @@ const project = [
     dataIndex: "total",
   },
   {
-    title: "STATUS",
+    title: "STATUT",
     dataIndex: "status",
   },
   {
@@ -52,7 +52,6 @@ function Commandes() {
   const dispatch = useDispatch();
   const [reverse, setReverse] = useState(false);
   const [datasource, setData] = useState([]);
-  const [commandesClient, setCommandesClient] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
   const [commande, setCommande] = useState({ commande_address: [] });
   const { allCommandes, loading } = useSelector((state) => state.commande);
@@ -112,7 +111,7 @@ function Commandes() {
     total: (<div className="semibold">{ getTotal(commande?.commande_summary) || "-"}</div>),
     status: (<Tag color={getColor(commande?.commande_status)}>{commande?.commande_status || "-"}</Tag>),
     date: (<div className="ant-progress-project">{commande?.commande_date?.split('T')[0] || "-"}</div>),
-    address: (<div className="text-sm">{commande?.commande_address?.slice(0,1)?.address + ", " + commande?.commande_address?.slice(0,1)?.code_postal}</div>),
+    address: (<div className="text-sm">{commande?.commande_address[0]?.address + ", " + commande?.commande_address[0]?.code_postal}</div>),
     action: (<Popconfirm open={false} onOpenChange={() => setVisible(commande)}><EyeTwoTone /></Popconfirm >),
   })) : [];
   const data = (role === "CLIENT" && !loading) ? allCommandes?.map((commande, key) => ({
@@ -121,7 +120,7 @@ function Commandes() {
     total: (<div className="semibold">{getTotal(commande?.list) || "-"}</div>),
     status: (<Tag color={getColor(commande?.commande?.commande_status)}>{commande?.commande?.commande_status || "-"}</Tag>),
     date: (<div className="ant-progress-project">{commande?.commande?.commande_date?.split('T')[0] || "-"}</div>),
-    address: (<div className="text-sm">{commande?.commande?.commande_address[0]?.address + ", " + commande?.commande?.commande_address[0]?.code_postal}</div>),
+    address: ({/* <div className="text-sm">{commande?.commande?.commande_address?.slice(0,1)?.address + ", " + commande?.commande?.commande_address?.slice(0,1)?.code_postal}</div> */}),
     action: (<div>
       <Popconfirm open={false} onOpenChange={() => setVisible(commande)}><EyeTwoTone /></Popconfirm >
     </div>),

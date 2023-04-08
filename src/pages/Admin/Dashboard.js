@@ -1,46 +1,42 @@
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Card,
   Col,
   Row,
   Typography,
-  Tooltip,
-  Progress,
-  Upload,
   message,
-  Button,
-  Timeline,
-  Radio,
 } from "antd";
-import {
-  ToTopOutlined,
-  MenuUnfoldOutlined,
-  RightOutlined,
-} from "@ant-design/icons";
-import Paragraph from "antd/lib/typography/Paragraph";
-
-import Echart from "../../components/chart/EChart";
 import LineChart from "../../components/chart/LineChart";
 
-import ava1 from "../../assets/images/logo-shopify.svg";
-import ava2 from "../../assets/images/logo-atlassian.svg";
-import ava3 from "../../assets/images/logo-slack.svg";
-import ava4 from "../../assets/images/logo-spotify.svg";
-import ava5 from "../../assets/images/logo-jira.svg";
-import ava6 from "../../assets/images/logo-invision.svg";
-import team1 from "../../assets/images/team-1.jpg";
-import team2 from "../../assets/images/team-2.jpg";
-import team3 from "../../assets/images/team-3.jpg";
-import team4 from "../../assets/images/team-4.jpg";
-import card from "../../assets/images/info-card-1.jpg";
+import { getCommandes, getCommandesByUser } from "../../redux/reducers/commande";
+import { getAllDemandes, getDemandes, getDemandesByUser } from "../../redux/reducers/demande";
+import { getAllUsers, getAllUsersByRole } from "../../redux/reducers/users";
+import { getAllProduits, getProduitsByUser } from "../../redux/reducers/produits";
 
 function Dashboard() {
   const { Title, Text } = Typography;
+  const { list } = useSelector((state) => state.users);
+  const { allCommandes } = useSelector((state) => state.commande);
+  const { allDemandes } = useSelector((state) => state.demande);
+  const { allProduits, userProduits } = useSelector((state) => state.produits);
+  const { role, entrepriseImport, entrepriseClt } = useSelector((state) => state.auth.loggedUser);
+  const dispatch = useDispatch();
 
-  const onChange = (e) => console.log(`radio checked:${e.target.value}`);
-
-  const [reverse, setReverse] = useState(false);
+  useEffect(() => {
+    if (role === "FOURNISSEUR") {
+      dispatch(getCommandes({ idEntrepriseImport: entrepriseImport?._id }));
+      dispatch(getDemandes({ idEntrepriseImport: entrepriseImport?._id }));
+    } else {
+      dispatch(getCommandesByUser({ idEntrepriseClt: entrepriseClt?._id }));
+      dispatch(getDemandesByUser({ idEntrepriseClt: entrepriseClt?._id }));
+    }
+    if (role === "ADMIN") {
+      dispatch(getAllUsers())
+      dispatch(getAllDemandes());
+      dispatch(getAllProduits());
+    }
+  }, []);
 
   const dollor = [
     <svg
@@ -130,35 +126,35 @@ function Dashboard() {
   ];
   const count = [
     {
-      today: "Today’s Sales",
-      title: "$53,000",
-      persent: "+30%",
+      today: "Commandes",
+      title: allCommandes.length,
+      // persent: "+30%",
       icon: dollor,
       bnb: "bnb2",
     },
     {
-      today: "Today’s Users",
-      title: "3,200",
-      persent: "+20%",
+      today: "Utilisateurs",
+      title: list.length,
+      // persent: "+20%",
       icon: profile,
       bnb: "bnb2",
     },
     {
-      today: "New Clients",
-      title: "+1,200",
-      persent: "-20%",
+      today: "Produits",
+      title: allProduits.length || userProduits.length,
+      // persent: "-20%",
       icon: heart,
       bnb: "redtext",
     },
     {
-      today: "New Orders",
-      title: "$13,200",
-      persent: "10%",
+      today: "Demandes",
+      title: allDemandes.length,
+      // persent: "10%",
       icon: cart,
       bnb: "bnb2",
     },
   ];
-
+/* 
   const list = [
     {
       img: ava1,
@@ -279,7 +275,7 @@ function Dashboard() {
         </div>
       ),
     },
-  ];
+  ]; */
 
   const timelineList = [
     {
@@ -333,7 +329,8 @@ function Dashboard() {
     <>
       <div className="layout-content">
         <Row className="rowgap-vbox" gutter={[24, 0]}>
-          {count.map((c, index) => (
+          {count.map((c, index) => 
+          {return role === "CLIENT" && c.today != "Produits" && c.today != "Utilisateurs" ? (
             <Col
               key={index}
               xs={24}
@@ -359,15 +356,16 @@ function Dashboard() {
                 </div>
               </Card>
             </Col>
-          ))}
+          ): null}
+          )}
         </Row>
 
         <Row gutter={[24, 0]}>
-          <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-24">
+          {/* <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-24">
             <Card bordered={false} className="criclebox h-full">
               <Echart />
             </Card>
-          </Col>
+          </Col> */}
           <Col xs={24} sm={24} md={12} lg={12} xl={14} className="mb-24">
             <Card bordered={false} className="criclebox h-full">
               <LineChart />

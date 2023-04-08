@@ -53,11 +53,14 @@ export default function SignUp() {
 				<Content className="p-0">
 					<div className="sign-up-header">
 						<div className="content">
-							<Title>Sign Up</Title>
+							<Title>S'enregistrer</Title>
 						</div>
 					</div>
-
 					<Card
+						className="card-signup header-solid h-full ant-card pt-0"
+						bordered="false"
+					>
+					{/* <Card
 						className="card-signup header-solid h-full ant-card pt-0"
 						title={<h5>Register With</h5>}
 						bordered="false"
@@ -65,11 +68,11 @@ export default function SignUp() {
 
 						<div className="sign-up-gateways">
 							<div id='signIn'></div>
-							{/* <Button type="false">
+							 <Button type="false">
                 <img src={logo3} alt="logo 3" />
-              </Button> */}
+              </Button> 
 						</div>
-						<p className="text-center my-25 font-semibold text-muted">Or</p>
+						<p className="text-center my-25 font-semibold text-muted">Or</p> */}
 						<SignUpSteps role={role} />
 
 					</Card>

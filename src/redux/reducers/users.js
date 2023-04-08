@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { getAllUsersThunk, getUserThunk, createNewUserThunk, updateUserThunk, deleteUserThunk, blockUserThunk, getAllUsersByRoleThunk, getEntrepriseThunk } from '../actions/usersThunk';
+import { getAllUsersThunk, getUserThunk, createNewUserThunk, updateUserThunk, deleteUserThunk, blockUserThunk, getAllUsersByRoleThunk, getEntrepriseThunk, getUserByNameThunk } from '../actions/usersThunk';
 
 const initialState = {
     user: null,
@@ -10,6 +10,7 @@ const initialState = {
 };
 export const createNewUser = createAsyncThunk('users/createProduit', createNewUserThunk);
 export const getUser = createAsyncThunk('users/getUser', getUserThunk);
+export const getUserByName = createAsyncThunk('users/getUserByName', getUserByNameThunk);
 export const getEntreprise = createAsyncThunk('users/getEntreprise', getEntrepriseThunk);
 export const getAllUsers = createAsyncThunk('users/getAllUsers', getAllUsersThunk);
 export const getAllUsersByRole = createAsyncThunk('users/getAllUsersByRole', getAllUsersByRoleThunk);
@@ -62,6 +63,23 @@ const slice = createSlice({
             state.user = action.payload;
         },
         [getUser.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.payload?.message;
+        },
+        [getUserByName.pending]: (state, action) => {
+            state.loading = true;
+        },
+        [getUserByName.fulfilled]: (state, action) => {
+            state.loading = false;
+            const { _id } = action.payload;
+            if (_id) {
+                state.user = state.list.filter((item) => {
+                    return item._id === _id;
+                }); // [0] array with [selected user]
+            }
+            state.user = action.payload;
+        },
+        [getUserByName.rejected]: (state, action) => {
             state.loading = false;
             state.error = action.payload?.message;
         },

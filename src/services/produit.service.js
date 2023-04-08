@@ -1,6 +1,6 @@
 import Axios from "axios";
 
-let baseUrl = "http://localhost:5000/api/produits";
+let baseUrl = "http://localhost:8000/api/produits";
  
 export const getAllProduits = async () => {
   return await Axios.get(baseUrl + "/"); 

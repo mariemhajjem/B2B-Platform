@@ -61,6 +61,7 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
     setCategories(categoriesTab)
     if (addError) {
       setError(addError);
+      setError("");
     }
   }, [addError])
 
@@ -74,6 +75,7 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
     product_description,
     product_price,
     product_picture,
+    barcode,
     product_category,
     product_availability,
     quality_level,
@@ -84,6 +86,7 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
       product_label:product_label.toLowerCase(),
       product_description,
       product_price: Number(product_price),
+      barcode: Number(barcode),
       product_picture: file,
       product_category,
       product_availability,
@@ -98,6 +101,7 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
     form.append('product_description', product_description);
     form.append('product_price', Number(product_price));
     form.append('product_quantity', Number(product_quantity));
+    form.append('barcode', Number(barcode));
     form.append('product_picture', file);
     form.append('product_category', product_category);
     form.append('quality_level', quality_level);
@@ -107,12 +111,9 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
     form.append('id', user.entrepriseClt?._id || user.entrepriseImport?._id);
     try {
       if (isAdd) {
-        for (const pair of form.entries()) {
-          console.log(`${pair[0]}, ${pair[1]}`);
-        };
         dispatch(createProduit(form));
       } else {
-        console.log({ idProduit: formData._id, ...updatedProduit });
+        // form.append('idProduit', formData._id);
         const data = { idProduit: formData._id, ...updatedProduit }
         dispatch(updateProduit(data));
       } 
@@ -120,6 +121,7 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
     } catch (err) {
       console.log(err)
     }
+    setIsAddVisible()
   };
   const handleFileUpload = (e) => {
     setFile(e.target.files[0])
@@ -171,7 +173,7 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
       >
         <Form.Item
           name="product_label"
-          label="nom produit"
+          label="Nom produit"
           rules={[
             {
               required: true,
@@ -226,6 +228,13 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
               width: '100%',
             }}
           />
+        </Form.Item>
+
+        <Form.Item
+          name="barcode"
+          label="Code à barre"
+        >
+          <Input />
         </Form.Item> 
         
         <Form.Item
@@ -287,7 +296,7 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
        
         <Form.Item
           name="isShown"
-          label="visibilité du produit"
+          label="Visibilité du produit"
           rules={[
             {
               required: true,

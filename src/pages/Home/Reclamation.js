@@ -1,22 +1,20 @@
-import React from "react";
 import { Divider, Form, Space, Input, Button } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { createReclamation } from "../../redux/reducers/reclamation";
 const { TextArea } = Input;
 
 function Reclamation() {
     const [form] = Form.useForm();
+    const user = useSelector((state) => state.auth.loggedUser);
     const dispatch = useDispatch();
-
-    const onFinish = ({ email, reclamation }) => {
+    const onFinish = ({ email, reclamationText }) => {
         let data = {
             email,
-            reclamation,
+            reclamationText,
         }
-        /* try {
-            dispatch(updateProduit(data));
-        } catch (err) {
-          console.log(err)
-        } */
+        
+        dispatch(createReclamation(data));
+        form.resetFields();
     };
 
     return (<>
@@ -41,8 +39,9 @@ function Reclamation() {
                     <div>
                         <h4>Formulaire réclamation</h4>
                         <Form
-                            name="produit"
+                            name="reclamation"
                             form={form}
+                            initialValues={{email: user?.email}}
                             onFinish={onFinish}
                             scrollToFirstError
                         >
@@ -58,7 +57,7 @@ function Reclamation() {
                             </Form.Item>
 
                             <Form.Item
-                                name="reclamation"
+                                name="reclamationText"
                                 rules={[
                                     {
                                         required: true,

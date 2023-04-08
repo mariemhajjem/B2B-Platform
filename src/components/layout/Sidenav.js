@@ -131,7 +131,7 @@ function Sidenav({ color }) {
 				</Link>,
 			key: 'item-1'
 		},
-		["FOURNISSEUR"].find(findRole) && {
+		["ADMIN","FOURNISSEUR"].find(findRole) && {
 			label:
 				<Link to={"/dashboard/clients"}>
 					<span
@@ -142,7 +142,7 @@ function Sidenav({ color }) {
 					>
 						{dashboard}
 					</span>
-					<span className="label">Clients</span>
+					<span className="label">{authState.role != "ADMIN" ? "Clients" : "Utilisateurs"}</span>
 				</Link>,
 			key: 'item-2'
 		},
@@ -191,7 +191,7 @@ function Sidenav({ color }) {
 				</Link>,
 			key: 'item-5'
 		},
-		["ADMIN", "FOURNISSEUR"].find(findRole) && {
+		["FOURNISSEUR"].find(findRole) && {
 			label:
 				<Link to={"/dashboard/stock"}>
 					<span
@@ -202,7 +202,7 @@ function Sidenav({ color }) {
 					>
 						{tables}
 					</span>
-					<span className="label">Stock</span>
+					<span className="label">Produits</span>
 				</Link>,
 			key: 'item-6'
 		},

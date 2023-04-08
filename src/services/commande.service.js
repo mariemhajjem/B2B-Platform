@@ -1,6 +1,6 @@
 import Axios from "axios";
 
-let baseUrl = "http://localhost:5000/api/commandes";
+let baseUrl = "http://localhost:8000/api/commandes";
  
 export const getAllCommandes = async () => {
   return await Axios.get(baseUrl + "/"); 

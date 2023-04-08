@@ -13,7 +13,7 @@ import {
   Divider,
   notification,
 } from "antd";
-import signinbg from "../../assets/images/img-signin.jpg";
+import signinbg from "../../assets/images/signin.png";
 
 const { Title } = Typography;
 const { Content } = Layout;
@@ -78,12 +78,16 @@ export default function SignIn() {
                 name="email"
                 rules={[
                   {
+                    type: 'email',
+                    message: 'The input is not valid E-mail!',
+                  },
+                  {
                     required: true,
                     message: "Please input your email!",
                   },
                 ]}
               >
-                <Input placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
+                <Input onChange={(e) => setEmail(e.target.value)}/>
               </Form.Item>
 
               <Form.Item
@@ -97,7 +101,7 @@ export default function SignIn() {
                   },
                 ]}
               >
-                <Input placeholder="Password" />
+                <Input.Password />
               </Form.Item>
 
               <Form.Item>

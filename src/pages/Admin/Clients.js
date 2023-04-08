@@ -68,7 +68,7 @@ function Clients() {
     });
   }; */
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
-  const block = (id) => { dispatch(blockUser(id)) }
+  const block = (id,role) => { dispatch(blockUser({id,role})) }
   const data = list?.map((user, key) => ({
     key: key,
     name: (
@@ -81,7 +81,7 @@ function Clients() {
               src={face2}
             ></Avatar> */}
           <div className="avatar-info">
-            <Title level={5}>{`${user?.entrepriseClt?.company_name}`}</Title> 
+            <Title level={5}>{`${user?.entrepriseClt?.company_name || user?.entrepriseImport?.company_name}`}</Title> 
           </div>
         </Avatar.Group>
       </>
@@ -89,24 +89,24 @@ function Clients() {
     email: (
       <>
         <div className="author-info">
-          <Title level={5}>{user.entrepriseClt?.company_email} </Title>
+          <Title level={5}>{user.entrepriseClt?.company_email || user?.entrepriseImport?.company_email || "-"} </Title>
           <p></p>
         </div>
       </>
     ),
     phoneNumber: (
       <div className="author-info">
-        <Title level={5}>{user.entrepriseClt?.company_phoneNumber} </Title>
+        <Title level={5}>{user.entrepriseClt?.company_phoneNumber || user?.entrepriseImport?.company_phoneNumber} </Title>
         <p></p>
       </div>
     ),
     block: (
-      <> {user.role === "ADMIN" ?
-        (user.entrepriseClt?.isBlocked ?
-          <Button type="primary" onClick={() => block(user.entrepriseClt?._id)} className="tag-primary">
+      <> {role === "ADMIN" ?
+        (user.entrepriseClt?.isBlocked || user?.entrepriseImport?.isBlocked ?
+          <Button type="primary" onClick={() => block(user.entrepriseClt?._id || user?.entrepriseImport?.isBlocked, user.role)} className="tag-primary">
             débloquer
           </Button> :
-          <Button type="primary" danger onClick={() => block(user.entrepriseClt?._id)} className="tag-primary">
+          <Button type="primary" danger onClick={() => block(user.entrepriseClt?._id || user?.entrepriseImport?.isBlocked, user.role)} className="tag-primary">
             bloquer
           </Button>) : (user.entrepriseClt?.isBlocked ? "Oui" : "Non")
       }
@@ -134,12 +134,12 @@ function Clients() {
             <Card
               bordered={false}
               className="criclebox tablespace mb-24"
-              title="Clients Table"
+              title={role != "ADMIN" ? "Tableau des clients" : "Tableau des utilisateurs"}
               extra={
                 <>
                   <Radio.Group onChange={onChange} defaultValue="a">
-                    <Radio.Button value="a">All</Radio.Button>
-                    <Radio.Button value="b">ONLINE</Radio.Button>
+                    <Radio.Button value="a">Tous</Radio.Button>
+                    <Radio.Button value="b">Bloqués</Radio.Button>
                   </Radio.Group>
                 </>
               }

@@ -30,7 +30,7 @@ const project = [
 		dataIndex: "name",
 	},
 	{
-		title: "STATUS",
+		title: "STATUT",
 		dataIndex: "status",
 	},
 	{
@@ -291,11 +291,10 @@ function Demandes() {
 						{!loading ? <Card
 							bordered={false}
 							className="criclebox tablespace mb-24"
-							title="Tableau des demandes clients"
+							title="Tableau des demandes de devis clients"
 							extra={
 								<>
 									<Radio.Group onChange={onChange} defaultValue="all">
-										<Radio.Button value="all">Tous</Radio.Button>
 										<Radio.Button value="online">Terminée</Radio.Button>
 										<Radio.Button value="store">En cours</Radio.Button>
 									</Radio.Group>
@@ -351,7 +350,7 @@ function Demandes() {
 					</Button>, */
 					<Button key="submit" type="primary" disabled={demande.demande_status === REFUSEE || demande.demande_status === CONFIRMEE}
 						onClick={() => { accept(demande._id); setIsVisible(current => !current) }}>
-						Accepter
+						Envoyer
 					</Button>,
 
 				] : [
@@ -361,7 +360,7 @@ function Demandes() {
 					</Button>,
 					<Button key="submit" type="primary" disabled={demande.demande_status === REFUSEE}
 						onClick={() => { acceptByClient(demande._id); setIsVisible(current => !current) }}>
-						Passer commande
+						Accepter
 					</Button>,
 
 				]}

@@ -1,6 +1,6 @@
 import Axios from "axios";
 
-let baseUrl = "http://localhost:5000/api/users";
+let baseUrl = "http://localhost:8000/api/users";
  
 export const getAllUsers = async () => {
   return await Axios.get(baseUrl + "/"); 
@@ -26,10 +26,14 @@ export const getUser = async (idUser) => {
   return await Axios.get(baseUrl + "/" + idUser); 
 }
 
+export const getUserByName = async (idUser) => {
+  return await Axios.get(baseUrl + "/byname/" + idUser); 
+}
+
 export const deleteUser = async (idUser) => {
   return await Axios.delete(baseUrl + "/" + idUser); 
 }
 
 export const blockUser = async (idUser) => {
-  return await Axios.put(baseUrl + "/block/" + idUser); 
+  return await Axios.put(baseUrl + "/block", idUser); 
 }

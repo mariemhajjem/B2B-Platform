@@ -102,7 +102,7 @@ export const PaymentInfo = ({
 		<Form
 			{...formItemLayout}
 			form={form}
-			name="register"
+			name="payment"
 			onFinish={onSubmit}
 			initialValues={formData}
 			scrollToFirstError
@@ -127,7 +127,7 @@ export const PaymentInfo = ({
 						}}
 						onClick={() => prev()}
 					>
-						Previous
+						Précédent
 					</Button>
 					<Button type="primary" htmlType="submit">
 						Valider commande

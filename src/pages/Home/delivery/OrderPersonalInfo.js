@@ -145,7 +145,7 @@ export const OrderPersonalInfo = ({ formData, setFormData, next }) => {
       <div className="steps-action"> 
       <Form.Item {...tailFormItemLayout}>
          <Button type="primary" htmlType="submit">
-            Next
+            Suivant
           </Button>
       </Form.Item> 
       </div>

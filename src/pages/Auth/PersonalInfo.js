@@ -86,7 +86,7 @@ export const PersonalInfo = ({ formData, setFormData, next }) => {
     <Form.Item
         name="firstName"
         label="Prénom"
-        tooltip="What do you want others to call you?"
+        // tooltip="What do you want others to call you?"
         rules={[
           {
             required: true,
@@ -100,7 +100,6 @@ export const PersonalInfo = ({ formData, setFormData, next }) => {
       <Form.Item
         name="lastName"
         label="Nom"
-        tooltip="What do you want others to call you?"
         rules={[
           {
             required: true,
@@ -130,7 +129,7 @@ export const PersonalInfo = ({ formData, setFormData, next }) => {
 
       <Form.Item
         name="password"
-        label="Password"
+        label="Mot de passe"
         rules={[
           {
             required: true,
@@ -144,7 +143,7 @@ export const PersonalInfo = ({ formData, setFormData, next }) => {
 
       <Form.Item
         name="confirm"
-        label="Confirm Password"
+        label="Confirmation"
         dependencies={['password']}
         hasFeedback
         rules={[
@@ -167,7 +166,7 @@ export const PersonalInfo = ({ formData, setFormData, next }) => {
 
       <Form.Item
         name="residence"
-        label="Habitual Residence"
+        label="Résidence"
         rules={[
           {
             type: 'array',
@@ -188,12 +187,14 @@ export const PersonalInfo = ({ formData, setFormData, next }) => {
 
       <Form.Item
         name="phoneNumber"
-        label="Phone Number"
-        rules={[ 
-          {
+        label="Numéro de téléphone"
+        rules={[
+          { 
             required: true,
             message: 'Please input your phone number!',
-          },
+          }, 
+          { min: 8, message: "Numéro est composée de 8 chiffres." },
+          { max: 8, message: "Numéro est composée de 8 chiffres." },
         ]}
       >
         <Input 
@@ -204,7 +205,7 @@ export const PersonalInfo = ({ formData, setFormData, next }) => {
       </Form.Item> 
     <Form.Item
         name="gender"
-        label="Gender" 
+        label="Genre" 
         rules={[ 
           {
             required: true,
@@ -213,23 +214,23 @@ export const PersonalInfo = ({ formData, setFormData, next }) => {
         ]}
       >
         <Select placeholder="select your gender">
-          <Option value="male">Male</Option>
-          <Option value="female">Female</Option>
-          <Option value="other">Other</Option>
+          <Option value="male">Homme</Option>
+          <Option value="female">Femme</Option>
+          <Option value="other">Autre</Option>
         </Select>
       </Form.Item>
 
       <div className="steps-action"> 
       <Form.Item {...tailFormItemLayout}>
          <Button type="primary" htmlType="submit">
-            Next
+            Suivant
           </Button>
           
       </Form.Item>
            <p className="font-semibold text-muted text-center">
-            Already have an account?{" "}
+            Vous avez déjà un compte?{" "}
             <Link to="/sign-in" className="font-bold text-dark">
-              Sign In
+              Se connecter
             </Link>
           </p>
       </div>

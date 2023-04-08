@@ -36,12 +36,12 @@ export default function SignUpSteps({role}) {
   const onChange = (values) => {
     setFormData(values)
   };
-  const items = [ {title: 'Personal Info'} , { title: 'Company Info' }];
+  const items = [ {title: 'Informations générales'} , { title: 'Informations professionnelles' }];
   return (
     <>
       <Steps current={current} items={items} /> 
       <div className="steps-content">
-        {items[current].title === 'Personal Info' ?
+        {items[current].title === 'Informations générales' ?
           <PersonalInfo
             formData={formData}
             setFormData={onChange}

@@ -4,7 +4,7 @@ const env = process.env.NODE_ENV;
 let url = "";
 
 if (env == "development") {
-  url = "http://localhost:5000/api/";
+  url = "http://localhost:8000/api/";
 } else if (env == "production") {
   url = "https://app/api/";
 }

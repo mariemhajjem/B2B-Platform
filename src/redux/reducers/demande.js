@@ -31,11 +31,12 @@ const demandeSlice = createSlice({
         state.loading = false;
         state.allDemandes?.push(action.payload); 
         state.userDemandes?.push(action.payload); 
-        toast.success("Added Successfully"); 
+        toast.success("Demande ajoutée avec succés"); 
       },
       [createDemande.rejected]: (state, action) => {
         state.loading = false;
         state.error = action.payload?.message;
+        toast.error("Erreur");
       },
       [getAllDemandes.pending]: (state, action) => {
         state.loading = true;
@@ -47,6 +48,7 @@ const demandeSlice = createSlice({
       [getAllDemandes.rejected]: (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        toast.error("Erreur");
       },
       [getDemandes.pending]: (state, action) => {
         state.loading = true;
@@ -58,6 +60,7 @@ const demandeSlice = createSlice({
       [getDemandes.rejected]: (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        toast.error("Erreur");
       },
       [getDemandesByUser.pending]: (state, action) => {
         state.loading = true;
@@ -69,6 +72,7 @@ const demandeSlice = createSlice({
       [getDemandesByUser.rejected]: (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        toast.error("Erreur");
       },
       [updateDemande.pending]: (state, action) => {
         state.loading = true;
@@ -85,6 +89,7 @@ const demandeSlice = createSlice({
       [updateDemande.rejected]: (state, action) => {
         state.loading = false;
         state.addError = action.payload?.message;
+        toast.error("Erreur");
       },
       [updateDemandeByClient.pending]: (state, action) => {
         state.loading = true;
@@ -101,6 +106,7 @@ const demandeSlice = createSlice({
       [updateDemandeByClient.rejected]: (state, action) => {
         state.loading = false;
         state.addError = action.payload?.message;
+        toast.error("Erreur");
       }     
     },
 });

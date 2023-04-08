@@ -63,6 +63,16 @@ export const getUserThunk = async (idUser, thunkAPI) => {
     }
 }
 
+export const getUserByNameThunk = async (name, thunkAPI) => {
+    try {
+        const result = await api.getUserByName(name);
+        return result.data;
+    } catch (error) {
+        console.log(error.response?.data);
+        return thunkAPI.rejectWithValue(error?.response?.data || error);
+    }
+}
+
 export const deleteUserThunk = async (idUser, thunkAPI) => {
     try {
         const result = await api.deleteUser(idUser);

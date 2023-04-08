@@ -10,6 +10,7 @@ import {
   notification,
   Spin,
   Tag,
+  Popconfirm,
 } from "antd";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -117,7 +118,7 @@ function Stock() {
     isShown: true,
     quality_level: "Neuf avec emballage"
   });
-  useEffect(() => { 
+  useEffect(() => {
       if (role === "ADMIN") {
         dispatch(getAllProduits());
       } else {
@@ -126,12 +127,12 @@ function Stock() {
       console.log({ entreprise: entrepriseImport?._id })
       dispatch(getAllCategories())
 
-      if (getError) {
+      /* if (getError) {
         setError(getError);
         dispatch(clearErrors())
-      }
+      } */
 
-    }, [getError]);
+    }, []);
   const handleUpdate = (prod) => {
     // 👇️ toggle visibility 
     setProduct({ ...prod, product_picture: "", product_category: prod.category_id?.category_name })
@@ -209,9 +210,17 @@ function Stock() {
         </Button>
       </>
     ),
-    delete: (<Button type="primary" danger className="tag-primary" onClick={() => handleDelete(prod._id)}>
+    delete: (<Popconfirm
+      title="êtes-vous sûr de vouloir supprimer ce produit?"
+      description="Delete the task"
+      onConfirm={() => handleDelete(prod._id)}
+      okText="Oui"
+      cancelText="Non"
+      >
+      <Button type="primary" danger className="tag-primary">
       supprimer
-    </Button>)
+    </Button></Popconfirm>)
+    
   }));
 
   return (
@@ -239,7 +248,7 @@ function Stock() {
                 <>  
                   <Radio.Group onChange={onChange} defaultValue="a">
                     <Radio.Button value="a">Tous</Radio.Button>
-                    <Radio.Button value="b">ONLINE</Radio.Button>
+                    <Radio.Button value="b">Visible</Radio.Button>
                   </Radio.Group>
                 </>
               }

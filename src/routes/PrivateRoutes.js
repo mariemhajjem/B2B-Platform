@@ -10,6 +10,7 @@ const Reclamations = lazy(() => import("../pages/Admin/Reclamations"));
 const Commandes = lazy(() => import("../pages/Admin/Commandes"));
 const Categories = lazy(() => import("../pages/Admin/Categories"));
 const Profile = lazy(() => import("../pages/Admin/Profile"));
+const Chatpage = lazy(() => import("../pages/Admin/chat"));
 
 
 const Loading = ({ node }) => {
@@ -28,8 +29,9 @@ export const PrivateRoutes = () => {
                 <Route path="commandes" element={<Loading node={<Commandes />} />} />
                 <Route path="category" element={<Loading node={<Categories />} />} />
                 <Route path="profile" element={<Loading node={<Profile />} />} />
+                
             </Route>
-
+            <Route path="/chats" element={<Loading node={<Chatpage />} />} />
             <Route path='*' element={<Navigate to='/dashboard' replace />} />
         </Routes>
     );

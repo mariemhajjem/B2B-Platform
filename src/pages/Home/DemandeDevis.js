@@ -60,7 +60,7 @@ export default function DemandeDevis() {
 			// if you want see your screenshot in body.
 			const imgData = canvas.toDataURL("image/png");
 			const pdf = new jsPDF();
-			pdf.addImage(imgData, "PNG", 0, 0);
+			pdf.addImage(imgData, "PNG", 0, 10);
 			pdf.save("demande-devis.pdf");
 		});
 	};
@@ -103,6 +103,7 @@ export default function DemandeDevis() {
 			>
 				Télécharger
 			</Button></Row>
+		
 		<Space id="capture" wrap direction="vertical" size="middle" style={{ display: "flex", justifyContent: "center", margin: "0 10em" }}>
 			<h1>Demande de devis</h1>
 			<h2>{"Date : " + new Date().toLocaleDateString()}</h2>

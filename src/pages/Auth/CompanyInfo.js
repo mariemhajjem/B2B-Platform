@@ -116,7 +116,7 @@ export const CompanyInfo = ({
         </p>
       <Form.Item
         name="company_name"
-        label="company name"
+        label="Société"
         rules={[
           {
             required: true,
@@ -130,14 +130,15 @@ export const CompanyInfo = ({
 
       <Form.Item
         name="matricule_fiscale"
-        label="matricule fiscale"
+        label="Matricule fiscale"
         tooltip="What do you want others to call you?"
         rules={[
           {
             required: true,
             message: 'Please input your matricule_fiscale!',
-            whitespace: true,
           },
+          { min: 13, message: "matricule fiscale est composée de 13 chiffres." },
+          { max: 13, message: "matricule fiscale est composée de 13 chiffres." },
         ]}
       >
         <Input onChange={(e) => setFormData({ ...formData, matricule_fiscale: e.target.value })} />
@@ -166,7 +167,7 @@ export const CompanyInfo = ({
 
       <Form.Item
         name="company_phoneNumber"
-        label="Phone Number"
+        label="Numéro de téléphone"
         rules={[
           { 
             required: true,
@@ -185,7 +186,7 @@ export const CompanyInfo = ({
       
       <Form.Item
         name="company_email"
-        label="company email"
+        label="Emai professionnel"
         rules={[
           {
             type: 'email',
@@ -197,7 +198,7 @@ export const CompanyInfo = ({
       </Form.Item>
       <Form.Item
         name="website"
-        label="Website"
+        label="Site web"
       >
         <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder="website">
           <Input onChange={(e) => setFormData({ ...formData, website: e.target.value })} />
@@ -254,10 +255,10 @@ export const CompanyInfo = ({
             }}
             onClick={() => prev()}
           >
-            Previous
+            Précédent
           </Button>
           <Button type="primary" htmlType="submit">
-            Register
+            S'enregistrer
           </Button>
         </Form.Item>
 

@@ -56,6 +56,7 @@ const produitSlice = createSlice({
     [createProduit.rejected]: (state, action) => {
       state.loading = false;
       state.addError = action.payload?.message;
+      toast.error("Erreur");
     },
     [getAllProduits.pending]: (state, action) => {
       state.loading = true;
@@ -67,6 +68,7 @@ const produitSlice = createSlice({
     [getAllProduits.rejected]: (state, action) => {
       state.loading = false;
       state.getError = action.payload;
+      toast.error("Erreur");
     },
     [getProduitsByUser.pending]: (state, action) => {
       state.loading = true;
@@ -78,6 +80,7 @@ const produitSlice = createSlice({
     [getProduitsByUser.rejected]: (state, action) => {
       state.loading = false;
       state.getError = action.payload;
+      toast.error("Erreur");
     },
     [getProduitsByCategory.pending]: (state, action) => {
       state.loading = true;
@@ -89,6 +92,7 @@ const produitSlice = createSlice({
     [getProduitsByCategory.rejected]: (state, action) => {
       state.loading = false;
       state.getError = action.payload;
+      toast.error("Erreur");
     },
     [getProduitById.pending]: (state, action) => {
       state.loading = true;
@@ -100,6 +104,7 @@ const produitSlice = createSlice({
     [getProduitById.rejected]: (state, action) => {
       state.loading = false;
       state.getError = action.payload;
+      toast.error("Erreur");
     },
 
     [updateProduit.pending]: (state, action) => {
@@ -120,6 +125,7 @@ const produitSlice = createSlice({
     [updateProduit.rejected]: (state, action) => {
       state.loading = false;
       state.addError = action.payload?.message;
+      toast.error("Erreur");
     }
     ,
     [deleteProduit.pending]: (state, action) => {
@@ -136,6 +142,7 @@ const produitSlice = createSlice({
     [deleteProduit.rejected]: (state, action) => {
       state.loading = false;
       state.getError = action.payload?.message;
+      toast.error("Erreur");
     },
 
   },

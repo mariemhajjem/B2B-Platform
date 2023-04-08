@@ -6,6 +6,7 @@ import produits from "./produits";
 import categories from "./categories";
 import commande from "./commande";
 import demande from "./demande";
+import reclamation from "./reclamation";
 import { cartReducer } from "./cartSlice";
 import { devisReducer } from "./devisSlice";
 
@@ -27,5 +28,6 @@ export default () => ({
     persistedReducer,
     demandesDevis,
     commande,
-    demande
+    demande,
+    reclamation
 });

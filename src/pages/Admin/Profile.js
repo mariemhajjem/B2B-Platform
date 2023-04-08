@@ -25,7 +25,7 @@ import {
   VerticalAlignTopOutlined,
 } from "@ant-design/icons";
 
-import BgProfile from "../../assets/images/bg-profile.jpg";
+import BgProfile from "../../assets/images/bg.jpg";
 import profilavatar from "../../assets/images/face-1.jpg";
 import convesionImg from "../../assets/images/face-3.jpg";
 import convesionImg2 from "../../assets/images/face-4.jpg";
@@ -39,6 +39,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { current } from "@reduxjs/toolkit";
 import residences from "../../constants/residences";
 import { updateProfile } from "../../redux/reducers/auth";
+import { Link } from "react-router-dom";
 
 function Profile() {
   const [imageURL, setImageURL] = useState(false);
@@ -183,6 +184,7 @@ function Profile() {
       residence: residence.toString(),
       address
     }))
+    setModalVisible()
   }
   return (
     <>
@@ -202,25 +204,11 @@ function Profile() {
 
                 <div className="avatar-info">
                   <h4 className="font-semibold m-0">{`${user?.firstName} ${user?.lastName}`} </h4>
-                  <p>{`${user?.user_grade}/ ${user?.user_grade.toLowerCase()}`}</p>
+                  <p>{`${user?.role?.toLowerCase()} `}</p>
                 </div>
               </Avatar.Group>
             </Col>
-            <Col
-              span={24}
-              md={12}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-              }}
-            >
-              <Radio.Group defaultValue="a">
-                <Radio.Button value="a">OVERVIEW</Radio.Button>
-                <Radio.Button value="b">TEAMS</Radio.Button>
-                <Radio.Button value="c">PROJECTS</Radio.Button>
-              </Radio.Group>
-            </Col>
+            
           </Row>
         }
       ></Card>
@@ -284,32 +272,33 @@ function Profile() {
             </Descriptions>
           </Card>
         </Col>
-        <Col span={24} md={8} className="mb-24">
+        {user.role != "ADMIN" && <Col span={24} md={8} className="mb-24">
           <Card
             bordered={false}
             title={<h6 className="font-semibold m-0">Conversations</h6>}
             className="header-solid h-full"
             bodyStyle={{ paddingTop: 0, paddingBottom: 16 }}
           >
+            <Link to={`/chats`}>Discussions</Link>
             <List
               itemLayout="horizontal"
               dataSource={data}
               split={false}
               className="conversations-list"
-              renderItem={(item) => (
-                <List.Item actions={[<Button type="link">REPLY</Button>]}>
+              renderItem={(item) => (<Link type="link" to={`/chats`}>
+                <List.Item actions={[<Link type="link" to={`/chats`}>Répondre</Link>]}>
+                  
                   <List.Item.Meta
                     avatar={
                       <Avatar shape="square" size={48} src={item.avatar} />
                     }
                     title={item.title}
-                    description={item.description}
                   />
-                </List.Item>
+                </List.Item></Link>
               )}
             />
           </Card>
-        </Col>
+        </Col>}
       </Row>
      {/*  <Card
         bordered={false}
@@ -375,7 +364,7 @@ function Profile() {
         onCancel={setModalVisible}
       >
         <Form
-          name="produit"
+          name="profil"
           form={form}
           onFinish={onFinish}
           initialValues={formData}
@@ -409,7 +398,7 @@ function Profile() {
           </Form.Item>
           <Form.Item
             name="email"
-            label="E-mail"
+            label="Email"
             rules={[
               {
                 type: 'email',
@@ -426,7 +415,7 @@ function Profile() {
 
           <Form.Item
             name="residence"
-            label="Habitual Residence"
+            label="Résidence"
             rules={[
               {
                 type: 'array',
@@ -447,7 +436,7 @@ function Profile() {
 
           <Form.Item
             name="phoneNumber"
-            label="Phone Number"
+            label="Numéro de téléphone"
             rules={[
               {
                 required: true,

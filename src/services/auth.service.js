@@ -1,7 +1,7 @@
 import Axios from "axios"; 
 
 
-const baseUrl = "http://localhost:5000/api/auth";
+const baseUrl = "http://localhost:8000/api/auth";
 
 export const register = async (user) => {
   return await Axios.post(baseUrl + "/register", user); 

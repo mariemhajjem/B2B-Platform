@@ -30,11 +30,12 @@ const commandeSlice = createSlice({
         state.loading = false;
         state.allCommandes?.push(action.payload); 
         state.userCommandes?.push(action.payload); 
-        toast.success("Added Successfully"); 
+        toast.success("Commande ajoutée avec succés"); 
       },
       [createCommande.rejected]: (state, action) => {
         state.loading = false;
         state.error = action.payload?.message;
+        toast.error("Erreur"); 
       },
       [getAllCommandes.pending]: (state, action) => {
         state.loading = true;
@@ -46,6 +47,7 @@ const commandeSlice = createSlice({
       [getAllCommandes.rejected]: (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        toast.error("Erreur");
       },
       [getCommandes.pending]: (state, action) => {
         state.loading = true;
@@ -57,6 +59,7 @@ const commandeSlice = createSlice({
       [getCommandes.rejected]: (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        toast.error("Erreur");
       },
       [getCommandesByUser.pending]: (state, action) => {
         state.loading = true;
@@ -68,6 +71,7 @@ const commandeSlice = createSlice({
       [getCommandesByUser.rejected]: (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        toast.error("Erreur");
       },
       [updateCommande.pending]: (state, action) => {
         state.loading = true;
@@ -84,6 +88,7 @@ const commandeSlice = createSlice({
       [updateCommande.rejected]: (state, action) => {
         state.loading = false;
         state.addError = action.payload?.message;
+        toast.error("Erreur");
       }     
     },
 });
