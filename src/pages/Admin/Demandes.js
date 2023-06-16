@@ -292,14 +292,14 @@ function Demandes() {
 							bordered={false}
 							className="criclebox tablespace mb-24"
 							title="Tableau des demandes de devis clients"
-							extra={
+							/* extra={
 								<>
 									<Radio.Group onChange={onChange} defaultValue="all">
 										<Radio.Button value="online">Terminée</Radio.Button>
 										<Radio.Button value="store">En cours</Radio.Button>
 									</Radio.Group>
 								</>
-							}
+							} */
 						>
 							<div className="table-responsive">
 								<Table
@@ -348,7 +348,7 @@ function Demandes() {
 						onClick={() => { refuser(demande?._id); setIsVisible(current => !current) }}>
 						Refuser
 					</Button>, */
-					<Button key="submit" type="primary" disabled={demande.demande_status === REFUSEE || demande.demande_status === CONFIRMEE}
+					<Button key="submit" type="primary" disabled={demande.demande_status === REFUSEE || demande.demande_status === CONFIRMEE || demande.demande_status === TERMINATED}
 						onClick={() => { accept(demande._id); setIsVisible(current => !current) }}>
 						Envoyer
 					</Button>,

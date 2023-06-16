@@ -38,6 +38,8 @@ function Navbar() {
 
 	const CLIENT = "CLIENT";
 	const FOURNISSEUR = "FOURNISSEUR";
+	const ADMIN = "ADMIN"
+
 	useEffect(() =>{
 		dispatch(getAllCategories())
 	}, [])
@@ -99,20 +101,20 @@ function Navbar() {
 				key: 'submenu-item-2'
 			}],
 		},
-		token ? { label: <Link to="/dashboard">Dashboard</Link>, key: 'item-8' } : null,
+		token ? token?.role == ADMIN ? { label: <Link to="/dashboard/clients">Dashboard</Link>, key: 'item-8' } : { label: <Link to="/dashboard">Dashboard</Link>, key: 'item-8' }: null,
 		token ? null : {
 			label:
 				<Link to="/sign-in">
 					<span>{t("Se connecter")}</span>
 				</Link>, key: 'item-9'
 		},
-		!(token?.role==FOURNISSEUR) && {
+		(token?.role==CLIENT) && {
 			label: <Link to="/devis">
 				<Badge dot={show}>
 				<FileDoneOutlined />Devis</Badge>
 			</Link>, key: 'item-d'
 		},
-		!(token?.role==FOURNISSEUR) && {
+		(token?.role==CLIENT) && {
 			label: <Link to="/cart">
 				<Badge size="small" count={total}>
 				<ShoppingCartOutlined /> </Badge>

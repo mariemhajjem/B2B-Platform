@@ -43,8 +43,11 @@ const responsive = {
 };
 
 function Home() {
+  const token = useSelector((state) => state.auth.loggedUser);
   const { allProduits, loading } = useSelector((state) => state.produits);
   const { allCategories } = useSelector((state) => state.categories);
+  const ADMIN = "ADMIN"
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllCategories())
@@ -98,7 +101,7 @@ function Home() {
         <Divider />
         <Faq />
         <Divider />
-        <Reclamation />
+        {!(token?.role == ADMIN) && <Reclamation /> }
         <FloatButton.BackTop />
         <Divider />
         <Footer />

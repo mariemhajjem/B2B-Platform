@@ -26,7 +26,7 @@ import {
 } from "@ant-design/icons";
 
 import BgProfile from "../../assets/images/bg.jpg";
-import profilavatar from "../../assets/images/face-1.jpg";
+import profilavatar from "../../assets/images/face-1.png";
 import convesionImg from "../../assets/images/face-3.jpg";
 import convesionImg2 from "../../assets/images/face-4.jpg";
 import convesionImg3 from "../../assets/images/face-5.jpeg";

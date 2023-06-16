@@ -116,7 +116,7 @@ function Sidenav({ color }) {
 		return value === authState.role;
 	}
 	const sidenav = [
-		["ADMIN", "FOURNISSEUR", "CLIENT"].find(findRole) && {
+		["FOURNISSEUR", "CLIENT"].find(findRole) && {
 			label:
 				<Link to={"/dashboard"}>
 					<span

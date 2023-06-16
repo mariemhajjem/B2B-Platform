@@ -103,10 +103,10 @@ function Clients() {
     block: (
       <> {role === "ADMIN" ?
         (user.entrepriseClt?.isBlocked || user?.entrepriseImport?.isBlocked ?
-          <Button type="primary" onClick={() => block(user.entrepriseClt?._id || user?.entrepriseImport?.isBlocked, user.role)} className="tag-primary">
+          <Button type="primary" onClick={() => block(user.entrepriseClt?._id || user?.entrepriseImport?._id, user.role)} className="tag-primary">
             débloquer
           </Button> :
-          <Button type="primary" danger onClick={() => block(user.entrepriseClt?._id || user?.entrepriseImport?.isBlocked, user.role)} className="tag-primary">
+          <Button type="primary" danger onClick={() => block(user.entrepriseClt?._id || user?.entrepriseImport?._id, user.role)} className="tag-primary">
             bloquer
           </Button>) : (user.entrepriseClt?.isBlocked ? "Oui" : "Non")
       }
@@ -135,14 +135,14 @@ function Clients() {
               bordered={false}
               className="criclebox tablespace mb-24"
               title={role != "ADMIN" ? "Tableau des clients" : "Tableau des utilisateurs"}
-              extra={
+              /* extra={
                 <>
                   <Radio.Group onChange={onChange} defaultValue="a">
                     <Radio.Button value="a">Tous</Radio.Button>
                     <Radio.Button value="b">Bloqués</Radio.Button>
                   </Radio.Group>
                 </>
-              }
+              } */
             >
               <div className="table-responsive">
                 <Table

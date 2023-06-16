@@ -14,7 +14,7 @@ export default function OrderSteps({visible, setOrder, formData, onChange}) {
     setCurrent(current - 1);
   };
   
-  const items = [ {title: 'Infos de livraison'} , { title: 'Infos de paiement' }];
+  const items = [ {title: 'Infos de la société'} , { title: 'Adresse de livraison' }];
   return (
     <Modal
       title="Passer commande"
@@ -23,7 +23,7 @@ export default function OrderSteps({visible, setOrder, formData, onChange}) {
       onCancel={setOrder} >
       <Steps current={current} items={items} /> 
       <div className="steps-content">
-        {items[current].title === 'Infos de livraison' ?
+        {items[current].title === 'Infos de la société' ?
           <OrderPersonalInfo
             formData={formData}
             setFormData={onChange}

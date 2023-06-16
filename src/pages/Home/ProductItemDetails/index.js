@@ -48,10 +48,11 @@ export default function ProductItemDetails() {
   const [fournisseur, setFournisseur] = useState(null);
   const [filteredArray, setFilteredArray] = useState([]);
   const { allProduits, produit, loading } = useSelector((state) => state.produits);
+  const loggedUser = useSelector((state) => state.auth);
   const { entreprise } = useSelector((state) => state.users);
   const { id } = useParams();
   const dispatch = useDispatch();
-
+  const CLIENT = "CLIENT";
   useEffect(() => {
     dispatch(getAllProduits())
     dispatch(getProduitById(id))
@@ -71,6 +72,7 @@ export default function ProductItemDetails() {
   }, [produit])
 
   useEffect(() => {
+    console.log(loggedUser)
     if(produit.entrepriseImport) dispatch(getEntreprise(produit.entrepriseImport))
     
     //TODO: get entreprise fournisseur by id from prod 
@@ -97,7 +99,7 @@ export default function ProductItemDetails() {
                 <p>{produit?.product_description}</p>
                 <h2>{produit?.product_price} DT</h2>
 
-                <Space split={<Divider type='vertical' />} >
+                { loggedUser?.loggedUser?.role == CLIENT && <><Space split={<Divider type='vertical' />} >
                   <h4>Quantité: </h4>
                   <InputNumber min={1} max={produit?.product_quantity} defaultValue={quantity} onChange={(value) => { console.log(value); setQuantity(value) }} />
                 </Space>
@@ -109,7 +111,7 @@ export default function ProductItemDetails() {
                   <Button onClick={() => dispatch(addToDevis({ ...produit, quantity }))}>
                     Ajouter au devis
                   </Button>
-                </Space>
+                </Space></>}
               </Card>
               <Space style={{ display: "flex", justifyContent: "flex-end", alignItems: 'center' }}>
                 <Card style={Style1}>
@@ -123,10 +125,7 @@ export default function ProductItemDetails() {
                     <h4> </h4>
                   </Space>
                   <Divider />
-                  <p>Pour les demandes concernant les prix, la personnalisation ou les autres demandes de renseignements :</p>
-                  <Button onClick={() => { }}>
-                    Contactez le fournisseur
-                  </Button>
+                  <p>Pour les demandes concernant les prix, la personnalisation ou les autres demandes de renseignements</p>
                 </Card></Space>
             </Space>
           </div> : <h1 className="product-not-found-heading">Produit indisponible</h1>}
@@ -136,7 +135,6 @@ export default function ProductItemDetails() {
           <Carousel swipeable={true} centerMode={true} responsive={responsive} itemClass="carousel-item-padding-20-px">
             {filteredArray?.map((value, index) => <Produit key={index} produit={value} />)}
           </Carousel>
-          <h1>CONSULTÉ RÉCEMMENT</h1>
           </> : null}
       </>}</div>)
 }

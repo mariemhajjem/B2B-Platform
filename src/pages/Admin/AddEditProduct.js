@@ -247,7 +247,6 @@ export default function ({ title, formData, visible, setIsAddVisible,isAdd }) {
           ]}
         >
           <Input
-            addonAfter={suffixSelector}
             style={{
               width: '100%',
             }}

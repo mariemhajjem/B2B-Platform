@@ -104,6 +104,7 @@ const AdminColumns = [
 function Stock() {
   const [isAddVisible, setIsAddVisible] = useState(false);
   const [isUpdateVisible, setIsUpdateVisible] = useState(false);
+  const [products, setProducts] = useState();
   const [err, setError] = useState("");
   const { role, entrepriseImport } = useSelector((state) => state.auth.loggedUser);
   const { userProduits, allProduits, getError, loading } = useSelector((state) => state.produits);
@@ -126,7 +127,7 @@ function Stock() {
       }
       console.log({ entreprise: entrepriseImport?._id })
       dispatch(getAllCategories())
-
+      setProducts(role === "ADMIN" ? allProduits : userProduits)
       /* if (getError) {
         setError(getError);
         dispatch(clearErrors())
@@ -165,6 +166,7 @@ function Stock() {
 
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
   let produits = role === "ADMIN" ? allProduits : userProduits;
+ 
   const data = produits?.map((prod, index) => ({
     key: index,
     name: (
@@ -244,14 +246,14 @@ function Stock() {
               bordered={false}
               className="criclebox tablespace mb-24"
               title="Products Table"
-              extra={!(role === "ADMIN") &&
+              /* extra={!(role === "ADMIN") &&
                 <>  
                   <Radio.Group onChange={onChange} defaultValue="a">
                     <Radio.Button value="a">Tous</Radio.Button>
                     <Radio.Button value="b">Visible</Radio.Button>
                   </Radio.Group>
                 </>
-              }
+              } */
             >
               <div className="table-responsive">
                 <Table

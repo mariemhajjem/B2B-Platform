@@ -330,7 +330,7 @@ function Dashboard() {
       <div className="layout-content">
         <Row className="rowgap-vbox" gutter={[24, 0]}>
           {count.map((c, index) => 
-          {return role === "CLIENT" && c.today != "Produits" && c.today != "Utilisateurs" ? (
+          {return role != "ADMIN" && c.today != "Produits" && c.today != "Utilisateurs" ? (
             <Col
               key={index}
               xs={24}
@@ -360,18 +360,18 @@ function Dashboard() {
           )}
         </Row>
 
-        <Row gutter={[24, 0]}>
+        {/* <Row gutter={[24, 0]}>
           {/* <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-24">
             <Card bordered={false} className="criclebox h-full">
               <Echart />
             </Card>
-          </Col> */}
+          </Col>
           <Col xs={24} sm={24} md={12} lg={12} xl={14} className="mb-24">
             <Card bordered={false} className="criclebox h-full">
               <LineChart />
             </Card>
           </Col>
-        </Row>
+        </Row> */}
 
         {/* <Row gutter={[24, 0]}>
           <Col xs={24} sm={24} md={12} lg={12} xl={16} className="mb-24">

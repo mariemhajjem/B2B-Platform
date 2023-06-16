@@ -216,7 +216,6 @@ export const PersonalInfo = ({ formData, setFormData, next }) => {
         <Select placeholder="select your gender">
           <Option value="male">Homme</Option>
           <Option value="female">Femme</Option>
-          <Option value="other">Autre</Option>
         </Select>
       </Form.Item>
 

@@ -112,7 +112,6 @@ export default function DemandeDevis() {
 				<Card style={{ height: "35%" }}>
 					<Space direction="vertical">
 						<Button type="primary" onClick={sendDemande}>Envoyer devis</Button>
-						<Button>Discuter maintenant</Button>
 					</Space>
 				</Card>
 			</div>

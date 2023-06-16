@@ -72,16 +72,8 @@ function Reclamations() {
             <Card
               bordered={false}
               className="criclebox tablespace mb-24"
-              title="Projects Table"
-              extra={
-                <>
-                  <Radio.Group onChange={onChange} defaultValue="all">
-                    <Radio.Button value="all">All</Radio.Button>
-                    <Radio.Button value="online">ONLINE</Radio.Button>
-                    <Radio.Button value="store">STORES</Radio.Button>
-                  </Radio.Group>
-                </>
-              }
+              title="Réclamations"
+              
             >
               <div className="table-responsive">
                 <Table

@@ -82,7 +82,7 @@ const slice = createSlice({
         [logout.fulfilled]: (state, action) => {
             state.loading = false;
             state.loggedUser = null;
-            toast.success("logged out Successfully",{autoClose: 1000});
+            toast.success("Au revoir!",{autoClose: 1000});
         },
         [logout.rejected]: (state, action) => {
             state.loading = false;

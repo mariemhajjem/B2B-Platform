@@ -19,7 +19,7 @@ export const createNewUser = async (user) => {
 }
 
 export const updateUser = async (user) => {
-  return await Axios.put(baseUrl + "/", user); 
+  return await Axios.put(baseUrl + "/put", user); 
 }
 
 export const getUser = async (idUser) => {
